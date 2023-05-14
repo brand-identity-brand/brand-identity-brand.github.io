@@ -1,8 +1,11 @@
 import "@/styles/globals.css";
-// import WindowManagerContextProvider from "@unaware.house/desktop";
+import '@/node_modules/react-desktop-environment/dist/style.css';
+
+import { DesktopEnvironmentContextProvider as DesktopEnvironmentProvider } from "react-desktop-environment";
 export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
-  // <WindowManagerContextProvider>
-  <Component {...pageProps} />;
-  // </WindowManagerContextProvider>;
+  return(
+    <DesktopEnvironmentProvider>
+      <Component {...pageProps} />
+    </DesktopEnvironmentProvider>
+  );
 }
