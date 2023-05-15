@@ -4,8 +4,11 @@ import Image from "next/image";
 import css from "./index.module.css";
 
 // const inter = Inter({ subsets: ["latin"] });
-import { useContext, useEffect, useReducer } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
 import { WindowManagerContext, Window, Desktop, SpawnWindowButton, Start } from 'react-desktop-environment';
+//devRDE
+import AppIcon from "@/devRDE/AppIcon";
+import ContextMenuBox from "@/devRDE/ContextMenuBox";
 
 const appIconAlignemntStyles = {
   hide: { visibility: 'hidden' },
@@ -28,7 +31,7 @@ export default function Home({id=0}) {
     windowsRef, createWindow, windowToTop, getMinimisedWindowsInDesktop, useMinimise
   } = useContext(WindowManagerContext); 
 
-  const { minimisedWindowIds, minimiseWindow, restoreMinimisedWindow } = useMinimise;
+  const { minimisedWindowIds, minimiseWindow, restoreMinimisedWindow } = useMinimise();
 
   const [ appIconAlignemntStyle, setAppIconAlignemntStyle ] = useReducer((state, type)=>{
     switch(type) {
@@ -38,6 +41,7 @@ export default function Home({id=0}) {
     }
   }, appIconAlignemntStyles.auto);
 
+  const [ isContextMenuBoxOpened, setIsContextMenuBoxOpened ] = useState(false);
 
   return (<>
     <Head>
@@ -59,10 +63,35 @@ export default function Home({id=0}) {
         }}
       >
         <div style={{
-          height: '100%',
-          width: '100%',
-          ...appIconAlignemntStyle
-        }}>
+            height: '100%',
+            width: '100%',
+            ...appIconAlignemntStyle
+          }}
+          // TODO: move this into Desktop
+          onContextMenu={(e) => {console.log('s', isContextMenuBoxOpened)
+            // prevent the default behaviour when right clicked
+            e.preventDefault(); 
+            if ( isContextMenuBoxOpened ) {
+
+            } else {
+              setIsContextMenuBoxOpened(true);
+              // render right click menu
+              // ? pass the state and setState
+              // ? let createWindow return id, then do something according to context
+              createWindow(ContextMenuBox,{
+                useParentState: ()=>[ isContextMenuBoxOpened, setIsContextMenuBoxOpened ],
+                initialPosition:{left: e.clientX, top:e.clientY},
+                menuOptions:[{
+                  title: 'nice',
+                  onClick: ()=>{console.log(1)}
+                },{
+                  title: 'nicer',
+                  onClick: ()=>{console.log(2)}
+                }]
+              },id);
+            }
+          }}
+        >
           <AppIcon/>
           <AppIcon/>
           <AppIcon/>
@@ -154,53 +183,4 @@ export default function Home({id=0}) {
       </Start.Bar>
     </main>
   </>);
-}
-
-function AppIcon(){
-  return (
-    <div style={{
-      position: 'relative',
-      height: '100px',
-      width: '70px',
-      // backgroundColor: 'red',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      // padding: '2px'
-    }}>
-
-      <div style={{
-        position: 'relative',
-        height: '70%',
-        width: '100%',
-        // backgroundColor: 'green',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        justifyContent: 'center'
-      }}>
-        <div style={{
-          position: 'relative',
-          // height: '80%',
-          width: '80%',
-          aspectRatio: ' 1 / 1 ',
-          backgroundColor: 'red',
-        }}>
-        img
-       </div>
-      </div>
-      <div style={{
-        position: 'relative',
-        height: '30%',
-        width: '100%',
-        backgroundColor: 'yellow',
-        display: 'flex',
-        flexDirection: 'row',
-        textAlign: 'center'
-      }}>
-        <span style={{ fontFamily: 'seriff'}}> a very long title </span>
-      </div>
-    </div>
-  )
 }
