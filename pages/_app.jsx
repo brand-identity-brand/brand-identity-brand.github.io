@@ -1,12 +1,27 @@
 import "@/styles/globals.css";
-import '@/node_modules/react-desktop-environment/dist/style.css';
+import "react-desktop-environment/style";
 
-import { DesktopEnvironmentContextProvider as DesktopEnvironmentProvider } from "react-desktop-environment";
+import DesktopEnvironmentContextWithWindowManagerRegistryProvider, { useWindowManagerRegistryContext } from "react-desktop-environment";
+const Div = () => <div>DIV</div>
+const components = {
+  Div
+}
 
 export default function App({ Component, pageProps }) {
+
   return(
-    <DesktopEnvironmentProvider>
-      <Component {...pageProps}/>
-    </DesktopEnvironmentProvider>
+    <DesktopEnvironmentContextWithWindowManagerRegistryProvider components={components}>
+      <Main Component={Component} {...pageProps}/>
+    </DesktopEnvironmentContextWithWindowManagerRegistryProvider>
   );
+}
+
+function Main({ Component, pageProps }){
+
+  const { initWindow } = useWindowManagerRegistryContext();
+  initWindow('/index');
+
+  return (
+    <Component {...pageProps}/>
+  )
 }
