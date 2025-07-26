@@ -3,18 +3,13 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # your source branch with code
-
-permissions:
-  contents: read    # needed to checkout repo
-  pages: write      # needed to deploy pages
-  id-token: write   # needed for OIDC authentication
+      - master  # Your source branch with code
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -25,21 +20,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build website
+      - name: Build site
         run: npm run build
 
-      - name: Upload artifact for deployment
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: ./dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-    steps:
       - name: Deploy to GitHub Pages
-        id: deploy
-        uses: actions/deploy-pages@v1
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          # You can add `publish_branch: gh-pages` here, but default is `gh-pages`
