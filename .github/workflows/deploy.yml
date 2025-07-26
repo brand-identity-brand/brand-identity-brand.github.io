@@ -3,14 +3,16 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # or your source code branch (gh-page is the built branch)
+      - master  # change this if you're using a different default branch
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      pages: write      # needed to deploy to GitHub Pages
-      id-token: write   # needed for authentication
     steps:
       - uses: actions/checkout@v3
 
@@ -20,8 +22,20 @@ jobs:
           node-version: 20
 
       - run: npm ci
-
       - run: npm run build
 
+      - name: Upload production build
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v1
