@@ -3,29 +3,35 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # change this if you're using a different default branch
+      - main  # your source branch with code
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: read    # needed to checkout repo
+  pages: write      # needed to deploy pages
+  id-token: write   # needed for OIDC authentication
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      page_url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout source
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      - run: npm ci
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Upload production build
-        uses: actions/upload-artifact@v4
+      - name: Build website
+        run: npm run build
+
+      - name: Upload artifact for deployment
+        uses: actions/upload-pages-artifact@v1
         with:
           path: ./dist
 
@@ -34,8 +40,8 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ needs.build.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
-        id: deployment
+        id: deploy
         uses: actions/deploy-pages@v1
