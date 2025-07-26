@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [gh-pages] # this is a special hidden branch that stores ./dist files from the current vite build
+    branches: [master] # gh-page  is a special hidden branch that stores ./dist files from the current vite build
 
 jobs:
   deploy:
