@@ -2,28 +2,26 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [master] # gh-page  is a special hidden branch that stores ./dist files from the current vite build
+    branches:
+      - master  # or your source code branch (gh-page is the built branch)
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      pages: write      # needed to deploy to GitHub Pages
+      id-token: write   # needed for authentication
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
-      - name: Build the site
-        run: npm run build
+      - run: npm run build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+        uses: actions/deploy-pages@v1
