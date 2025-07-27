@@ -1,0 +1,25 @@
+.Content {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    position: absolute;
+}
+
+.Body {
+    height: auto;
+    width: auto;
+    /* background-color: blue; */
+
+    /* z-index: 2; */
+    position: absolute;
+}
+/* 
+.showStartMenu_true {
+    background-color: black;
+    color: white
+}
+
+.showStartMenu_true:hover {
+    filter: invert();
+} */

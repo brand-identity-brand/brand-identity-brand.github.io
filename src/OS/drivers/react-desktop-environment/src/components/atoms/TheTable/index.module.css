@@ -1,0 +1,49 @@
+.Table {
+    font-family: monospace;
+    border-collapse: separate; /* switch from collapse to separate */
+    border-spacing: 0;         /* prevent extra spacing */
+    /* *this enforced stacking context. so zindex doesnt leak. */
+    isolation: isolate;
+
+    overflow: auto;
+}
+
+.TbodyTr:hover > td {
+    background-color: aqua!important;
+    color: black!important;
+}
+/* :nth-child(n) */
+/* .TbodyTr:hover > td:hover { 
+    background-color: rgb(64, 77, 255)!important;
+    color: greenyellow!important;
+} */
+
+/* .Table, 
+.Table > tbody, 
+.Table > tbody > tr, 
+.Table > tbody > tr > th, 
+.Table > tbody > tr > td {
+  height: 100%; */
+  /* visual debug */
+  /* background-color: rgba(255, 0, 0, 0.1);  */
+/* } */
+/*
+.Table td, th {
+    border: 1px solid black;
+}
+
+.Table th {
+    background-color: black;
+    color: white;
+} */
+
+/* adding hover states here temporarily, */
+/* these should be the material component for the ERP table. to collect common styles */
+
+ /* tr:hover  td {
+    background-color: rgb(189, 248, 243) !important;
+} */
+
+ /* td:hover   {
+    background-color: rgb(189, 248, 243) !important;
+} */

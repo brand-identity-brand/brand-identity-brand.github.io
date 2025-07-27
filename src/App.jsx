@@ -1,20 +1,19 @@
 // import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import './App.css'
 
+import reactLogo from '/react.svg';
+
+import './App.css'
+// import { Application } from './OS/drivers/Application';
+import { WindowManager } from './OS/drivers/WindowManager';
+// * OS const
+import { DEFAULT_WINDOW_COMPONENT } from './OS/kernel/constants';
 function App() {
-  // const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-    </>
+    <div id={"root"}>
+      <WindowManager id={"OS"} WindowComponent={DEFAULT_WINDOW_COMPONENT}/>
+      {/* <img src={reactLogo}/> */}
+    </div>
   )
 }
 

@@ -1,0 +1,152 @@
+.window {
+  box-sizing: border-box;
+  background-color: #c0c0c0;
+  border: 2px solid black;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 0.5rem;
+    flex-grow: 1;
+    /* position: relative; */
+}
+.titleBarActive {
+  /* z-index: 1; */
+  background-color: black;
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  color: white;
+  font-weight: bold;
+
+  font-family: serif;
+
+  border-bottom: 2px solid black;
+}
+
+.titleBarInactive {
+  /* z-index: 1; */
+  background-color: white;
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  color: black;
+  font-weight: bold;
+  border-bottom: 2px solid black;
+
+  font-family: serif;
+
+}
+
+.buttonActive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: white;
+  border: 2px solid white;
+  color: black;
+
+padding: 0;
+}
+
+.buttonActive:hover {
+  background-color: #f0f0f0;
+}
+
+.buttonInactive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+
+  padding: 0;
+
+}
+
+.buttonInactive:hover {
+  background-color: #f0f0f0;
+}
+
+.buttonDisabledActive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: rgb(182, 182, 182);
+  border: 2px solid rgb(182, 182, 182);
+  color: #9b9b9b;
+  opacity: 0.5;
+}
+
+.buttonDisabledInactive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: rgb(182, 182, 182);
+  border: 1px solid rgb(182, 182, 182);
+  color: #9b9b9b;
+  opacity: 0.5;
+}
+
+.content {
+  position: relative;
+  background-color: white;
+  
+  height: 100%;
+  /* No scrollbar - let content handle scrolling */
+  overflow: hidden;
+
+  padding: 0;
+  margin: 0;
+}
+
+/* Windows 95 restore button icon */
+.restoreIcon {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.restoreIcon::before {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 1.5px solid currentColor;
+  background-color: white;
+  top: -1px;
+  left: 1px;
+}
+
+.restoreIcon::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 1.5px solid currentColor;
+  background-color: white;
+  top: 1px;
+  left: -2px;
+  z-index: 1;
+}

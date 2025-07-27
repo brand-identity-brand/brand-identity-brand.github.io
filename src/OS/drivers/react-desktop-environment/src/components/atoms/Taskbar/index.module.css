@@ -1,0 +1,25 @@
+.Taskbar {
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  /* right: 0; */
+  width: 100%;
+  height: calc( 2rem + 2px );
+  background-color: white;
+  border-top: 2px solid black;
+
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  /* padding: 0 0.5rem; */
+  /* z-index: 100; */
+}
+
+
+
+/* .minimizedWindows {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: 0.5rem;
+} */
