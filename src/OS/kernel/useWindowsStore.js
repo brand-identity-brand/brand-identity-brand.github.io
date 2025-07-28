@@ -4,6 +4,7 @@ import { shallow } from 'zustand/shallow';
 // const window = useWindowsStore((state) => state.windows[id]);
 // const registerChildWindow = useWindowStore((state)=> state.registerChildWindow);
 import getOSConstants from '../constants';
+import { useCallback } from 'react';
 
 
 const { WINDOWS } = getOSConstants();
@@ -127,6 +128,33 @@ export const useWindowsStore = create((set, get)=>({
         //TODO: some window might be headless.
         return childId;
     },
+    hideChildWindow: ({id, childId}) => {
+        // * id -> parent window id
+        set((state) => {
+            const windows = state.windows;
+            const window = windows[id];
+            if (!window) {
+                throw new Error(`Missing parent window ID "${id}" in useWindowsStore.`);
+            }
+            // * extract the needed slice
+            const hidden = window.children.hidden;
+
+            return {
+                windows: {
+                    ...windows, 
+                    [id]: {
+                        ...window,
+                        children: {
+                            ...window.children,
+                            hidden: [ ...hidden, childId ]
+                        }
+                    },
+                },
+            };
+        });
+        //TODO: some window might be headless.
+        return childId;
+    }
 }))
 
 // export const controllers = useWindowsStore((state) => ({
@@ -150,10 +178,10 @@ export function useWindowState({id}){
         // dangerous:{ window },
         application,
         props,
-        // children : {
+        children : {
             active,
             hidden
-        // }
+        }
     };
 }
 
@@ -161,28 +189,28 @@ export function useWindowState({id}){
 // * this returns the target id window contollers
 // * they are mutators for the window state.
 
-export function useWindowContollers({id}){
-    const registerWindow = useWindowsStore((s)=>s.registerWindow);
-    const registerChildWindow  = useWindowsStore((s)=>s.registerChildWindow);
-    const liftChildWindow  = useWindowsStore((s)=>s.liftChildWindow);
-    const closeChildWindow  = useWindowsStore((s)=>s.closeChildWindow);
-    // return {
-    //     registerWindow,
-    //     registerChildWindow,
-    //     closeChildWindow
-    // }
-    return {  
-        //! [Native API] too much control. only use for prototyping
-        dangerous: {
-            registerWindow,
-            registerChildWindow,
-            liftChildWindow,
-            closeChildWindow
-        },
-        //* official api
-        registerWindow: ({id, window})=>registerWindow({id, window}),
-        registerChildWindow: (childId)=>registerChildWindow({id,childId}),
-        liftChildWindow: (childId)=>liftChildWindow({id,childId}),
-        closeChildWindow: (childId) => closeChildWindow({id,childId}),
-    }
-}
+// export function useWindowContollers({id}){
+//     const registerWindow = useWindowsStore((s)=>s.registerWindow);
+//     const registerChildWindow  = useWindowsStore((s)=>s.registerChildWindow);
+//     const liftChildWindow  = useWindowsStore((s)=>s.liftChildWindow);
+//     const closeChildWindow  = useWindowsStore((s)=>s.closeChildWindow);
+//     // return {
+//     //     registerWindow,
+//     //     registerChildWindow,
+//     //     closeChildWindow
+//     // }
+//     return {  
+//         //! [Native API] too much control. only use for prototyping
+//         dangerous: {
+//             registerWindow,
+//             registerChildWindow,
+//             liftChildWindow,
+//             closeChildWindow
+//         },
+//         //* official api
+//         registerWindow: useCallback(({id, window})=>registerWindow({id, window}),[registerWindow]),
+//         registerChildWindow: useCallback((childId)=>registerChildWindow({id,childId}), [registerChildWindow, id]),
+//         liftChildWindow: useCallback( (childId)=>liftChildWindow({id,childId}), [liftChildWindow, id]),
+//         closeChildWindow: useCallback( (childId) => closeChildWindow({id,childId}) ,[closeChildWindow, id] ),
+//     }
+// }

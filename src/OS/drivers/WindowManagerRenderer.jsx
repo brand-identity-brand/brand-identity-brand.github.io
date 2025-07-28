@@ -1,36 +1,45 @@
-// import { useWindowState, useWindowContollers } from "../kernel/useWindowsStore";
-import { ROOT_WINDOW_ID } from "../constants";
+import { useWindowState } from "../kernel/useWindowsStore";
+import { OS } from "../constants";
 
 import { useWindowsStore } from "../kernel/useWindowsStore";
 
 
-export function WindowManager({style, children, ...props}){
+export function WindowManagerRenderer({style, children, ...props}){
     const {
-        parentId,
+        parentId = OS,
         id,
         WindowComponent = DefaultWindowComponent,
         HiddenWindowComponent = DefaultHiddenWindowComponent,
-        // windowControllers = {
-        //     registerWindow, // {id, window }
-        //     registerChildWindow, // childId
-        //     liftWindow,
-        //     closeWindow // childId
-        // }
     } = props;
+    //TODO zustand + tankstack query
+    //* [Component Materials] Window
+    // this line grabs the Container props for initial render
+    // this DOES NOT inlclude window controllers that is triggered by child but managed by parent component.
+    // const windowProps = useWindowsStore((s)=>s.windows[id].props);
 
-    //* [Component Materials] Window  
-    // const windowState = useWindowState({id });
-    const active = useWindowsStore((s)=>s.windows[id].children.active);
-    const hidden = useWindowsStore((s)=>s.windows[id].children.hidden);
-    const windowProps = useWindowsStore((s)=>s.windows[id].props);
+    // const active = useWindowsStore((s)=>s.windows[id].children.active);
+    // const hidden = useWindowsStore((s)=>s.windows[id].children.hidden);
+    
     const liftChildWindow  = useWindowsStore((s)=>s.liftChildWindow);
     const closeChildWindow  = useWindowsStore((s)=>s.closeChildWindow);
+    const hideChildWindow = useWindowsStore((s)=>s.hideChildWindow);
 
-    const Container = id === ROOT_WINDOW_ID
+    const windowState = useWindowState({id });
+    const {
+        // dangerous:{ window },
+        // application,
+        props: windowProps,
+        children : {
+            active,
+            // hidden
+        }
+    } = windowState;
+
+    const Container = parentId === OS
         ? DefaultWindowComponent
         : WindowComponent
 
-    const containerProps = id === ROOT_WINDOW_ID 
+    const containerProps = parentId === OS
         ? {} 
         : {
             onFocus: (e)=>{
@@ -42,13 +51,23 @@ export function WindowManager({style, children, ...props}){
                 //* [Rule] if propagation is not prevented, the Window will try running onFocus which will not have a valid childId args causing silent bug.
                 e.stopPropagation(); 
                 closeChildWindow({id: parentId, childId: id})
+            },
+            onMinimise: function onHide(e){
+                e.stopPropagation(); 
+                hideChildWindow({id: parentId, childId: id})
             }
         }
-
+    const parentWindowState = useWindowState({id:parentId });
+    const isWindowHidden = parentWindowState.children.hidden.includes(id);
+    const generatedProps ={
+        zIndex: isWindowHidden ? "-1" : "1"
+    }
     return (
         // base Compoenet, then WindowCompeonnt
-        <Container {...windowProps}
-            {...containerProps}
+        <Container 
+            {...windowProps} // * restored from windowStore
+            {...containerProps} // * windowStore mutators
+            {...generatedProps} // * Window Props controlled by WindowManager instead of user. It current only manages z-index 
             style= {
                 {
                     width: "100%",
@@ -60,17 +79,15 @@ export function WindowManager({style, children, ...props}){
             {children}
             {active.map( childId => {
                 return (
-                    <WindowManager key={childId} parentId={id} id={childId} WindowComponent={WindowComponent} 
-                    // windowControllers={windowControllers}
-                        
-                    />
+                    <WindowManagerRenderer key={childId} 
+                        parentId={id} 
+                        id={childId} 
+                        WindowComponent={WindowComponent}
 
-                    // <WindowComponent key={childId} >
-                    //     {`hydrayte this window with application[id] where id is${childId}`}
-                    // </WindowComponent>
+                    />
                 )
             })}
-            {hidden.map( childId => {
+            {/* {hidden.map( childId => {
                 return (
                     <HiddenWindowComponent
                         key={childId}
@@ -79,7 +96,7 @@ export function WindowManager({style, children, ...props}){
                         {`hidden widnow id: ${childId}`}
                     </HiddenWindowComponent>
                 )
-            })}
+            })} */}
         </Container>
     )
 }

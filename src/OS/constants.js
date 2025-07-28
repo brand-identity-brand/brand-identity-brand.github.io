@@ -5,9 +5,17 @@ import INSTALLED_APPLICATIONS from "../applications/registry";
 import Window from "./drivers/Window";
 
 // * OS const
-export const ROOT_WINDOW_ID = "OS";
+export const OS = "OS";
+export const ROOT_WINDOW_ID = "GUI";
 export const DEFAULT_WINDOW_COMPONENT = Window;
 export const ROOT_APPLICATIONS = {
+    "OS":{
+
+    },
+    //* Applications will get "window controllers" on render. 
+    //* this will be passed via the renderring sqeuwnce
+    //* root -> Window[generate controllers] -> Application[accept controller from Window]
+    //! thought applications can direcetly import states from useStore.js I want them to access the state via Application store instead of WindowStore.
     [ROOT_WINDOW_ID]: {
         Component: "Inventory",// function OS({text}){ return <div>{text}</div>}, // this should points to applicationStore registry 
         props: {
@@ -30,6 +38,15 @@ export const ROOT_APPLICATIONS = {
 }
 
 export const ROOT_WINDOWS = {
+    "OS":{
+        application: "OS",
+        props: {
+        },
+        children: {
+            active: ["GUI"], // all children window ids
+            hidden: [] // must be from active list. these window will be pushed to the back (z-index). this preserves react useState for teh current session
+        },
+    },
     [ROOT_WINDOW_ID]: {
         application: ROOT_WINDOW_ID,
         props: {

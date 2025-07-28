@@ -4,14 +4,16 @@ import reactLogo from '/react.svg';
 
 import './App.css'
 // import { Application } from './OS/drivers/Application';
-import { WindowManager } from './OS/drivers/WindowManager';
+import { WindowManagerRenderer } from './OS/drivers/WindowManagerRenderer';
 // * OS const
 import { DEFAULT_WINDOW_COMPONENT } from './OS/constants';
 function App() {
 
   return (
-    <div id={"root"}>
-      <WindowManager id={"OS"} WindowComponent={DEFAULT_WINDOW_COMPONENT}/>
+    <div id={"root"} style={{backgroundColor:"#ff00008f"}}>
+      <WindowManagerRenderer id={"GUI"} WindowComponent={DEFAULT_WINDOW_COMPONENT}>
+        start bar here
+      </WindowManagerRenderer >
       {/* <img src={reactLogo}/> */}
     </div>
   )

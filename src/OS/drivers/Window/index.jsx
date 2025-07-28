@@ -34,12 +34,12 @@ import { X } from "lucide-react";
  * @param {WindowProps} props
  */
 export default function Window({
-  zIndex,
+  zIndex = 1,
   title,
   initialPosition = { x: 50, y: 50 },
   initialSize = { width: 500, height: 400 },
   onClose = (e) =>{},
-  onMinimise = () =>{},
+  onMinimise = (e) =>{},
   children,
   onFocus = (e) =>{},
   windowStyle = "classic", //collapse
@@ -283,10 +283,10 @@ export default function Window({
     }
   }, [disableMaximize, isMaximized, position, size, isCollapsed, preMaximizeState]);
 
-  const handleMinimize = useCallback(() => {
+  const handleMinimize = useCallback((e) => {
     if (disableMinimize || !onMinimise) return;
 
-    onMinimise();
+    onMinimise(e);
   }, [disableMinimize, onMinimise]);
 
   const handleCollapse = useCallback(() => {
