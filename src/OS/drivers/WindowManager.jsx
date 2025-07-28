@@ -1,23 +1,44 @@
 import { useWindowState, useWindowContollers } from "../kernel/useWindowsStore";
+import { ROOT_WINDOW_ID } from "../constants";
+
+import { useWindowsStore } from "../kernel/useWindowsStore";
+
 
 export function WindowManager({style, children, ...props}){
     const {
+        parentId,
         id,
         WindowComponent = DefaultWindowComponent,
-        HiddenWindowComponent = DefaultHiddenWindowComponent
+        HiddenWindowComponent = DefaultHiddenWindowComponent,
+        // windowControllers = {
+        //     registerWindow, // {id, window }
+        //     registerChildWindow, // childId
+        //     liftWindow,
+        //     closeWindow // childId
+        // }
     } = props;
+
     //* [Component Materials] Window  
-    const windowState = useWindowState({id });
-    const {
-        // props: windowProps,
-        children: {
-            active,
-            hidden
-        }
-    } = windowState;
-    
+    // const windowState = useWindowState({id });
+    const active = useWindowsStore((s)=>s.windows[id].children.active);
+    const hidden = useWindowsStore((s)=>s.windows[id].children.hidden);
+    const windowProps = useWindowsStore((s)=>s.windows[id].props);
+    const liftChildWindow  = useWindowsStore((s)=>s.liftChildWindow);
+    const closeChildWindow  = useWindowsStore((s)=>s.closeChildWindow);
+
+    const Container = id === ROOT_WINDOW_ID
+        ? DefaultWindowComponent
+        : WindowComponent
+
+    const wProps = {
+        onFocus: ()=>liftChildWindow({id: parentId, childId: id}),
+        onClose: ()=>closeChildWindow({id: parentId, childId: id})
+    }
+
     return (
-        <div
+        // base Compoenet, then WindowCompeonnt
+        <Container {...windowProps}
+            {...parentId ? wProps : {}}
             style= {
                 {
                     width: "100%",
@@ -27,26 +48,29 @@ export function WindowManager({style, children, ...props}){
             }
         >
             {children}
-            {active.map( id => {
+            {active.map( childId => {
                 return (
-                    <WindowComponent
-                        key={id}
-                    >
-                        {`hydrayte this window with application[id] where id is${id}`}
-                        <WindowManager id={id} WindowComponent={WindowComponent}/>
-                    </WindowComponent>
+                    <WindowManager key={childId} parentId={id} id={childId} WindowComponent={WindowComponent} 
+                    // windowControllers={windowControllers}
+                        
+                    />
+
+                    // <WindowComponent key={childId} >
+                    //     {`hydrayte this window with application[id] where id is${childId}`}
+                    // </WindowComponent>
                 )
             })}
-            {hidden.map( id => {
+            {hidden.map( childId => {
                 return (
                     <HiddenWindowComponent
-                        key={id}
+                        key={childId}
+                        onClick={()=>closeChildWindow({id: id, childId: childId})}
                     >
-                        {`hidden widnow id: ${id}`}
+                        {`hidden widnow id: ${childId}`}
                     </HiddenWindowComponent>
                 )
             })}
-        </div>
+        </Container>
     )
 }
 
@@ -61,7 +85,12 @@ function DefaultWindowComponent({children, ...props}){
 
 function DefaultHiddenWindowComponent({children, ...props}){
     return (
-        <div {...props}>
+        <div {...props}
+            style={{
+                border: "1px solid red",
+                ...props.style
+            }}
+        >
             {children}
         </div>
     )

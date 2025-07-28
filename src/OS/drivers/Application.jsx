@@ -3,7 +3,7 @@ import { useApplicationState,  useApplicationsContoller } from "../kernel/useApp
 import { useWindowState, useWindowContollers } from "../kernel/useWindowsStore";
 
 // * OS Wrapper
-import getOSConstants from '../kernel/constants';
+import getOSConstants from '../constants';
 const { ROOT_WINDOW_ID } = getOSConstants();
 import INSTALLED_APPLICATIONS from "../../applications/registry";
 
@@ -36,7 +36,7 @@ export function Application({}){
  * @param {*} param0 
  * @returns 
  */
-export function WindowManager({id=ROOT_WINDOW_ID, WindowComponent=DefaultWindowComponent){
+export function WindowManager({id=ROOT_WINDOW_ID, WindowComponent=DefaultWindowComponent}){
 
 
     //* [Component Materials] Window  

@@ -6,7 +6,7 @@ import './App.css'
 // import { Application } from './OS/drivers/Application';
 import { WindowManager } from './OS/drivers/WindowManager';
 // * OS const
-import { DEFAULT_WINDOW_COMPONENT } from './OS/kernel/constants';
+import { DEFAULT_WINDOW_COMPONENT } from './OS/constants';
 function App() {
 
   return (

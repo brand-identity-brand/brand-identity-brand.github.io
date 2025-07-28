@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 //
-import getOSConstants from './constants';
+import getOSConstants from '../constants';
 const { APPLICATIONS } = getOSConstants();
 
 const useApplicationsStore = create((set, get) => {
