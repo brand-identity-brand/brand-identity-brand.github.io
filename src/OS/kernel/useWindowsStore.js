@@ -103,11 +103,11 @@ export const useWindowsStore = create((set, get)=>({
             
             const newHiddenWindows = hidden.filter(windowId => windowId !== childId);
 
-            console.log({
-                    active: [...newActiveWindows], 
-                            hidden: [...newHiddenWindows]
-                })
+            console.log('selector run', active === newActiveWindows, hidden === newHiddenWindows)
+
             // console.log(id, newActiveWindows)
+            //! feels like the whole object will get new referencial values. 
+            //! bad feeling here. But what can i do instead of spreading out the keys
             return {
                 windows: {
                     ...windows, 
@@ -115,7 +115,9 @@ export const useWindowsStore = create((set, get)=>({
                         ...window,
                         children: {
                             // ...window.children,
-                            active: [...newActiveWindows], 
+                            active: newActiveWindows, 
+                            //! this value gets updated. while active stays stale. 
+                            //! i think the subscriber isnt detecting active when value changed. however active and hidden adpots the same procedure. so how?
                             hidden: newHiddenWindows
                         }
                     },

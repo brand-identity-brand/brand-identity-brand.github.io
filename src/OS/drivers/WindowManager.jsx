@@ -1,4 +1,4 @@
-import { useWindowState, useWindowContollers } from "../kernel/useWindowsStore";
+// import { useWindowState, useWindowContollers } from "../kernel/useWindowsStore";
 import { ROOT_WINDOW_ID } from "../constants";
 
 import { useWindowsStore } from "../kernel/useWindowsStore";
@@ -30,15 +30,25 @@ export function WindowManager({style, children, ...props}){
         ? DefaultWindowComponent
         : WindowComponent
 
-    const wProps = {
-        onFocus: ()=>liftChildWindow({id: parentId, childId: id}),
-        onClose: ()=>closeChildWindow({id: parentId, childId: id})
-    }
+    const containerProps = id === ROOT_WINDOW_ID 
+        ? {} 
+        : {
+            onFocus: (e)=>{
+                //* [Rule] onFocus needs to bubble up as nested child window should trigger it's parent to pop to the front
+                // e.stopPropagation(); 
+                liftChildWindow({id: parentId, childId: id})
+            },
+            onClose: (e)=>{
+                //* [Rule] if propagation is not prevented, the Window will try running onFocus which will not have a valid childId args causing silent bug.
+                e.stopPropagation(); 
+                closeChildWindow({id: parentId, childId: id})
+            }
+        }
 
     return (
         // base Compoenet, then WindowCompeonnt
         <Container {...windowProps}
-            {...parentId ? wProps : {}}
+            {...containerProps}
             style= {
                 {
                     width: "100%",

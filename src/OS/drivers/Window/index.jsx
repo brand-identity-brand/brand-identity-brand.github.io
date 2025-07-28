@@ -38,10 +38,10 @@ export default function Window({
   title,
   initialPosition = { x: 50, y: 50 },
   initialSize = { width: 500, height: 400 },
-  onClose = () =>{},
+  onClose = (e) =>{},
   onMinimise = () =>{},
   children,
-  onFocus = () =>{},
+  onFocus = (e) =>{},
   windowStyle = "classic", //collapse
   disableClose = false,
   disableMaximize = false,
@@ -214,7 +214,9 @@ export default function Window({
 
       updateParentOffset(); // <-- recalc parent offset here
 
-      onFocus();
+      ////! this prevents dom from calling onFocus when 
+      // e.stopPropagation(); // <-- add this here
+      onFocus(e);
       setIsDragging(true);
       setDragOffset({
         x: e.clientX - parentOffsetRef.current.x - position.x,
@@ -231,8 +233,8 @@ export default function Window({
 
       updateParentOffset(); // <-- recalc parent offset here
 
-      e.stopPropagation();
-      onFocus();
+      // e.stopPropagation();
+      onFocus(e);
       setIsResizing(direction);
       setResizeStart({
         x: e.clientX,
@@ -298,13 +300,13 @@ export default function Window({
     setIsCollapsed(!isCollapsed);
   }, [isCollapsed, isMaximized, preMaximizeState, disableMinimize]);
 
-  const handleClose = useCallback(() => {
+  const handleClose = useCallback((e) => {
     if (disableClose || !onClose) return;
-    onClose();
+    onClose(e);
   }, [disableClose, onClose]);
 
-  const handleWindowClick = useCallback(() => {
-    onFocus();
+  const handleWindowClick = useCallback((e) => {
+    onFocus(e);
   }, [onFocus]);
 
   // Resize handles with hover cursor styles
