@@ -13,11 +13,14 @@ export default function OS({...props}){
     useEffect(()=>{
         applications.setInitialState(APPS);
         windows.setInitialState(WINDOWS);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     return (
         <div 
             style={{
-                position: "fixed"
+                position: "fixed",
+                top: 0,
+                left: 0
             }}
         >
             <div>

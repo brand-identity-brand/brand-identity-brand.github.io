@@ -93,8 +93,8 @@ export function WindowManagerRenderer({style, ...props}){
                 }
             }
         >
-            {/* application renders here */}
             { renderApplication({applicationId: applicationId, windowId: id}) }
+
             {active.map( childId => {
                 // console.log("child",childId)
                 return (
@@ -107,6 +107,8 @@ export function WindowManagerRenderer({style, ...props}){
                     />
                 )
             })}
+            {/* application renders here */}
+
         </Container>
     )
 }
