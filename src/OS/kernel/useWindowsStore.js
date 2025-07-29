@@ -172,14 +172,14 @@ export const useWindowsStore = create((set, get)=>({
 export function useWindowState({id}){
     //! dif by reference. select all refrence space one by one, as that is the only way to select reference in js. 
     //! decoupling results in capturing value instead of refrence.
-    // const window = useWindowsStore((s)=>s.windows[id]);
+    const window = useWindowsStore((s)=>s.windows[id]);
     const applicationId = useWindowsStore((s)=>s.windows[id].applicationId);
     const props = useWindowsStore((s)=>s.windows[id].props);
     // const children = useWindowsStore((s)=>s.windows[id].children);
     const active = useWindowsStore((s)=>s.windows[id].children.active);
     const hidden = useWindowsStore((s)=>s.windows[id].children.hidden);
     return {
-        // dangerous:{ window },
+        ...window,
         applicationId,
         props,
         children : {

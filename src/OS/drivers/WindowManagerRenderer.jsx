@@ -105,7 +105,7 @@ export function WindowManagerRenderer({style, ...props}){
             }
         >
             {/* application renders here */}
-            { renderApplication({applicationId: applicationId}) }
+            { renderApplication({applicationId: applicationId, windowId: id}) }
             {active.map( childId => {
                 // console.log("child",childId)
                 return (
@@ -122,9 +122,9 @@ export function WindowManagerRenderer({style, ...props}){
     )
 }
 function RenderHiddenWindows({id}){
-    const { children: { hidden } } = useWindowState({id});
+    const { windows, children: { hidden } } = useWindowState({id});
     return (
-        <HiddenWindows hidden={hidden}/>
+        <HiddenWindows hidden={hidden} windows={windows}/>
     )
 }
 WindowManagerRenderer.Hidden = RenderHiddenWindows;

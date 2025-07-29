@@ -8,7 +8,11 @@ const useApplicationsStore = create((set, get) => {
         ...APPLICATIONS,
     }
     function setInitialApplications(initialApplications){
-        set({ applications: initialApplications });
+        set(()=>{ 
+            return {
+                applications: initialApplications
+            }
+         });
     }
   // You can add mutators here
     function registerApplication({id, application}){

@@ -1,6 +1,7 @@
 import { useOsState as useApplicationsState } from "../kernel/useApplicationsStore";
 import { useOsState as useWindowsState } from "../kernel/useWindowsStore";
  import { APPS, WINDOWS } from "../../applications/store";
+import { useEffect } from "react";
 export default function OS({...props}){
     const {
         message,
@@ -8,10 +9,11 @@ export default function OS({...props}){
     
     const applications = useApplicationsState();
     const windows = useWindowsState();
-    
-    
-    // applications.setInitialState(APPS);
-    windows.setInitialState(WINDOWS);
+ 
+    useEffect(()=>{
+        applications.setInitialState(APPS);
+        windows.setInitialState(WINDOWS);
+    },[])
     return (
         <div>
             <div>

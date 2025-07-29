@@ -1,7 +1,9 @@
-export default function GUI({text}){
+import { WindowManagerRenderer } from "../OS/drivers/WindowManagerRenderer"
+
+export default function GUI({windowId}){
     return (
         <div>
-            {text}
+            <WindowManagerRenderer.Hidden id={windowId}/>
         </div>
     )
 }

@@ -8,13 +8,12 @@ export const APPS = {
     "GUI": {
         Component: "GUI",// function OS({text}){ return <div>{text}</div>}, // this should points to applicationStore registry 
         props: {
-            text:"rendered GUI" ,
         },
     },
     "Inventory": {
         Component: "Inventory",// function OS({text}){ return <div>{text}</div>}, // this should points to applicationStore registry 
         props: {
-            text:"Unaware OS" ,
+            text:"Unaware OS Inventory" ,
         },
     },
 }
@@ -34,13 +33,13 @@ export const WINDOWS = {
         props: {},
         children: {
             active: ["WINDOW1"], // all children window ids
-            hidden: [] // must be from active list. these window will be pushed to the back (z-index). this preserves react useState for teh current session
+            hidden: ["WINDOW1"] // must be from active list. these window will be pushed to the back (z-index). this preserves react useState for teh current session
         },
     },
     "WINDOW1": {
         applicationId: "Inventory",
         props: {
-            title: "Fake 1" ,
+            title: "WINDOW 1" ,
             initialPosition: { x: 5, y: 5 },
             initialSize: { width: 500, height: 400 },
             // ! these 3 controllers are passed by Window Driver

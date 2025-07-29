@@ -2,23 +2,28 @@ export default function HiddenWindows({...props}){
     const {
         hidden // windows[id].children.hidden <Array>
     } = props
+
+    
     return (
         <div
             style={{
                 position: "relative",
                 width: "100%",
                 boxSizing: "border-box",
-                borderTop: "1px solid black"
+                borderTop: "1px solid black",
+                backgroundColor: "grey"
             }}
         >
             {hidden.map( childId => {
                 return (
-                    <div
-                        key={childId}
+                    <button key={childId}
+                        style={{
+
+                        }}
                         onClick={()=>{}}
                     >
-                        {`hidden widnow id: ${childId}`}
-                    </div>
+                        {`${childId}`}
+                    </button>
                 )
             })}
         </div>
