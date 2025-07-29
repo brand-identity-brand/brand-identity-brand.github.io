@@ -1,10 +1,8 @@
-// * OS const
-export const OS = "OS";
-export const ROOT_APPLICATIONS = {
+export const APPS = {
     "OS":{
         Component: "OS",
         props: {
-            message: "loaded"
+            message: "loaded",
         }
     },
     "GUI": {
@@ -16,12 +14,12 @@ export const ROOT_APPLICATIONS = {
     "Inventory": {
         Component: "Inventory",// function OS({text}){ return <div>{text}</div>}, // this should points to applicationStore registry 
         props: {
-            text:"Unaware OS Inventory" ,
+            text:"Unaware OS" ,
         },
     },
 }
 
-export const ROOT_WINDOWS = {
+export const WINDOWS = {
     "OS":{
         applicationId: "OS",
         props: {
@@ -35,27 +33,33 @@ export const ROOT_WINDOWS = {
         applicationId: "GUI",
         props: {},
         children: {
-            active: ["WIND1"], // all children window ids
+            active: ["WINDOW1"], // all children window ids
             hidden: [] // must be from active list. these window will be pushed to the back (z-index). this preserves react useState for teh current session
         },
     },
-    "WIND1": {
+    "WINDOW1": {
         applicationId: "Inventory",
-        props: {title: "Faker 1" ,},
+        props: {
+            title: "Fake 1" ,
+            initialPosition: { x: 5, y: 5 },
+            initialSize: { width: 500, height: 400 },
+            // ! these 3 controllers are passed by Window Driver
+            // onClose = () =>{},
+            // onMinimise = () =>{},
+            // onFocus = () =>{},
+            windowStyle: "classic", //collapse
+            disableClose: false,
+            disableMaximize: false,
+            disableMinimize: false,
+            disableResize: false,
+            disableMove: false,
+            // isActive = true,
+            isMinimized: false,
+            // parentId = null,
+        },
         children: {
             active: [], // all children window ids
             hidden: [] // must be from active list. these window will be pushed to the back (z-index). this preserves react useState for teh current session
         },
     },
-}
-
-export default function getOSConstants(CONSTANTS){
-    const SESSION_APPLICATIONS = localStorage.getItem("APPLICATIONS") ?? ROOT_APPLICATIONS;
-    const SESSION_WINDOWS = localStorage.getItem("WINDOWS") ??ROOT_WINDOWS;
-
-    return {
-        APPLICATIONS: SESSION_APPLICATIONS,
-        WINDOWS: SESSION_WINDOWS,
-        ...CONSTANTS
-    }
 }

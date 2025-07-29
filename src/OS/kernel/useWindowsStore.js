@@ -1,10 +1,8 @@
 import { create } from 'zustand';
-import { shallow } from 'zustand/shallow';
-
 // const window = useWindowsStore((state) => state.windows[id]);
 // const registerChildWindow = useWindowStore((state)=> state.registerChildWindow);
 import getOSConstants from '../constants';
-import { useCallback } from 'react';
+
 
 
 const { WINDOWS } = getOSConstants();
@@ -14,6 +12,13 @@ export const useWindowsStore = create((set, get)=>({
         ...WINDOWS
     },
     // * on root
+    setInitialWindows: (initialWindows) => {
+        set(()=>{ 
+            return {
+                windows: initialWindows
+            }
+         });
+    },
     registerWindow: ({id, window}) => {
         set((state) => {
             const windows = state.windows;
@@ -87,7 +92,6 @@ export const useWindowsStore = create((set, get)=>({
         });
         return childId;
     },
-
     closeChildWindow: ({id, childId}) => {
         
         // * id -> parent window id
@@ -169,14 +173,14 @@ export function useWindowState({id}){
     //! dif by reference. select all refrence space one by one, as that is the only way to select reference in js. 
     //! decoupling results in capturing value instead of refrence.
     // const window = useWindowsStore((s)=>s.windows[id]);
-    const application = useWindowsStore((s)=>s.windows[id].application);
+    const applicationId = useWindowsStore((s)=>s.windows[id].applicationId);
     const props = useWindowsStore((s)=>s.windows[id].props);
     // const children = useWindowsStore((s)=>s.windows[id].children);
     const active = useWindowsStore((s)=>s.windows[id].children.active);
     const hidden = useWindowsStore((s)=>s.windows[id].children.hidden);
     return {
         // dangerous:{ window },
-        application,
+        applicationId,
         props,
         children : {
             active,
@@ -186,7 +190,11 @@ export function useWindowState({id}){
 }
 export function useOsState(){
     const state = useWindowsStore((s)=>s.windows);
-    return state
+    const setInitialState = useWindowsStore((s)=>s.setInitialWindows);
+    return { 
+        state,
+        setInitialState
+    }
 }
 
 // * this returns the target id window contollers

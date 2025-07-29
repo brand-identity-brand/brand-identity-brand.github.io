@@ -11,7 +11,7 @@ export default function ApplicationManagerRenderer({...props}){
         OS,
         ...INSTALLED_APPLICATIONS
     };
-   
+
     const applicationState = useApplicationState({id});
     const {
         Component,

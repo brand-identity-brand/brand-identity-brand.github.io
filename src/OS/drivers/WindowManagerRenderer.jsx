@@ -1,17 +1,31 @@
 import { useWindowState } from "../kernel/useWindowsStore";
 import { OS } from "../constants";
-
+import Window from "./Window";
 import { useWindowsStore } from "../kernel/useWindowsStore";
+import HiddenWindows from "./HiddenWindows";
+
+function DefaultWindowComponent({children, zIndex, style, ...props}){
+    return (
+        <div {...props}
+            style={{
+                ...style,
+                zIndex:zIndex
+            }}
+        >
+            {children}
+        </div>
+    )
+}
 
 
 export function WindowManagerRenderer({style, ...props}){
     const {
-        renderApplication,
+        WindowComponent = Window, //DefaultWindowComponent,
         parentId = OS,
         id,
-        WindowComponent = DefaultWindowComponent,
-        HiddenWindowComponent = DefaultHiddenWindowComponent,
+        renderApplication,
     } = props;
+
     //TODO zustand + tankstack query
     //* [Component Materials] Window
     // this line grabs the Container props for initial render
@@ -28,7 +42,7 @@ export function WindowManagerRenderer({style, ...props}){
     const windowState = useWindowState({id });
     const {
         // dangerous:{ window },
-        application,
+        applicationId,
         props: windowProps,
         children : {
             active,
@@ -36,6 +50,7 @@ export function WindowManagerRenderer({style, ...props}){
         }
     } = windowState;
 
+    
     const Container = parentId === OS
         ? DefaultWindowComponent
         : WindowComponent
@@ -63,6 +78,18 @@ export function WindowManagerRenderer({style, ...props}){
     const generatedProps ={
         zIndex: isWindowHidden ? "-1" : "1"
     }
+    
+    console.log( "RENDERED: " ,{
+        id,
+        applicationId,
+        // WindowComponent: parentId === OS
+        // parentId,
+        // isWindowHidden,
+        // active,
+        // windowState,
+        // windowProps,
+        // generatedProps
+    })
     return (
         // base Compoenet, then WindowCompeonnt
         <Container 
@@ -78,50 +105,26 @@ export function WindowManagerRenderer({style, ...props}){
             }
         >
             {/* application renders here */}
-            {"appId: " + application}
-            { renderApplication({id}) }
+            { renderApplication({applicationId: applicationId}) }
             {active.map( childId => {
+                // console.log("child",childId)
                 return (
                     <WindowManagerRenderer key={childId} 
                         parentId={id} 
                         id={childId} 
                         WindowComponent={WindowComponent}
+                        // * render function
                         renderApplication={renderApplication}
                     />
                 )
             })}
-            {/* {hidden.map( childId => {
-                return (
-                    <HiddenWindowComponent
-                        key={childId}
-                        onClick={()=>closeChildWindow({id: id, childId: childId})}
-                    >
-                        {`hidden widnow id: ${childId}`}
-                    </HiddenWindowComponent>
-                )
-            })} */}
         </Container>
     )
 }
-
-
-function DefaultWindowComponent({children, ...props}){
+function RenderHiddenWindows({id}){
+    const { children: { hidden } } = useWindowState({id});
     return (
-        <div {...props}>
-            {children}
-        </div>
+        <HiddenWindows hidden={hidden}/>
     )
 }
-
-function DefaultHiddenWindowComponent({children, ...props}){
-    return (
-        <div {...props}
-            style={{
-                border: "1px solid red",
-                ...props.style
-            }}
-        >
-            {children}
-        </div>
-    )
-}
+WindowManagerRenderer.Hidden = RenderHiddenWindows;

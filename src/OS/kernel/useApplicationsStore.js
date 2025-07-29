@@ -7,6 +7,9 @@ const useApplicationsStore = create((set, get) => {
     const applications = {
         ...APPLICATIONS,
     }
+    function setInitialApplications(initialApplications){
+        set({ applications: initialApplications });
+    }
   // You can add mutators here
     function registerApplication({id, application}){
         set((state) => {
@@ -44,6 +47,7 @@ const useApplicationsStore = create((set, get) => {
 
     return {
         applications,
+        setInitialApplications,
         registerApplication,
         closeApplication
     }
@@ -83,5 +87,9 @@ export function useApplicationsContoller(){
 
 export function useOsState(){
     const state = useApplicationsStore((s)=>s.applications);
-    return state
+    const setInitialState = useApplicationsStore((s)=>s.setInitialApplications);
+    return { 
+        state,
+        setInitialState
+    }
 }
