@@ -48,7 +48,10 @@ export const ROOT_WINDOWS = {
         },
     },
 }
-
+const zIndexes = {
+    OS: -2,
+    GUI: 1,
+}
 export default function getOSConstants(CONSTANTS){
     const SESSION_APPLICATIONS = localStorage.getItem("APPLICATIONS") ?? ROOT_APPLICATIONS;
     const SESSION_WINDOWS = localStorage.getItem("WINDOWS") ??ROOT_WINDOWS;

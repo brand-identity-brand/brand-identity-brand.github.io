@@ -10,7 +10,7 @@ export default function GUI({windowId, children}){
                 display: "flex",
                 flexDirection:"column",
                 justifyContent: "flex-end",
-                // backgroundColor: "white"
+                backgroundColor: "rgba(255, 0, 179, 0.73)"
             }}
         >
             {children}

@@ -14,11 +14,7 @@ import OS from './OS';
 function App() {
 
   return (
-    <div id={"root"} style={{backgroundColor:"#ff00008f"}}>
-      <OS INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS} ROOT_WINDOW_ID={"GUI"}/>
-      
-      {/* <img src={reactLogo}/> */}
-    </div>
+    <OS INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS} ROOT_WINDOW_ID={"GUI"}/>
   )
 }
 

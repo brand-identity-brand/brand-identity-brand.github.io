@@ -1,7 +1,15 @@
+
 export default function HiddenWindows({...props}){
     const {
-        hidden // windows[id].children.hidden <Array>
+        id,
+        windows,
+        active,
+        hidden, // windows[id].children.hidden <Array>
+        liftChildWindow,
+        closeChildWindow,
+        unhideChildWindow
     } = props
+
 
 
     return (
@@ -16,21 +24,25 @@ export default function HiddenWindows({...props}){
 
             }}
         >
-            {hidden.map( childId => {
+            {/* //Todo: AA get click to work. needs to mutatable windwo.children.actives */}
+            {active.map( childId => {
+                // const isWindowHidden = hidden.includes(childId);
                 return (
                     <button key={childId}
                         style={{
 
                         }}
-                        onClick={()=>{}}
+                        onClick={()=>{
+                            // Click needs to remove id from hidden
+                            console.log(childId)
+                            unhideChildWindow({id, childId})
+                            liftChildWindow(childId)
+                        }}
                     >
-                        {`${childId}`}
+                        {`${windows[childId].props.title}`}
                     </button>
                 )
             })}
-            <button>
-                s
-            </button>
         </div>
     )
 }

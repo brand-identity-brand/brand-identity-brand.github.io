@@ -2,6 +2,7 @@ import { create } from 'zustand';
 // const window = useWindowsStore((state) => state.windows[id]);
 // const registerChildWindow = useWindowStore((state)=> state.registerChildWindow);
 import getOSConstants from '../constants';
+import { useCallback } from 'react';
 
 
 
@@ -158,6 +159,33 @@ export const useWindowsStore = create((set, get)=>({
         });
         //TODO: some window might be headless.
         return childId;
+    },
+    unhideChildWindow: ({id, childId}) => {
+        // * id -> parent window id
+        set((state) => {
+            const windows = state.windows;
+            const window = windows[id];
+            if (!window) {
+                throw new Error(`Missing parent window ID "${id}" in useWindowsStore.`);
+            }
+            // * extract the needed slice
+            const hidden = window.children.hidden;
+
+            return {
+                windows: {
+                    ...windows, 
+                    [id]: {
+                        ...window,
+                        children: {
+                            ...window.children,
+                            hidden: hidden.filter( id => id !== childId )
+                        }
+                    },
+                },
+            };
+        });
+        //TODO: some window might be headless.
+        return childId;
     }
 }))
 
@@ -170,6 +198,7 @@ export const useWindowsStore = create((set, get)=>({
 // * this returns the target id window object
 // * check const LIVE_WINDOWS
 export function useWindowState({id}){
+    const windows = useWindowsStore((s)=>s.windows);
     //! dif by reference. select all refrence space one by one, as that is the only way to select reference in js. 
     //! decoupling results in capturing value instead of refrence.
     const window = useWindowsStore((s)=>s.windows[id]);
@@ -179,6 +208,7 @@ export function useWindowState({id}){
     const active = useWindowsStore((s)=>s.windows[id].children.active);
     const hidden = useWindowsStore((s)=>s.windows[id].children.hidden);
     return {
+        windows,
         ...window,
         applicationId,
         props,
@@ -199,7 +229,27 @@ export function useOsState(){
 
 // * this returns the target id window contollers
 // * they are mutators for the window state.
-
+export function useWindowContollers({id}){
+    const registerWindow = useWindowsStore((s)=>s.registerWindow);
+    const registerChildWindow  = useWindowsStore((s)=>s.registerChildWindow);
+    const liftChildWindow  = useWindowsStore((s)=>s.liftChildWindow);
+    const closeChildWindow  = useWindowsStore((s)=>s.closeChildWindow);
+    const hideChildWindow = useWindowsStore((s)=>s.hideChildWindow);
+    const unhideChildWindow = useWindowsStore((s)=>s.unhideChildWindow);
+// liftChildWindow: useCallback( (childId)=>liftChildWindow({id,childId}), [liftChildWindow, id]),
+// closeChildWindow: useCallback( (childId) => closeChildWindow({id,childId}) ,[closeChildWindow, id] ),
+    return {
+        registerWindow,
+        registerChildWindow,
+        liftChildWindow: useCallback((childId)=>{
+            liftChildWindow({id,childId});
+            console.log(id, childId)
+        },[liftChildWindow, id]),
+        closeChildWindow,
+        hideChildWindow,
+        unhideChildWindow
+    }
+}
 // export function useWindowContollers({id}){
 //     const registerWindow = useWindowsStore((s)=>s.registerWindow);
 //     const registerChildWindow  = useWindowsStore((s)=>s.registerChildWindow);

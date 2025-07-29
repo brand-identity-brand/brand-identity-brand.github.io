@@ -1,7 +1,7 @@
 import { useWindowState } from "../kernel/useWindowsStore";
 import { OS } from "../constants";
 import Window from "./Window";
-import { useWindowsStore } from "../kernel/useWindowsStore";
+import { useWindowsStore, useWindowContollers } from "../kernel/useWindowsStore";
 import HiddenWindows from "./HiddenWindows";
 
 function DefaultWindowComponent({children, zIndex, style, ...props}){
@@ -75,21 +75,10 @@ export function WindowManagerRenderer({style, ...props}){
         }
     const parentWindowState = useWindowState({id:parentId });
     const isWindowHidden = parentWindowState.children.hidden.includes(id);
-    const generatedProps ={
+    const generatedProps = {
         zIndex: isWindowHidden ? "-1" : "1"
     }
     
-    console.log( "RENDERED: " ,{
-        id,
-        applicationId,
-        // WindowComponent: parentId === OS
-        // parentId,
-        // isWindowHidden,
-        // active,
-        // windowState,
-        // windowProps,
-        // generatedProps
-    })
     return (
         // base Compoenet, then WindowCompeonnt
         <Container 
@@ -122,9 +111,24 @@ export function WindowManagerRenderer({style, ...props}){
     )
 }
 function RenderHiddenWindows({id}){
-    const { windows, children: { hidden } } = useWindowState({id});
+    const { windows, children: { active, hidden } } = useWindowState({id});
+        const {
+        liftChildWindow,
+        closeChildWindow,
+        unhideChildWindow
+    } = useWindowContollers({id});
     return (
-        <HiddenWindows hidden={hidden} windows={windows}/>
+        <HiddenWindows 
+            id={id} 
+            active={active} 
+            hidden={hidden} 
+            windows={windows}
+            {...{
+                liftChildWindow,
+                closeChildWindow,
+                unhideChildWindow
+            }}
+        />
     )
 }
 WindowManagerRenderer.Hidden = RenderHiddenWindows;
