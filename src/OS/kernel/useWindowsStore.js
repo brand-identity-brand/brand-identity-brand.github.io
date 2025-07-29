@@ -184,7 +184,10 @@ export function useWindowState({id}){
         }
     };
 }
-
+export function useOsState(){
+    const state = useWindowsStore((s)=>s.windows);
+    return state
+}
 
 // * this returns the target id window contollers
 // * they are mutators for the window state.

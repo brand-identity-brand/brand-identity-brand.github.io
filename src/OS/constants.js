@@ -1,16 +1,20 @@
 import Inventory from "../applications/Inventory";
 
 
-import INSTALLED_APPLICATIONS from "../applications/registry";
+
 import Window from "./drivers/Window";
 
 // * OS const
 export const OS = "OS";
 export const ROOT_WINDOW_ID = "GUI";
 export const DEFAULT_WINDOW_COMPONENT = Window;
+
 export const ROOT_APPLICATIONS = {
     "OS":{
-
+        Component: "OS",
+        props: {
+            message: "loaded"
+        }
     },
     //* Applications will get "window controllers" on render. 
     //* this will be passed via the renderring sqeuwnce
@@ -30,6 +34,18 @@ export const ROOT_APPLICATIONS = {
         },
     },
     "Fake 2": {
+        Component: "Inventory",// function OS({text}){ return <div>{text}</div>}, // this should points to applicationStore registry 
+        props: {
+            text: "Fake 2" 
+        },
+    },
+    "Fake 3": {
+        Component: "Inventory",// function OS({text}){ return <div>{text}</div>}, // this should points to applicationStore registry 
+        props: {
+            text: "Fake 2" 
+        },
+    },
+    "Fake 4": {
         Component: "Inventory",// function OS({text}){ return <div>{text}</div>}, // this should points to applicationStore registry 
         props: {
             text: "Fake 2" 
@@ -119,7 +135,6 @@ export default function getOSConstants(CONSTANTS){
     const SESSION_WINDOWS = localStorage.getItem("WINDOWS") ??ROOT_WINDOWS;
 
     return {
-        INSTALLED_APPLICATIONS,
         ROOT_WINDOW_ID,
         APPLICATIONS: SESSION_APPLICATIONS,
         WINDOWS: SESSION_WINDOWS,

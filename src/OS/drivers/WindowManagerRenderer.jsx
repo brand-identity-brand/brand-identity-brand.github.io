@@ -4,8 +4,9 @@ import { OS } from "../constants";
 import { useWindowsStore } from "../kernel/useWindowsStore";
 
 
-export function WindowManagerRenderer({style, children, ...props}){
+export function WindowManagerRenderer({style, ...props}){
     const {
+        renderApplication,
         parentId = OS,
         id,
         WindowComponent = DefaultWindowComponent,
@@ -27,7 +28,7 @@ export function WindowManagerRenderer({style, children, ...props}){
     const windowState = useWindowState({id });
     const {
         // dangerous:{ window },
-        // application,
+        application,
         props: windowProps,
         children : {
             active,
@@ -76,14 +77,16 @@ export function WindowManagerRenderer({style, children, ...props}){
                 }
             }
         >
-            {children}
+            {/* application renders here */}
+            {"appId: " + application}
+            { renderApplication({id}) }
             {active.map( childId => {
                 return (
                     <WindowManagerRenderer key={childId} 
                         parentId={id} 
                         id={childId} 
                         WindowComponent={WindowComponent}
-
+                        renderApplication={renderApplication}
                     />
                 )
             })}

@@ -61,14 +61,15 @@ const useApplicationsStore = create((set, get) => {
 // * this returns the target id window object
 // * check const LIVE_WINDOWS
 export function useApplicationState({id}){
-    return useApplicationsStore((state)=>{
-        const {
-            applications: { 
-                [id]: application
-            }
-        } = state;
-        return application
-    })
+    console.log(id)
+    // const application = useWindowsStore((s)=>s.applications[id]);
+    const Component = useApplicationsStore((s)=>s.applications[id].Component);
+    const props = useApplicationsStore((s)=>s.applications[id].props);
+    
+    return {
+        Component,
+        props
+    }
 }
 // * this returns the target id window contollers
 export function useApplicationsContoller(){
@@ -78,4 +79,9 @@ export function useApplicationsContoller(){
         registerApplication, 
         closeApplication 
     };
+}
+
+export function useOsState(){
+    const state = useApplicationsStore((s)=>s.applications);
+    return state
 }
