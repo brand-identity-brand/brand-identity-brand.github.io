@@ -3,15 +3,17 @@ export default function HiddenWindows({...props}){
         hidden // windows[id].children.hidden <Array>
     } = props
 
-    
+
     return (
         <div
             style={{
                 position: "relative",
                 width: "100%",
                 boxSizing: "border-box",
-                borderTop: "1px solid black",
-                backgroundColor: "grey"
+                borderTop: "2px solid black",
+                backgroundColor: "grey",
+                // height: "30px",
+
             }}
         >
             {hidden.map( childId => {
@@ -26,6 +28,9 @@ export default function HiddenWindows({...props}){
                     </button>
                 )
             })}
+            <button>
+                s
+            </button>
         </div>
     )
 }

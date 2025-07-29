@@ -15,7 +15,11 @@ export default function OS({...props}){
         windows.setInitialState(WINDOWS);
     },[])
     return (
-        <div>
+        <div 
+            style={{
+                position: "fixed"
+            }}
+        >
             <div>
                 {`os message: ${message}`}
             </div>

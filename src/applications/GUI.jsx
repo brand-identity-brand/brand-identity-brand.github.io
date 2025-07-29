@@ -1,8 +1,19 @@
 import { WindowManagerRenderer } from "../OS/drivers/WindowManagerRenderer"
 
-export default function GUI({windowId}){
+export default function GUI({windowId, children}){
     return (
-        <div>
+        <div
+            style = {{
+                position:"fixed",
+                width:"100%",
+                height:"100%",
+                display: "flex",
+                flexDirection:"column",
+                justifyContent: "flex-end",
+                // backgroundColor: "white"
+            }}
+        >
+            {children}
             <WindowManagerRenderer.Hidden id={windowId}/>
         </div>
     )

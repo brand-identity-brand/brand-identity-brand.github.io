@@ -22,6 +22,7 @@ export const WINDOWS = {
     "OS":{
         applicationId: "OS",
         props: {
+            title: "OS"
         },
         children: {
             active: ["GUI"], // all children window ids
@@ -30,7 +31,9 @@ export const WINDOWS = {
     },
     "GUI": {
         applicationId: "GUI",
-        props: {},
+        props: {
+            title:"GUI"
+        },
         children: {
             active: ["WINDOW1"], // all children window ids
             hidden: ["WINDOW1"] // must be from active list. these window will be pushed to the back (z-index). this preserves react useState for teh current session

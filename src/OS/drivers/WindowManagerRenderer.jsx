@@ -9,7 +9,7 @@ function DefaultWindowComponent({children, zIndex, style, ...props}){
         <div {...props}
             style={{
                 ...style,
-                zIndex:zIndex
+                // zIndex:zIndex
             }}
         >
             {children}
