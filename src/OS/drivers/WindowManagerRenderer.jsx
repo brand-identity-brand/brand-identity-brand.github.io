@@ -117,7 +117,7 @@ export function WindowManagerRenderer({style, ...props}){
 }
 function RenderHiddenWindows({id}){
     const { windows, children: { active, hidden } } = useWindowState({id});
-        const {
+    const {
         liftChildWindow,
         closeChildWindow,
         unhideChildWindow
@@ -136,3 +136,62 @@ function RenderHiddenWindows({id}){
     )
 }
 WindowManagerRenderer.Hidden = RenderHiddenWindows;
+
+export function RenderChildrenWindows({id, WindowComponent}){
+    const {
+        liftChildWindow,
+        closeChildWindow,
+        hideChildWindow,
+        unhideChildWindow
+    } = useWindowContollers({id});
+
+    const {
+        children : {
+            active,
+            hidden
+        }
+    }  = useWindowState({id });
+
+
+
+    return (<>
+        {active.map( childId => {
+            // console.log("child",childId)
+            const windowControllerProps = {
+                onFocus: (e)=>{
+                    //* [Rule] onFocus needs to bubble up as nested child window should trigger it's parent to pop to the front
+                    // e.stopPropagation(); 
+                    liftChildWindow( childId )
+                },
+                onClose: (e)=>{
+                    //* [Rule] if propagation is not prevented, the Window will try running onFocus which will not have a valid childId args causing silent bug.
+                    e.stopPropagation(); 
+                    closeChildWindow( childId )
+                },
+                onMinimise: function onHide(e){
+                    e.stopPropagation(); 
+                    hideChildWindow( childId )
+                }
+            };
+
+            const  { props: windowProps}  = useWindowState({id: childId });
+
+            const isWindowHidden = hidden.includes(childId);
+            const generatedProps = {
+                zIndex: isWindowHidden ? "-1" : "1"
+            }
+            return (
+                <WindowComponent key={childId} 
+                    {...windowProps} // * restored from windowStore
+                    {...windowControllerProps}
+                    {...generatedProps}
+                    // parentId={id} 
+                    // id={childId} 
+                    // WindowComponent={WindowComponent}
+                    // * render function
+                    // renderApplication={renderApplication}
+                />
+            )
+        })}
+    </>)
+}
