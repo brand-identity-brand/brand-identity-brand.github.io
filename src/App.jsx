@@ -14,7 +14,10 @@ import OS from './OS';
 function App() {
 
   return (
-    <OS INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS} ROOT_WINDOW_ID={"GUI"}/>
+    <OS 
+      INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS} 
+      // ROOT_WINDOW_ID={"GUI"}
+    />
   )
 }
 

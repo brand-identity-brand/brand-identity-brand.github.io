@@ -21,9 +21,9 @@ export default function HiddenWindows({...props}){
                 backgroundColor: "white",
                 height: "30px",
                 display: "flex",
-                flexDirection:"column",
-                alignItems: "flex-start",
-                justifyContent: "center"
+                flexDirection:"row",
+                alignItems: "center",
+                justifyContent: "flex-start"
             }}
         >
             {/* //Todo: AA get click to work. needs to mutatable windwo.children.actives */}

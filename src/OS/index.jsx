@@ -6,7 +6,8 @@ export default function OS({INSTALLED_APPLICATIONS, ROOT_WINDOW_ID}){
         <WindowManagerRenderer id={"OS"} // ROOT_WINDOW_ID={ROOT_WINDOW_ID}
             renderApplication={({applicationId, windowId})=>{
                 return (
-                        <ApplicationManagerRenderer id={applicationId} 
+                        <ApplicationManagerRenderer 
+                            id={applicationId} 
                             windowId={windowId}
                             INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}
                         />

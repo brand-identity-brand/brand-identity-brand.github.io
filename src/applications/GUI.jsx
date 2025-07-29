@@ -24,20 +24,6 @@ export default function GUI({windowId, children}){
         </div>
     )
 }
-
-function ContentArea({children}){
-    return (
-        <div
-            style={{
-                
-            }}
-        >
-            {children}
-        </div>
-    )
-}
-
-
 const menuItems = [
   {
     label: "File",
@@ -105,3 +91,53 @@ const menuItems = [
     ],
   },
 ];
+
+export function AppWindowFrame({windowId, children, ...props}){
+    return (
+        <div
+            style = {{
+                position:"relative",
+                width:"100%",
+                height:"100%",
+                display: "flex",
+                flexDirection:"column",
+                justifyContent: "flex-end",
+                // backgroundColor: "rgba(255, 255, 255, 0.73)",
+                backgroundColor: "white"
+                // zIndex: 10
+            }}
+        >
+            <TopBar menuItems={menuItems}/>
+            <AppContent 
+                style={{
+
+                }}
+            >
+                {children}
+            </AppContent>
+            <BotBar windowId={windowId}/>
+        </div>
+    )
+}
+function TopBar({windowId, applicationId,  menuItems }){
+    return (
+        <MenuBar menuItems={menuItems} />
+    )
+}
+function BotBar({windowId, applicationId}){
+    return (
+        <div>
+            <WindowManagerRenderer.Hidden id={windowId}/>
+        </div>
+    )
+}
+function AppContent({style, children}){
+    return (
+        <div
+            style={style}
+        >
+            {children}
+        </div>
+    )
+}
+
