@@ -119,7 +119,6 @@ function RenderHiddenWindows({id}){
     } = useWindowContollers({id});
     return (
         <HiddenWindows 
-            id={id} 
             active={active} 
             hidden={hidden} 
             windows={windows}

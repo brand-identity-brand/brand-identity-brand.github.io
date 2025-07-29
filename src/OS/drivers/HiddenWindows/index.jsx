@@ -1,7 +1,6 @@
 
 export default function HiddenWindows({...props}){
     const {
-        id,
         windows,
         active,
         hidden, // windows[id].children.hidden <Array>
@@ -19,23 +18,31 @@ export default function HiddenWindows({...props}){
                 width: "100%",
                 boxSizing: "border-box",
                 borderTop: "2px solid black",
-                backgroundColor: "grey",
-                // height: "30px",
-
+                backgroundColor: "white",
+                height: "30px",
+                display: "flex",
+                flexDirection:"column",
+                alignItems: "flex-start",
+                justifyContent: "center"
             }}
         >
             {/* //Todo: AA get click to work. needs to mutatable windwo.children.actives */}
             {active.map( childId => {
-                // const isWindowHidden = hidden.includes(childId);
+                const isWindowHidden = hidden.includes(childId);
+                const style = isWindowHidden
+                    ? {
+                        backgroundColor: "white"
+                    }
+                    : {
+                        backgroundColor: "green"
+                    }
+                ;
                 return (
                     <button key={childId}
-                        style={{
-
-                        }}
+                        style={style}
                         onClick={()=>{
                             // Click needs to remove id from hidden
-                            console.log(childId)
-                            unhideChildWindow({id, childId})
+                            unhideChildWindow(childId)
                             liftChildWindow(childId)
                         }}
                     >

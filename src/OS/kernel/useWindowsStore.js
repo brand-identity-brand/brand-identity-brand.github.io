@@ -243,35 +243,13 @@ export function useWindowContollers({id}){
         registerChildWindow,
         liftChildWindow: useCallback((childId)=>{
             liftChildWindow({id,childId});
-            console.log(id, childId)
+            console.log("liftChildenWindow: {parent, child}", {id, childId})
         },[liftChildWindow, id]),
         closeChildWindow,
         hideChildWindow,
-        unhideChildWindow
+        unhideChildWindow: useCallback((childId)=>{
+            unhideChildWindow({id,childId});
+            console.log("unhideChildWindow: {parent, child}", {id, childId})
+        },[unhideChildWindow, id]),
     }
 }
-// export function useWindowContollers({id}){
-//     const registerWindow = useWindowsStore((s)=>s.registerWindow);
-//     const registerChildWindow  = useWindowsStore((s)=>s.registerChildWindow);
-//     const liftChildWindow  = useWindowsStore((s)=>s.liftChildWindow);
-//     const closeChildWindow  = useWindowsStore((s)=>s.closeChildWindow);
-//     // return {
-//     //     registerWindow,
-//     //     registerChildWindow,
-//     //     closeChildWindow
-//     // }
-//     return {  
-//         //! [Native API] too much control. only use for prototyping
-//         dangerous: {
-//             registerWindow,
-//             registerChildWindow,
-//             liftChildWindow,
-//             closeChildWindow
-//         },
-//         //* official api
-//         registerWindow: useCallback(({id, window})=>registerWindow({id, window}),[registerWindow]),
-//         registerChildWindow: useCallback((childId)=>registerChildWindow({id,childId}), [registerChildWindow, id]),
-//         liftChildWindow: useCallback( (childId)=>liftChildWindow({id,childId}), [liftChildWindow, id]),
-//         closeChildWindow: useCallback( (childId) => closeChildWindow({id,childId}) ,[closeChildWindow, id] ),
-//     }
-// }
