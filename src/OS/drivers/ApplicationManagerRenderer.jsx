@@ -6,7 +6,8 @@ export default function ApplicationManagerRenderer({...props}){
     const {
         id,
         windowId,
-        INSTALLED_APPLICATIONS
+        INSTALLED_APPLICATIONS,
+        renderChildrenWindow
     } = props;
     const applicationRegistry = {
         OS,
@@ -23,6 +24,6 @@ export default function ApplicationManagerRenderer({...props}){
     const Application = applicationRegistry[Component];
 
     return (
-        <Application {...applicationProps} windowId={windowId}/>
+        <Application {...applicationProps} windowId={windowId} renderChildrenWindow={renderChildrenWindow}/>
     )
 }

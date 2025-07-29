@@ -1,7 +1,8 @@
 import { MenuBar } from "../OS/drivers/MenuBar"
 import { WindowManagerRenderer } from "../OS/drivers/WindowManagerRenderer"
 
-export default function GUI({windowId, children}){
+export default function GUI({windowId, renderChildrenWindow, children}){
+    
     return (
         <div
             style = {{
@@ -18,9 +19,19 @@ export default function GUI({windowId, children}){
                 // zIndex: 10
             }}
         >
-            <MenuBar menuItems={menuItems} />
+            {/* <MenuBar menuItems={menuItems} /> */}
             {/* {children} */}
-            <WindowManagerRenderer.Hidden id={windowId}/>
+            {/* <WindowManagerRenderer.Hidden id={windowId}/> */}
+            <TopBar menuItems={menuItems}/>
+            <AppContent 
+                style={{
+
+                }}
+            >
+                {children}
+                {renderChildrenWindow()}
+            </AppContent>
+            <BotBar windowId={windowId}/>
         </div>
     )
 }
@@ -92,7 +103,7 @@ const menuItems = [
   },
 ];
 
-export function AppWindowFrame({windowId, children, ...props}){
+export function AppWindowFrame({windowId, children, renderChildrenWindow, ...props}){
     return (
         <div
             style = {{
@@ -114,6 +125,7 @@ export function AppWindowFrame({windowId, children, ...props}){
                 }}
             >
                 {children}
+                {renderChildrenWindow()}
             </AppContent>
             <BotBar windowId={windowId}/>
         </div>

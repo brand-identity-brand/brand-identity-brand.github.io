@@ -93,20 +93,23 @@ export function WindowManagerRenderer({style, ...props}){
                 }
             }
         >
-            { renderApplication({applicationId: applicationId, windowId: id}) }
-
-            {active.map( childId => {
-                // console.log("child",childId)
-                return (
-                    <WindowManagerRenderer key={childId} 
-                        parentId={id} 
-                        id={childId} 
-                        WindowComponent={WindowComponent}
-                        // * render function
-                        renderApplication={renderApplication}
-                    />
-                )
-            })}
+            { renderApplication({
+                applicationId: applicationId, 
+                windowId: id,
+                renderChildrenWindow: () => active.map( childId => {
+                    // console.log("child",childId)
+                    return (
+                        <WindowManagerRenderer key={childId} 
+                            parentId={id} 
+                            id={childId} 
+                            WindowComponent={WindowComponent}
+                            // * render function
+                            renderApplication={renderApplication}
+                        />
+                    )
+                })
+            
+            }) }
             {/* application renders here */}
 
         </Container>
