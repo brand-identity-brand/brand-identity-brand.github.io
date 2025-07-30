@@ -1,41 +1,18 @@
 import useKernelContext from "../../kernel/useKernelContext";
 
-export default function HiddenWindows({id}){
-    // const {
-    //     windows,
-    //     active,
-    //     hidden, // windows[id].children.hidden <Array>
-    //     liftChildWindow,
-    //     closeChildWindow,
-    //     unhideChildWindow
-    // } = props
-
+export default function ChildrenWindowsControllerRenderer({id, Component=Button}){
     const kernel = useKernelContext();
     const { useWindowContollers, useWindowState } = kernel.hooks.windows
     
     const { windows, children: { active, hidden } } = useWindowState({id});
     const {
         liftChildWindow,
-        closeChildWindow,
+        // closeChildWindow,
         unhideChildWindow
     } = useWindowContollers({id});
 
     return (
-        <div
-            style={{
-                position: "relative",
-                width: "100%",
-                boxSizing: "border-box",
-                borderTop: "2px solid black",
-                backgroundColor: "white",
-                height: "40px",
-                display: "flex",
-                flexDirection:"row",
-                justifyContent: "flex-start",
-                alignItems: "center"
-                
-            }}
-        >
+        <>
             {/* //Todo: AA get click to work. needs to mutatable windwo.children.actives */}
             {active.map( childId => {
                 const isWindowHidden = hidden.includes(childId);
@@ -48,7 +25,7 @@ export default function HiddenWindows({id}){
                     }
                 ;
                 return (
-                    <button key={childId}
+                    <Component key={childId}
                         style={style}
                         onClick={()=>{
                             // Click needs to remove id from hidden
@@ -57,9 +34,17 @@ export default function HiddenWindows({id}){
                         }}
                     >
                         {`${windows[childId].props.title}`}
-                    </button>
+                    </Component>
                 )
             })}
-        </div>
+        </>
+    )
+}
+
+function Button(props){
+    return (
+        <button {...props}>
+            {props.children}
+        </button>
     )
 }

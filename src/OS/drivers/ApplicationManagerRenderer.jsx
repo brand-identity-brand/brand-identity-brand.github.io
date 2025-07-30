@@ -20,6 +20,8 @@ export default function ApplicationManagerRenderer({...props}){
         props: applicationProps
     } = applicationState;
 
+    // TODO: this part should be used once in useAppsStore.
+    // TODO: or...?
     const Application = applicationRegistry[Component];
 
     return (

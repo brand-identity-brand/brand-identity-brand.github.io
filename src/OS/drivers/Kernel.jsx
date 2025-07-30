@@ -1,5 +1,5 @@
 import useKernelContext from "../kernel/useKernelContext";
-import RenderChildrenWindows from "./RenderChildrenWindow";
+import  ChildrenWindowsRenderer from "./ChildrenWindowsRenderer";
 export default function Kernel({children,applicationId,windowId, applicationRegistry,...props}){
     const {
         // passed via windowsStore
@@ -43,7 +43,7 @@ export default function Kernel({children,applicationId,windowId, applicationRegi
                 height: "100%"
             }}
         >
-            <RenderChildrenWindows id={windowId}  WindowComponent={DefaultWindowComponent}/>
+            <ChildrenWindowsRenderer id={windowId}  WindowComponent={DefaultWindowComponent}/>
         </div>
         
     </>)

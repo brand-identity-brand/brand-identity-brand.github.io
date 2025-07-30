@@ -1,4 +1,4 @@
-import RenderChildrenWindows from "../OS/drivers/RenderChildrenWindow";
+import  ChildrenWindowsRenderer from "../OS/drivers/ChildrenWindowsRenderer";
 import AppWindowFrame from "../OS/drivers/AppWindowFrame";
 
 // * this is the base of the OS
@@ -8,7 +8,7 @@ export default function GUI({windowId}){
         <AppWindowFrame
             {...{windowId}}
         >
-            <RenderChildrenWindows id={windowId}/>
+            <ChildrenWindowsRenderer id={windowId}/>
         </AppWindowFrame>
     )
 }

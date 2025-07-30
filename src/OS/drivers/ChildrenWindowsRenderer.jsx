@@ -1,10 +1,10 @@
 
 import Window from "./Window";
-import HiddenWindows from "./HiddenWindows";
 import ApplicationManagerRenderer from "./ApplicationManagerRenderer";
 import useKernelContext from "../kernel/useKernelContext";
 
-export default function RenderChildrenWindows({id, WindowComponent=Window}){
+// TODO: [rename]: ChildrenWindowRenderer
+export default function ChildrenWindowsRenderer({id, WindowComponent=Window}){
     const kernel = useKernelContext();
     const { useWindowContollers, useWindowState } = kernel.hooks.windows
 
