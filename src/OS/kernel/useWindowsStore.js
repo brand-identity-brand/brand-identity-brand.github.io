@@ -246,7 +246,10 @@ export function useWindowContollers({id}){
             console.log("liftChildenWindow: {parent, child}", {id, childId})
         },[liftChildWindow, id]),
         closeChildWindow,
-        hideChildWindow,
+        hideChildWindow: useCallback((childId)=>{
+            hideChildWindow({id,childId});
+            console.log("hideChildWindow: {parent, child}", {id, childId})
+        },[hideChildWindow, id]),
         unhideChildWindow: useCallback((childId)=>{
             unhideChildWindow({id,childId});
             console.log("unhideChildWindow: {parent, child}", {id, childId})

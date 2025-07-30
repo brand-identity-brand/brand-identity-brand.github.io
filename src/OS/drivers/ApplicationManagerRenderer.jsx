@@ -2,12 +2,13 @@ import { useApplicationState } from "../kernel/useApplicationsStore";
 import { RenderChildrenWindows } from "./WindowManagerRenderer";
 import Kernel from "./Kernel";
 import GUI from "./GUI";
-export default function ApplicationManagerRenderer({...props}){
+export default function ApplicationManagerRenderer({children,...props}){
     const {
-        id,
-        windowId,
+        id, //"Kernel"
+        windowId, //"Kernel"
         INSTALLED_APPLICATIONS,
     } = props;
+
     const applicationRegistry = {
         Kernel,
         GUI,
@@ -15,6 +16,7 @@ export default function ApplicationManagerRenderer({...props}){
     };
 
     const applicationState = useApplicationState({id});
+
     const {
         Component,
         props: applicationProps
@@ -23,11 +25,11 @@ export default function ApplicationManagerRenderer({...props}){
     const Application = applicationRegistry[Component];
 
     return (
-        <Application {...applicationProps} applicationId={id} windowId={windowId}>
+        <Application {...applicationProps} applicationId={id} windowId={windowId} INSTALLED_APPLICATIONS={applicationRegistry}>
             {/* this is children */}
             {/* use props.children as children.active */}
-            <RenderChildrenWindows id={windowId} INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}/>
-            {/* //WindowComponent={DefaultWindowComponent}/> */}
+            {/* <RenderChildrenWindows id={windowId} INSTALLED_APPLICATIONS={applicationRegistry} /> */}
+            {children}
         </Application>
     )
 }

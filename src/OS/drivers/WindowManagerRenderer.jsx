@@ -139,12 +139,12 @@ function RenderHiddenWindows({id}){
 WindowManagerRenderer.Hidden = RenderHiddenWindows;
 
 export function RenderChildrenWindows({id, INSTALLED_APPLICATIONS, WindowComponent=Window}){
-    console.log(id, INSTALLED_APPLICATIONS)
+
     const {
         liftChildWindow,
         closeChildWindow,
         hideChildWindow,
-        unhideChildWindow
+        // unhideChildWindow
     } = useWindowContollers({id});
 
     const {
@@ -158,45 +158,69 @@ export function RenderChildrenWindows({id, INSTALLED_APPLICATIONS, WindowCompone
 
     return (<>
         {active.map( childId => {
-            // console.log("child",childId)
-            const windowControllerProps = {
-                onFocus: (e)=>{
-                    //* [Rule] onFocus needs to bubble up as nested child window should trigger it's parent to pop to the front
-                    // e.stopPropagation(); 
-                    liftChildWindow( childId )
-                },
-                onClose: (e)=>{
-                    //* [Rule] if propagation is not prevented, the Window will try running onFocus which will not have a valid childId args causing silent bug.
-                    e.stopPropagation(); 
-                    closeChildWindow( childId )
-                },
-                onMinimise: function onHide(e){
-                    e.stopPropagation(); 
-                    hideChildWindow( childId )
-                }
-            };
-
-            const  { applicationId, props: windowProps}  = useWindowState({id: childId });
-
-            const isWindowHidden = hidden.includes(childId);
-            const generatedProps = {
-                zIndex: isWindowHidden ? "-1" : "1"
-            }
             return (
-                <WindowComponent key={childId} 
-                    {...windowProps} // * restored from windowStore
-                    {...windowControllerProps}
-                    {...generatedProps}
-                    // parentId={id} 
-                    // id={childId} 
-                >
-                    <ApplicationManagerRenderer
-                        id ={applicationId}
-                        windowId ={childId}
-                        INSTALLED_APPLICATIONS ={INSTALLED_APPLICATIONS}
-                    />
-                </WindowComponent>
+                <RenderWindow key={childId} 
+                    {...{
+                        liftChildWindow,
+                        closeChildWindow,
+                        hideChildWindow,
+                        hidden,
+                        childId,
+                        INSTALLED_APPLICATIONS,
+                        WindowComponent
+                    }}
+                />
             )
         })}
     </>)
+}
+function RenderWindow({
+    liftChildWindow,
+    closeChildWindow,
+    hideChildWindow,
+    hidden,
+    childId,
+    INSTALLED_APPLICATIONS,
+    WindowComponent
+}){
+    const windowControllerProps = {
+        onFocus: (e)=>{
+            //* [Rule] onFocus needs to bubble up as nested child window should trigger it's parent to pop to the front
+            // e.stopPropagation(); 
+            liftChildWindow( childId )
+        },
+        onClose: (e)=>{
+            //* [Rule] if propagation is not prevented, the Window will try running onFocus which will not have a valid childId args causing silent bug.
+            e.stopPropagation(); 
+            closeChildWindow( childId )
+        },
+        onMinimise: function onHide(e){
+            e.stopPropagation(); 
+            hideChildWindow( childId )
+        }
+    };
+
+    const  { applicationId, props: windowProps}  = useWindowState({id: childId });
+
+    const isWindowHidden = hidden.includes(childId);
+    const generatedProps = {
+        zIndex: isWindowHidden ? "-1" : "1"
+    }
+    const Component = WindowComponent
+        // console.log(childId,INSTALLED_APPLICATIONS)
+    return (
+        <Component 
+            {...windowProps} // * restored from windowStore
+            {...windowControllerProps}
+            {...generatedProps}
+            // parentId={id} 
+            // id={childId} 
+        >
+            <ApplicationManagerRenderer
+                id ={applicationId}
+                windowId ={childId}
+                INSTALLED_APPLICATIONS ={INSTALLED_APPLICATIONS}
+            />
+        </Component>
+    )
 }

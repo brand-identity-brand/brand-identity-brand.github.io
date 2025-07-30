@@ -2,7 +2,8 @@ import { useOsState as useApplicationsState } from "../kernel/useApplicationsSto
 import { useOsState as useWindowsState } from "../kernel/useWindowsStore";
  import { APPS, WINDOWS } from "../../applications/store";
 import { useEffect } from "react";
-export default function Kernel({children,...props}){
+import { RenderChildrenWindows } from "./WindowManagerRenderer";
+export default function Kernel({children,applicationId,windowId,INSTALLED_APPLICATIONS,...props}){
     const {
         // passed via windowsStore
         message,
@@ -10,18 +11,20 @@ export default function Kernel({children,...props}){
     
     const applications = useApplicationsState();
     const windows = useWindowsState();
- 
+
     useEffect(()=>{
         applications.setInitialState(APPS);
         windows.setInitialState(WINDOWS);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
-    return (
+    return (<>
         <div 
             style={{
                 position: "fixed",
                 top: 0,
-                left: 0
+                left: 0,
+                width: "100%",
+                height: "100%"
             }}
         >
             <div>
@@ -39,11 +42,18 @@ export default function Kernel({children,...props}){
                     return <div key={window.id}>{window.message}</div>
                 })}
             </div>
-            <div>
-                {children}
-            </div>
         </div>
-    )
+        <div
+            style={{
+                position: "fixed",
+                width: "100%",
+                height: "100%"
+            }}
+        >
+            <RenderChildrenWindows id={windowId} INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}/>
+        </div>
+        
+    </>)
 }
 
 

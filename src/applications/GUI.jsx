@@ -1,20 +1,19 @@
+import { ZapIcon } from "lucide-react";
 import { MenuBar } from "../OS/drivers/MenuBar"
 import { WindowManagerRenderer } from "../OS/drivers/WindowManagerRenderer"
 import { RenderChildrenWindows } from "../OS/drivers/WindowManagerRenderer";
-export default function GUI({windowId, children}){
+export default function GUI({windowId, children, INSTALLED_APPLICATIONS}){
     
     return (
         <div
             style = {{
-                position:"fixed",
-                top: 0,
-                left: 0,
+                position:"relative",
                 width:"100%",
                 height:"100%",
                 display: "flex",
                 flexDirection:"column",
                 justifyContent: "flex-end",
-                backgroundColor: "rgba(255, 255, 255, 0.73)",
+                backgroundColor: "rgba(255, 255, 255, 0.95)",
                 // backgroundColor: "white"
                 // zIndex: 10
             }}
@@ -25,11 +24,18 @@ export default function GUI({windowId, children}){
             <TopBar menuItems={menuItems}/>
             <AppContent 
                 style={{
-
+                    backgroundColor: "pink",
+                    zIndex:"1",
+                    position:"relative",
+                    width:"90%",
+                    height:"90%",
+                    border:"1px solid green",
+                    overflow: "clip", //hidden
                 }}
             >
-                {children}
-                <RenderChildrenWindows id={windowId} />
+                {/* {children} */}
+                <div style={{backgroundColor:"blue", width:"100%", height:"100%"}}></div>
+                <RenderChildrenWindows id={windowId} INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}/>
             </AppContent>
             <BotBar windowId={windowId}/>
         </div>
@@ -103,7 +109,7 @@ const menuItems = [
   },
 ];
 
-export function AppWindowFrame({windowId, children, renderChildrenWindow, ...props}){
+export function AppWindowFrame({windowId, children, ...props}){
     return (
         <div
             style = {{
@@ -125,7 +131,6 @@ export function AppWindowFrame({windowId, children, renderChildrenWindow, ...pro
                 }}
             >
                 {children}
-                {renderChildrenWindow()}
             </AppContent>
             <BotBar windowId={windowId}/>
         </div>

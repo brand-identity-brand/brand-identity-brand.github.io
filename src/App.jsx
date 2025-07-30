@@ -12,7 +12,6 @@ import INSTALLED_APPLICATIONS from './applications/registry';
 import OS from './OS';
 
 function App() {
-
   return (
     <OS 
       INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS} 

@@ -8,6 +8,7 @@ export const APPS = {
     "GUI": {
         Component: "GUI",// function OS({text}){ return <div>{text}</div>}, // this should points to applicationStore registry 
         props: {
+            text:"should now show"
         },
     },
     "AppWindowFrame": {
