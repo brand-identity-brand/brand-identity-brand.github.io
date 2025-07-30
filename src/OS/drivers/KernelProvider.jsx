@@ -15,9 +15,14 @@ export function KernelProvider({children, ...props}){
         apps: useAppsHooks(appsStore)
     }
 
+    const states = {
+        windows: useWindowsHooks(windowsStore).useWindowsState(),
+        apps: useAppsHooks(windowsStore).useApplicationsState()
+    }
     const value = {
         applicationRegistry,
-        hooks
+        hooks,
+        states
     }
 
     return (

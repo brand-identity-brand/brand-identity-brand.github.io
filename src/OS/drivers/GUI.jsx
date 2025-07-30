@@ -22,7 +22,6 @@ const config = (windowId) => generateConfig({
     }
 })
 export default function GUI({windowId, message}){
-    console.log(windowId)
     return (
         <AppWindowFrame
             windowId={windowId}
