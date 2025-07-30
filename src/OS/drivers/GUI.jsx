@@ -1,8 +1,14 @@
-export default function GUI({text}){
+import AppWindowFrame from "./AppWindowFrame";
+
+export default function GUI({windowId, message}){
     return (
-        <div>
-            native GUI component. replace this
-            {text}
-        </div>
+        <AppWindowFrame
+            {...{windowId}}
+        >
+            <div>
+                prop.message: {message}
+            </div>
+        </AppWindowFrame>
     )
 }
+

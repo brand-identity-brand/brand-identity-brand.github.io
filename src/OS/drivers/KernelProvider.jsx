@@ -5,7 +5,7 @@ import { KernelContext } from "../kernel/useKernelContext";
 
 export function KernelProvider({children, ...props}){
     const {
-        INSTALLED_APPLICATIONS,
+        applicationRegistry,
         windowsStore,
         appsStore
     } = props;
@@ -16,7 +16,7 @@ export function KernelProvider({children, ...props}){
     }
 
     const value = {
-        INSTALLED_APPLICATIONS,
+        applicationRegistry,
         hooks
     }
 

@@ -1,11 +1,12 @@
 import { create } from 'zustand';
-//
-import getOSConstants from '../constants';
-const { APPLICATIONS } = getOSConstants();
+import { ROOT_APPS } from '../constants';
 
 export function createAppsStore(applications){
     return create((set, get) => ({
-        applications: {...applications},
+        applications: {
+            ...ROOT_APPS,
+            ...applications
+        },
     // You can add mutators here
         registerApplication: function registerApplication({id, application}){
             set((state) => {

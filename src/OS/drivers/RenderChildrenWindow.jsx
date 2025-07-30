@@ -61,6 +61,7 @@ function RenderWindow({
         onClose: (e)=>{
             //* [Rule] if propagation is not prevented, the Window will try running onFocus which will not have a valid childId args causing silent bug.
             e.stopPropagation(); 
+            // ! problem with this hook
             closeChildWindow( childId )
         },
         onMinimise: function onHide(e){

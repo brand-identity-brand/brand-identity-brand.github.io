@@ -1,29 +1,29 @@
-// * OS const
-export const OS = "Kernel";
-export const ROOT_APPLICATIONS = {
-    [OS]:{
-        Component: OS,
+import DemoAppWindowFrame from "./demos/DemoAppWindowFrame"
+
+export const ROOT_APPS = {
+    "Kernel":{
+        Component: "Kernel",
         props: {
-            message: "loaded"
+            message: "Kernel loaded"
         }
     },
     "GUI": {
-        Component: "GUI",// function OS({text}){ return <div>{text}</div>}, // this should points to applicationStore registry 
+        Component: "GUI",
         props: {
-            text:"rendered GUI" ,
+            message:"GUI rendered" ,
         },
     },
-    "Inventory": {
-        Component: "Inventory",// function OS({text}){ return <div>{text}</div>}, // this should points to applicationStore registry 
+    "DemoAppWindowFrame": {
+        Component: "DemoAppWindowFrame",
         props: {
-            text:"Unaware OS Inventory" ,
+            message:"running DemoAppWindowFrame",
         },
     },
 }
 
 export const ROOT_WINDOWS = {
-    [OS]:{
-        applicationId: OS,
+    "Kernel":{
+        applicationId: "Kernel",
         props: {
         },
         children: {
@@ -40,25 +40,19 @@ export const ROOT_WINDOWS = {
         },
     },
     "WIND1": {
-        applicationId: "Inventory",
-        props: {title: "Faker 1" ,},
+        applicationId: "DemoAppWindowFrame",
+        props: {title: "DemoAppWindowFrame" ,},
         children: {
-            active: [], // all children window ids
-            hidden: [] // must be from active list. these window will be pushed to the back (z-index). this preserves react useState for teh current session
+            active: [],
+            hidden: []
         },
     },
 }
-const zIndexes = {
-    [OS]: -2,
-    GUI: 1,
-}
-export default function getOSConstants(CONSTANTS){
-    const SESSION_APPLICATIONS = localStorage.getItem("APPLICATIONS") ?? ROOT_APPLICATIONS;
-    const SESSION_WINDOWS = localStorage.getItem("WINDOWS") ??ROOT_WINDOWS;
+// const zIndexes = {
+//     ["Kernel"]: -2,
+//     GUI: 1,
+// }
+export const DEMO_APPS = {
+    "DemoAppWindowFrame": DemoAppWindowFrame,
 
-    return {
-        APPLICATIONS: SESSION_APPLICATIONS,
-        WINDOWS: SESSION_WINDOWS,
-        ...CONSTANTS
-    }
 }

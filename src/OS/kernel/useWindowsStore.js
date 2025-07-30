@@ -1,10 +1,14 @@
 import { create } from 'zustand';
 import { useCallback } from 'react';
+import { ROOT_WINDOWS } from '../constants';
 
 // ! ---------new-----------
 export function createWindowsStore(windows){
     return create((set, get)=>({
-        windows:{ ...windows },
+        windows:{ 
+            ...ROOT_WINDOWS,
+            ...windows 
+        },
         // * on root
         registerWindow: ({id, window}) => {
             set((state) => {

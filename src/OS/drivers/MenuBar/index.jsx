@@ -18,7 +18,7 @@ import css from "./index.module.css";
  * MenuBarArray component that renders a menu bar with support for nested submenus
  * @param {MenuBarArrayProps} props
  */
-export function MenuBar({ menuItems = [] }) {
+export default function MenuBar({ menuItems = [] }) {
   const [activeMenu, setActiveMenu] = useState(null);
   const [activeSubmenus, setActiveSubmenus] = useState([]);
   const menuRef = useRef(null);
