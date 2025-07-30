@@ -28,11 +28,12 @@ export default function HiddenWindows({id}){
                 boxSizing: "border-box",
                 borderTop: "2px solid black",
                 backgroundColor: "white",
-                height: "30px",
+                height: "40px",
                 display: "flex",
                 flexDirection:"row",
-                alignItems: "center",
-                justifyContent: "flex-start"
+                justifyContent: "flex-start",
+                alignItems: "center"
+                
             }}
         >
             {/* //Todo: AA get click to work. needs to mutatable windwo.children.actives */}

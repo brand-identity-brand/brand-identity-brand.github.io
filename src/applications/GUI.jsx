@@ -70,13 +70,14 @@ const menuItems = [
     ],
   },
 ];
-// ! Create Context for INSTALLED APPLICATION.
-// ! Create createStore hooks for OS
-export default function GUI({windowId, children, INSTALLED_APPLICATIONS}){
 
+export default function GUI({windowId, children, INSTALLED_APPLICATIONS}){
+    const topBarHeight = "22px";
+    const botBarHieght = "40px";
     return (
         <div
             style = {{
+                boxSizing: "border-box",
                 position:"relative",
                 width:"100%",
                 height:"100%",
@@ -92,6 +93,7 @@ export default function GUI({windowId, children, INSTALLED_APPLICATIONS}){
             <div
                 style={{ 
                     width: "100%", 
+                    height: topBarHeight
                 }}
             >
                 <MenuBar menuItems={menuItems} />
@@ -99,12 +101,10 @@ export default function GUI({windowId, children, INSTALLED_APPLICATIONS}){
             <div 
                 style={{
                     flex: 1, 
-                    backgroundColor: "pink",
                     zIndex:"1",
                     position:"relative",
                     width:"100%",
-                    // height:`calc( 100% - ${topBarHeight}px )`,
-                    border:"1px solid green",
+                    height:`calc( 100% - ${topBarHeight} - ${botBarHieght} )`,
                     overflow: "clip", //hidden
                 }}
             >
@@ -112,7 +112,13 @@ export default function GUI({windowId, children, INSTALLED_APPLICATIONS}){
                 <div style={{backgroundColor:"white", width:"100%", height:"100%"}}></div>
                 <RenderChildrenWindows id={windowId} INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}/>
             </div>
-            <div style={{ width: '100%' }}>
+            <div 
+                style={{ 
+                    boxSizing: "border-box",
+                    width: '100%', 
+                    height: botBarHieght 
+                }}
+            >
                 <HiddenWindows id={windowId}/>
             </div>
         </div>
@@ -120,30 +126,56 @@ export default function GUI({windowId, children, INSTALLED_APPLICATIONS}){
 }
 
 
-export function AppWindowFrame({windowId, children, ...props}){
+export function AppWindowFrame({windowId, children, INSTALLED_APPLICATIONS}){
+    const topBarHeight = "22px";
+    const botBarHieght = "40px";
     return (
         <div
             style = {{
+                boxSizing: "border-box",
                 position:"relative",
                 width:"100%",
                 height:"100%",
                 display: "flex",
                 flexDirection:"column",
-                justifyContent: "flex-end",
-                // backgroundColor: "rgba(255, 255, 255, 0.73)",
-                backgroundColor: "white"
+                justifyContent: "flex-start", // <- updated from "flex-end"
+
+                backgroundColor: "rgba(255, 255, 255, 0.95)",
+                // backgroundColor: "white"
                 // zIndex: 10
             }}
         >
-
             <div
+                style={{ 
+                    width: "100%", 
+                    height: topBarHeight
+                }}
             >
-                {children}
+                <MenuBar menuItems={menuItems} />
             </div>
-            <div>
+            <div 
+                style={{
+                    flex: 1, 
+                    zIndex:"1",
+                    position:"relative",
+                    width:"100%",
+                    height:`calc( 100% - ${topBarHeight} - ${botBarHieght} )`,
+                    overflow: "clip", //hidden
+                }}
+            >
+                {/* {children} */}
+                <div style={{backgroundColor:"white", width:"100%", height:"100%"}}></div>
+                <RenderChildrenWindows id={windowId} INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}/>
+            </div>
+            <div 
+                style={{ 
+                    boxSizing: "border-box",
+                    width: '100%', 
+                    height: botBarHieght 
+                }}
+            >
                 <HiddenWindows id={windowId}/>
             </div>
         </div>
     )
 }
-

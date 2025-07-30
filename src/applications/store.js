@@ -96,7 +96,7 @@ const WINDOWS = {
             // parentId = null,
         },
         children: {
-            active: [], // all children window ids
+            active: ["WINDOW1"], // all children window ids
             hidden: [] // must be from active list. these window will be pushed to the back (z-index). this preserves react useState for teh current session
         },
     }

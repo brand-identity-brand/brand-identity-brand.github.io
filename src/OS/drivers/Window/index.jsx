@@ -366,7 +366,7 @@ export default function Window({
 
   const windowStyles = {
     zIndex,
-    position: isMaximized ? "relative" : "absolute",
+    position: isMaximized ? "absolute" : "absolute",
     left: isMaximized ? 0 : position.x,
     top: isMaximized ? 0 : position.y,
     width: isMaximized ? "100%" : isCollapsed && windowStyle === "collapsible" ? "auto" : size.width,
