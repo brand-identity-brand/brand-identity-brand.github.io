@@ -9,7 +9,7 @@ export default function Kernel({children,applicationId,windowId,INSTALLED_APPLIC
     const { hooks } = useKernelContext();
     const windows = hooks.windows.useWindowsState();
     const apps  = hooks.apps.useApplicationsState();
-    console.log(windows,apps)
+    
     return (<>
         <div 
             style={{

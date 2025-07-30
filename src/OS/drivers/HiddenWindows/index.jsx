@@ -1,15 +1,24 @@
+import useKernelContext from "../../kernel/useKernelContext";
 
-export default function HiddenWindows({...props}){
+export default function HiddenWindows({id}){
+    // const {
+    //     windows,
+    //     active,
+    //     hidden, // windows[id].children.hidden <Array>
+    //     liftChildWindow,
+    //     closeChildWindow,
+    //     unhideChildWindow
+    // } = props
+
+    const kernel = useKernelContext();
+    const { useWindowContollers, useWindowState } = kernel.hooks.windows
+    
+    const { windows, children: { active, hidden } } = useWindowState({id});
     const {
-        windows,
-        active,
-        hidden, // windows[id].children.hidden <Array>
         liftChildWindow,
         closeChildWindow,
         unhideChildWindow
-    } = props
-
-
+    } = useWindowContollers({id});
 
     return (
         <div

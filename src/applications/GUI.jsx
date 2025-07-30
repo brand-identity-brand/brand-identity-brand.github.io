@@ -1,52 +1,8 @@
+import HiddenWindows from "../OS/drivers/HiddenWindows";
 import { MenuBar } from "../OS/drivers/MenuBar"
 
 import RenderChildrenWindows from "../OS/drivers/RenderChildrenWindow";
 
-import { useRef } from "react"
-
-// ! Create Context for INSTALLED APPLICATION.
-// ! Create createStore hooks for OS
-export default function GUI({windowId, children, INSTALLED_APPLICATIONS}){
-    // * useRef to get dynamic AppContent width and height css.
-    const topBarRef = useRef();
-    const botBarRef = useRef();
-    return (
-        <div
-            style = {{
-                position:"relative",
-                width:"100%",
-                height:"100%",
-                display: "flex",
-                flexDirection:"column",
-                justifyContent: "flex-end",
-                backgroundColor: "rgba(255, 255, 255, 0.95)",
-                // backgroundColor: "white"
-                // zIndex: 10
-            }}
-        >
-            {/* <MenuBar menuItems={menuItems} /> */}
-            {/* {children} */}
-            {/* <WindowManagerRenderer.Hidden id={windowId}/> */}
-            <TopBar menuItems={menuItems}/>
-            <AppContent 
-                style={{
-                    backgroundColor: "pink",
-                    zIndex:"1",
-                    position:"relative",
-                    width:"90%",
-                    height:"90%",
-                    border:"1px solid green",
-                    overflow: "clip", //hidden
-                }}
-            >
-                {/* {children} */}
-                {/* <div style={{backgroundColor:"blue", width:"100%", height:"100%"}}></div> */}
-                <RenderChildrenWindows id={windowId} INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}/>
-            </AppContent>
-            <BotBar windowId={windowId}/>
-        </div>
-    )
-}
 const menuItems = [
   {
     label: "File",
@@ -114,6 +70,55 @@ const menuItems = [
     ],
   },
 ];
+// ! Create Context for INSTALLED APPLICATION.
+// ! Create createStore hooks for OS
+export default function GUI({windowId, children, INSTALLED_APPLICATIONS}){
+
+    return (
+        <div
+            style = {{
+                position:"relative",
+                width:"100%",
+                height:"100%",
+                display: "flex",
+                flexDirection:"column",
+                justifyContent: "flex-start", // <- updated from "flex-end"
+
+                backgroundColor: "rgba(255, 255, 255, 0.95)",
+                // backgroundColor: "white"
+                // zIndex: 10
+            }}
+        >
+            <div
+                style={{ 
+                    width: "100%", 
+                }}
+            >
+                <MenuBar menuItems={menuItems} />
+            </div>
+            <div 
+                style={{
+                    flex: 1, 
+                    backgroundColor: "pink",
+                    zIndex:"1",
+                    position:"relative",
+                    width:"100%",
+                    // height:`calc( 100% - ${topBarHeight}px )`,
+                    border:"1px solid green",
+                    overflow: "clip", //hidden
+                }}
+            >
+                {/* {children} */}
+                <div style={{backgroundColor:"white", width:"100%", height:"100%"}}></div>
+                <RenderChildrenWindows id={windowId} INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}/>
+            </div>
+            <div style={{ width: '100%' }}>
+                <HiddenWindows id={windowId}/>
+            </div>
+        </div>
+    )
+}
+
 
 export function AppWindowFrame({windowId, children, ...props}){
     return (
@@ -130,36 +135,14 @@ export function AppWindowFrame({windowId, children, ...props}){
                 // zIndex: 10
             }}
         >
-            <TopBar menuItems={menuItems}/>
-            <AppContent 
-                style={{
 
-                }}
+            <div
             >
                 {children}
-            </AppContent>
-            <BotBar windowId={windowId}/>
-        </div>
-    )
-}
-function TopBar({windowId, applicationId,  menuItems }){
-    return (
-        <MenuBar menuItems={menuItems} />
-    )
-}
-function BotBar({windowId, applicationId}){
-    return (
-        <div>
-            {/* <WindowManagerRenderer.Hidden id={windowId}/> */}
-        </div>
-    )
-}
-function AppContent({style, children}){
-    return (
-        <div
-            style={style}
-        >
-            {children}
+            </div>
+            <div>
+                <HiddenWindows id={windowId}/>
+            </div>
         </div>
     )
 }

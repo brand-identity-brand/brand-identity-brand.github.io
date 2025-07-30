@@ -3,7 +3,7 @@ import { createWindowsStore } from "../OS/kernel/useWindowsStore"
 
 
 
-export const APPS = {
+const APPS = {
     "Kernel":{
         Component: "Kernel",
         props: {

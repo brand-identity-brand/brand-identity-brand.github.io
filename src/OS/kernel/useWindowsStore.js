@@ -1,6 +1,4 @@
 import { create } from 'zustand';
-// const window = useWindowsStore((state) => state.windows[id]);
-// const registerChildWindow = useWindowStore((state)=> state.registerChildWindow);
 import { useCallback } from 'react';
 
 // ! ---------new-----------
