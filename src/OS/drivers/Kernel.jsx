@@ -50,7 +50,7 @@ export default function Kernel({children,applicationId,windowId,INSTALLED_APPLIC
                 height: "100%"
             }}
         >
-            <RenderChildrenWindows id={windowId} INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}/>
+            <RenderChildrenWindows id={windowId} INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS} WindowComponent={DefaultWindowComponent}/>
         </div>
         
     </>)
@@ -66,4 +66,19 @@ function StorePrinter({state, message=(key, state)=>`${key} ${ JSON.stringify(st
         }
     })
     return res;
+}
+
+function DefaultWindowComponent({children, zIndex, style, ...props}){
+    return (
+        <div {...props}
+            style={{
+                position: "fixed",
+                width: "100%",
+                height: "100%"
+                // zIndex:zIndex
+            }}
+        >
+            {children}
+        </div>
+    )
 }

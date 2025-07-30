@@ -2,8 +2,15 @@ import { ZapIcon } from "lucide-react";
 import { MenuBar } from "../OS/drivers/MenuBar"
 import { WindowManagerRenderer } from "../OS/drivers/WindowManagerRenderer"
 import { RenderChildrenWindows } from "../OS/drivers/WindowManagerRenderer";
+
+import { useRef } from "react"
+
+// ! Create Context for INSTALLED APPLICATION.
+// ! Create createStore hooks for OS
 export default function GUI({windowId, children, INSTALLED_APPLICATIONS}){
-    
+    // * useRef to get dynamic AppContent width and height css.
+    const topBarRef = useRef();
+    const botBarRef = useRef();
     return (
         <div
             style = {{
@@ -27,14 +34,14 @@ export default function GUI({windowId, children, INSTALLED_APPLICATIONS}){
                     backgroundColor: "pink",
                     zIndex:"1",
                     position:"relative",
-                    width:"90%",
-                    height:"90%",
+                    width:"100%",
+                    height:"100%",
                     border:"1px solid green",
                     overflow: "clip", //hidden
                 }}
             >
                 {/* {children} */}
-                <div style={{backgroundColor:"blue", width:"100%", height:"100%"}}></div>
+                {/* <div style={{backgroundColor:"blue", width:"100%", height:"100%"}}></div> */}
                 <RenderChildrenWindows id={windowId} INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}/>
             </AppContent>
             <BotBar windowId={windowId}/>
