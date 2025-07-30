@@ -1,4 +1,10 @@
 - import { ApplicationsRenderer }
 it will consume applications from appliationStore
 
-you will 
+- add multi winodow logic to. start button. 
+- defaults on "cpu" , the app display panel show cpu app
+- clicking on start button will show a drop-up menu
+    - this menu is an array of BotBar. each BotBar is a menu item.
+    - this means users can toggle to see all child windows. 
+    - the child windows will minimise to their corresponding BotBar
+    - the child windows will render together in the same layer
