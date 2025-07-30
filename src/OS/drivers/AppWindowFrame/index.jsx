@@ -237,6 +237,7 @@ export default function AppWindowFrame({children, ...props}){
 
               {configure.auto.WindowsController &&
                 <FillRectContainer>
+                  {/* //TODO: turn this into spereate hidden and active. hidden list are shown by defult, while active is collapsed to the right side. */}
                   <ChildrenWindowsControllerRenderer id={windowId}/>
                 </FillRectContainer>
               }

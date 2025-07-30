@@ -209,12 +209,17 @@ export function useWindowsHooks(windowsStore){
                 }
             };
         },
-
+        useWindowsContollers: function (){
+            const registerWindow = useWindowsStore((s)=>s.registerWindow);
+            const registerChildWindow  = useWindowsStore((s)=>s.registerChildWindow);
+            return {
+                registerWindow,
+                registerChildWindow
+            }
+        },
         // * this returns the target id window contollers
         // * they are mutators for the window state.
         useWindowContollers: function useWindowContollers({id}){
-            const registerWindow = useWindowsStore((s)=>s.registerWindow);
-            const registerChildWindow  = useWindowsStore((s)=>s.registerChildWindow);
             const liftChildWindow  = useWindowsStore((s)=>s.liftChildWindow);
             const closeChildWindow  = useWindowsStore((s)=>s.closeChildWindow);
             const hideChildWindow = useWindowsStore((s)=>s.hideChildWindow);
@@ -222,8 +227,6 @@ export function useWindowsHooks(windowsStore){
         // liftChildWindow: useCallback( (childId)=>liftChildWindow({id,childId}), [liftChildWindow, id]),
         // closeChildWindow: useCallback( (childId) => closeChildWindow({id,childId}) ,[closeChildWindow, id] ),
             return {
-                registerWindow,
-                registerChildWindow,
                 liftChildWindow: useCallback((childId)=>{
                     liftChildWindow({id,childId});
                     console.log("liftChildenWindow: {parent, child}", {id, childId})

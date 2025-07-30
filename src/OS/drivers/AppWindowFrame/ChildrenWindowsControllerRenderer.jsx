@@ -14,16 +14,29 @@ export default function ChildrenWindowsControllerRenderer({id, Component=Button}
     return (
         <>
             {/* //Todo: AA get click to work. needs to mutatable windwo.children.actives */}
+            {hidden.map( childId => {
+                const style = {
+                    backgroundColor: "white"
+                };
+                return (
+                    <Component key={childId}
+                        style={style}
+                        onClick={()=>{
+                            // Click needs to remove id from hidden
+                            unhideChildWindow(childId)
+                            liftChildWindow(childId)
+                        }}
+                    >
+                        {`${windows[childId].props.title}`}
+                    </Component>
+                )
+            })}
             {active.map( childId => {
                 const isWindowHidden = hidden.includes(childId);
-                const style = isWindowHidden
-                    ? {
-                        backgroundColor: "white"
-                    }
-                    : {
-                        backgroundColor: "green"
-                    }
-                ;
+                if ( isWindowHidden ) return;
+                const style = {
+                    backgroundColor: "green"
+                };
                 return (
                     <Component key={childId}
                         style={style}
