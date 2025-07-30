@@ -1,3 +1,4 @@
+import useKernelContext from "../kernel/useKernelContext";
 import RenderChildrenWindows from "./RenderChildrenWindow";
 export default function Kernel({children,applicationId,windowId,INSTALLED_APPLICATIONS,...props}){
     const {
@@ -5,7 +6,10 @@ export default function Kernel({children,applicationId,windowId,INSTALLED_APPLIC
         message,
     } = props;
     
-
+    const { hooks } = useKernelContext();
+    const windows = hooks.windows.useWindowsState();
+    const apps  = hooks.apps.useApplicationsState();
+    console.log(windows,apps)
     return (<>
         <div 
             style={{
@@ -19,18 +23,18 @@ export default function Kernel({children,applicationId,windowId,INSTALLED_APPLIC
             <div>
                 {`os ${message}`}
             </div>
-            {/* <div style={{borderTop:"20px solid black"}}/>
+            <div style={{borderTop:"20px solid black"}}/>
             <div>
-                {StorePrinter({state: applications.state}).map(application => {
+                {StorePrinter({state: apps}).map(application => {
                     return <div key={application.id}>{application.message}</div>
                 })}
             </div>
             <div style={{borderTop:"20px solid black"}}/>
             <div>
-                {StorePrinter({state: windows.state}).map(window => {
+                {StorePrinter({state: windows}).map(window => {
                     return <div key={window.id}>{window.message}</div>
                 })}
-            </div> */}
+            </div>
         </div>
         <div
             style={{

@@ -182,6 +182,10 @@ export function useWindowsHooks(windowsStore){
     const useWindowsStore = windowsStore;
 
     return {
+        useWindowsState: function useWindowsState(){
+            const windows = useWindowsStore((s)=>s.windows);
+            return windows;
+        },
         useWindowState: function useWindowState({id}){
             const windows = useWindowsStore((s)=>s.windows);
             //! dif by reference. select all refrence space one by one, as that is the only way to select reference in js. 

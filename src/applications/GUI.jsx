@@ -1,6 +1,5 @@
-import { ZapIcon } from "lucide-react";
 import { MenuBar } from "../OS/drivers/MenuBar"
-// import { WindowManagerRenderer } from "../OS/drivers/WindowManagerRenderer"
+
 import RenderChildrenWindows from "../OS/drivers/RenderChildrenWindow";
 
 import { useRef } from "react"

@@ -1,8 +1,7 @@
-import { createContext } from "react";
-import { useWindowsHooks } from "./useWindowsStore";
-import { useAppsHooks } from "./useApplicationsStore";
+import { useWindowsHooks } from "../kernel/useWindowsStore";
+import { useAppsHooks } from "../kernel/useApplicationsStore";
+import { KernelContext } from "../kernel/useKernelContext";
 
-export const KernelContext = createContext(null);
 
 export function KernelProvider({children, ...props}){
     const {

@@ -49,9 +49,11 @@ export function createAppsStore(applications){
 export function useAppsHooks(appsStore){
     const useApplicationsStore = appsStore;
     return {
+        useApplicationsState: function useApplicationsState(){
+            const applications = useApplicationsStore((s)=>s.applications);
+            return applications
+        },
         useApplicationState: function useApplicationState({id}){
-            console.log(id)
-            // const application = useWindowsStore((s)=>s.applications[id]);
             const Component = useApplicationsStore((s)=>s.applications[id].Component);
             const props = useApplicationsStore((s)=>s.applications[id].props);
             

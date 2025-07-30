@@ -3,9 +3,11 @@ import reactLogo from '/react.svg';
 import './App.css';
 // * OS const
 import INSTALLED_APPLICATIONS from './applications/registry';
+import { windowsStore, appsStore } from './applications/store';
+
 import OS from './OS';
 
-import { windowsStore, appsStore } from './applications/store';
+
 
 function App() {
   return (
