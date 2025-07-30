@@ -228,7 +228,10 @@ export function useWindowsHooks(windowsStore){
                     liftChildWindow({id,childId});
                     console.log("liftChildenWindow: {parent, child}", {id, childId})
                 },[liftChildWindow, id]),
-                closeChildWindow,
+                closeChildWindow: useCallback((childId)=>{
+                    closeChildWindow({id,childId});
+                    console.log("closeChildWindow: {parent, child}", {id, childId})
+                },[closeChildWindow, id]),
                 hideChildWindow: useCallback((childId)=>{
                     hideChildWindow({id,childId});
                     console.log("hideChildWindow: {parent, child}", {id, childId})
