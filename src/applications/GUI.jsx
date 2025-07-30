@@ -1,7 +1,7 @@
 import { ZapIcon } from "lucide-react";
 import { MenuBar } from "../OS/drivers/MenuBar"
-import { WindowManagerRenderer } from "../OS/drivers/WindowManagerRenderer"
-import { RenderChildrenWindows } from "../OS/drivers/WindowManagerRenderer";
+// import { WindowManagerRenderer } from "../OS/drivers/WindowManagerRenderer"
+import RenderChildrenWindows from "../OS/drivers/RenderChildrenWindow";
 
 import { useRef } from "react"
 
@@ -34,8 +34,8 @@ export default function GUI({windowId, children, INSTALLED_APPLICATIONS}){
                     backgroundColor: "pink",
                     zIndex:"1",
                     position:"relative",
-                    width:"100%",
-                    height:"100%",
+                    width:"90%",
+                    height:"90%",
                     border:"1px solid green",
                     overflow: "clip", //hidden
                 }}
@@ -151,7 +151,7 @@ function TopBar({windowId, applicationId,  menuItems }){
 function BotBar({windowId, applicationId}){
     return (
         <div>
-            <WindowManagerRenderer.Hidden id={windowId}/>
+            {/* <WindowManagerRenderer.Hidden id={windowId}/> */}
         </div>
     )
 }

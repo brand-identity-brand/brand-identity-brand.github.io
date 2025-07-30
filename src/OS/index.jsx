@@ -1,13 +1,20 @@
-import { WindowManagerRenderer } from "./drivers/WindowManagerRenderer"
 import ApplicationManagerRenderer from "./drivers/ApplicationManagerRenderer"
-import { RenderChildrenWindows } from "./drivers/WindowManagerRenderer";
+import { KernelProvider } from "./kernel/KernelContext"
 
-export default function OS({INSTALLED_APPLICATIONS}){
+
+export default function OS({INSTALLED_APPLICATIONS, windowsStore, appsStore}){
     return (
-        <ApplicationManagerRenderer 
-            id={"Kernel"}
-            windowId={"Kernel"}
+        <KernelProvider
             INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}
-        />
+            windowsStore={windowsStore}
+            appsStore={appsStore}
+        >
+            <ApplicationManagerRenderer 
+                id={"Kernel"}
+                windowId={"Kernel"}
+                // INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}
+            />
+        </KernelProvider>
+
     )
 }

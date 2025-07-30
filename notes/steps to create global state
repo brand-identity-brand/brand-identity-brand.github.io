@@ -1,0 +1,5 @@
+have the global state hard coded.
+use the most organise and obvious ways to use that state. need some form of structure here. from the state itself. how would you like to manage it? how would you like to manage the data in a database kind of thinking
+then when you work from the user side. you know what should be at the top level of data. you know what are true constants, what are constants created during runtime. You know what needs to be declare and where.
+start coding as if your dream hook exists.
+then go back to the state files to create those hooks

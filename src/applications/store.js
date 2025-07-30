@@ -1,3 +1,8 @@
+import { createAppsStore } from "../OS/kernel/useApplicationsStore";
+import { createWindowsStore } from "../OS/kernel/useWindowsStore"
+
+
+
 export const APPS = {
     "Kernel":{
         Component: "Kernel",
@@ -24,7 +29,7 @@ export const APPS = {
     },
 }
 
-export const WINDOWS = {
+const WINDOWS = {
     "Kernel":{
         applicationId: "Kernel",
         props: {
@@ -96,3 +101,7 @@ export const WINDOWS = {
         },
     }
 }
+
+
+export const windowsStore = createWindowsStore(WINDOWS);
+export const appsStore = createAppsStore(APPS)

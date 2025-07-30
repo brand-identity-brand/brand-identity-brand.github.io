@@ -1,22 +1,11 @@
-import { useOsState as useApplicationsState } from "../kernel/useApplicationsStore";
-import { useOsState as useWindowsState } from "../kernel/useWindowsStore";
- import { APPS, WINDOWS } from "../../applications/store";
-import { useEffect } from "react";
-import { RenderChildrenWindows } from "./WindowManagerRenderer";
+import RenderChildrenWindows from "./RenderChildrenWindow";
 export default function Kernel({children,applicationId,windowId,INSTALLED_APPLICATIONS,...props}){
     const {
         // passed via windowsStore
         message,
     } = props;
     
-    const applications = useApplicationsState();
-    const windows = useWindowsState();
 
-    useEffect(()=>{
-        applications.setInitialState(APPS);
-        windows.setInitialState(WINDOWS);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
     return (<>
         <div 
             style={{
@@ -30,7 +19,7 @@ export default function Kernel({children,applicationId,windowId,INSTALLED_APPLIC
             <div>
                 {`os ${message}`}
             </div>
-            <div style={{borderTop:"20px solid black"}}/>
+            {/* <div style={{borderTop:"20px solid black"}}/>
             <div>
                 {StorePrinter({state: applications.state}).map(application => {
                     return <div key={application.id}>{application.message}</div>
@@ -41,7 +30,7 @@ export default function Kernel({children,applicationId,windowId,INSTALLED_APPLIC
                 {StorePrinter({state: windows.state}).map(window => {
                     return <div key={window.id}>{window.message}</div>
                 })}
-            </div>
+            </div> */}
         </div>
         <div
             style={{

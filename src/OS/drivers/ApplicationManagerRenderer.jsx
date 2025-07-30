@@ -1,13 +1,19 @@
-import { useApplicationState } from "../kernel/useApplicationsStore";
-// import { RenderChildrenWindows } from "./WindowManagerRenderer";
+// import RenderChildrenWindows from "./WindowManagerRenderer";
 import Kernel from "./Kernel";
 import GUI from "./GUI";
+import useKernelContext from "../kernel/useKernelContext";
+
 export default function ApplicationManagerRenderer({...props}){
     const {
         id, //"Kernel"
         windowId, //"Kernel"
-        INSTALLED_APPLICATIONS,
     } = props;
+    // const 
+    
+    const {
+        INSTALLED_APPLICATIONS,
+        hooks
+    } = useKernelContext();
 
     const applicationRegistry = {
         Kernel,
@@ -15,13 +21,13 @@ export default function ApplicationManagerRenderer({...props}){
         ...INSTALLED_APPLICATIONS
     };
 
-    const applicationState = useApplicationState({id});
+    const applicationState = hooks.apps.useApplicationState({id});
 
     const {
         Component,
         props: applicationProps
     } = applicationState;
-    
+
     const Application = applicationRegistry[Component];
 
     return (
