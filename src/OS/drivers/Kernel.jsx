@@ -2,13 +2,10 @@ import { useOsState as useApplicationsState } from "../kernel/useApplicationsSto
 import { useOsState as useWindowsState } from "../kernel/useWindowsStore";
  import { APPS, WINDOWS } from "../../applications/store";
 import { useEffect } from "react";
-export default function OS({...props}){
+export default function Kernel({children,...props}){
     const {
         // passed via windowsStore
         message,
-        // passed via WindowManagerRenderer. 
-        // ! all Window needs this prop for the recursion to work
-        renderChildrenWindow, 
     } = props;
     
     const applications = useApplicationsState();
@@ -28,7 +25,7 @@ export default function OS({...props}){
             }}
         >
             <div>
-                {`os message: ${message}`}
+                {`os ${message}`}
             </div>
             <div style={{borderTop:"20px solid black"}}/>
             <div>
@@ -42,7 +39,9 @@ export default function OS({...props}){
                     return <div key={window.id}>{window.message}</div>
                 })}
             </div>
-            {renderChildrenWindow()}
+            <div>
+                {children}
+            </div>
         </div>
     )
 }

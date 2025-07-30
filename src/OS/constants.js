@@ -1,8 +1,8 @@
 // * OS const
-export const OS = "OS";
+export const OS = "Kernel";
 export const ROOT_APPLICATIONS = {
-    "OS":{
-        Component: "OS",
+    [OS]:{
+        Component: OS,
         props: {
             message: "loaded"
         }
@@ -22,8 +22,8 @@ export const ROOT_APPLICATIONS = {
 }
 
 export const ROOT_WINDOWS = {
-    "OS":{
-        applicationId: "OS",
+    [OS]:{
+        applicationId: OS,
         props: {
         },
         children: {
@@ -49,7 +49,7 @@ export const ROOT_WINDOWS = {
     },
 }
 const zIndexes = {
-    OS: -2,
+    [OS]: -2,
     GUI: 1,
 }
 export default function getOSConstants(CONSTANTS){

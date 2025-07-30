@@ -3,6 +3,7 @@ import { OS } from "../constants";
 import Window from "./Window";
 import { useWindowsStore, useWindowContollers } from "../kernel/useWindowsStore";
 import HiddenWindows from "./HiddenWindows";
+import ApplicationManagerRenderer from "./ApplicationManagerRenderer";
 
 function DefaultWindowComponent({children, zIndex, style, ...props}){
     return (
@@ -137,7 +138,8 @@ function RenderHiddenWindows({id}){
 }
 WindowManagerRenderer.Hidden = RenderHiddenWindows;
 
-export function RenderChildrenWindows({id, WindowComponent}){
+export function RenderChildrenWindows({id, INSTALLED_APPLICATIONS, WindowComponent=Window}){
+    console.log(id, INSTALLED_APPLICATIONS)
     const {
         liftChildWindow,
         closeChildWindow,
@@ -174,7 +176,7 @@ export function RenderChildrenWindows({id, WindowComponent}){
                 }
             };
 
-            const  { props: windowProps}  = useWindowState({id: childId });
+            const  { applicationId, props: windowProps}  = useWindowState({id: childId });
 
             const isWindowHidden = hidden.includes(childId);
             const generatedProps = {
@@ -187,10 +189,13 @@ export function RenderChildrenWindows({id, WindowComponent}){
                     {...generatedProps}
                     // parentId={id} 
                     // id={childId} 
-                    // WindowComponent={WindowComponent}
-                    // * render function
-                    // renderApplication={renderApplication}
-                />
+                >
+                    <ApplicationManagerRenderer
+                        id ={applicationId}
+                        windowId ={childId}
+                        INSTALLED_APPLICATIONS ={INSTALLED_APPLICATIONS}
+                    />
+                </WindowComponent>
             )
         })}
     </>)

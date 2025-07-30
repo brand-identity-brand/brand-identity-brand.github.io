@@ -1,6 +1,6 @@
 export const APPS = {
-    "OS":{
-        Component: "OS",
+    "Kernel":{
+        Component: "Kernel",
         props: {
             message: "loaded",
         }
@@ -24,10 +24,10 @@ export const APPS = {
 }
 
 export const WINDOWS = {
-    "OS":{
-        applicationId: "OS",
+    "Kernel":{
+        applicationId: "Kernel",
         props: {
-            title: "OS"
+            title: "Kernel"
         },
         children: {
             active: ["GUI"], // all children window ids

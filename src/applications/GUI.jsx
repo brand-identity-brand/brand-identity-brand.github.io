@@ -1,7 +1,7 @@
 import { MenuBar } from "../OS/drivers/MenuBar"
 import { WindowManagerRenderer } from "../OS/drivers/WindowManagerRenderer"
-
-export default function GUI({windowId, renderChildrenWindow, children}){
+import { RenderChildrenWindows } from "../OS/drivers/WindowManagerRenderer";
+export default function GUI({windowId, children}){
     
     return (
         <div
@@ -14,8 +14,8 @@ export default function GUI({windowId, renderChildrenWindow, children}){
                 display: "flex",
                 flexDirection:"column",
                 justifyContent: "flex-end",
-                // backgroundColor: "rgba(255, 255, 255, 0.73)",
-                backgroundColor: "white"
+                backgroundColor: "rgba(255, 255, 255, 0.73)",
+                // backgroundColor: "white"
                 // zIndex: 10
             }}
         >
@@ -29,7 +29,7 @@ export default function GUI({windowId, renderChildrenWindow, children}){
                 }}
             >
                 {children}
-                {renderChildrenWindow()}
+                <RenderChildrenWindows id={windowId} />
             </AppContent>
             <BotBar windowId={windowId}/>
         </div>

@@ -1,16 +1,15 @@
 import { useApplicationState } from "../kernel/useApplicationsStore";
-
-import OS from "./OS";
+import { RenderChildrenWindows } from "./WindowManagerRenderer";
+import Kernel from "./Kernel";
 import GUI from "./GUI";
 export default function ApplicationManagerRenderer({...props}){
     const {
         id,
         windowId,
         INSTALLED_APPLICATIONS,
-        renderChildrenWindow
     } = props;
     const applicationRegistry = {
-        OS,
+        Kernel,
         GUI,
         ...INSTALLED_APPLICATIONS
     };
@@ -24,6 +23,24 @@ export default function ApplicationManagerRenderer({...props}){
     const Application = applicationRegistry[Component];
 
     return (
-        <Application {...applicationProps} windowId={windowId} renderChildrenWindow={renderChildrenWindow}/>
+        <Application {...applicationProps} applicationId={id} windowId={windowId}>
+            {/* this is children */}
+            {/* use props.children as children.active */}
+            <RenderChildrenWindows id={windowId} INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}/>
+            {/* //WindowComponent={DefaultWindowComponent}/> */}
+        </Application>
     )
 }
+function DefaultWindowComponent({children, zIndex, style, ...props}){
+    return (
+        <div {...props}
+            style={{
+                ...style,
+                // zIndex:zIndex
+            }}
+        >
+            {children}
+        </div>
+    )
+}
+// ! use Context to pass INSTALLED_APPLICATIONS
