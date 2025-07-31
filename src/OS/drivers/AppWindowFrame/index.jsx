@@ -122,6 +122,7 @@ export function generateConfig(config){
     },
     bot: {
       use: config?.bot?.use ?? true,
+      //TODO: support multiple bars
       renderers:  config?.bot?.renderers 
         ? config.bot.renderers.map((item)=>({
           Component: Containers[item.componentName],
@@ -135,6 +136,12 @@ export function generateConfig(config){
     }
   }
 }
+const ep  = () =>  ({
+    windowId: "",
+    config: generateConfig(config)
+  }
+)
+
 export default function AppWindowFrame({children, ...props}){
     const {
       windowId,
