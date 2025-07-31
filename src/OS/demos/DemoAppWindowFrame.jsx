@@ -4,6 +4,9 @@ import { useAppsHooks } from "../kernel/useApplicationsStore";
 import { useWindowsHooks } from "../kernel/useWindowsStore";
 import useKernelContext from "../kernel/useKernelContext";
 import initAppIntoWindow, { useInitAppIntoWindowHook } from "../events/initAppIntoWindow";
+import ChildrenWindowsControllerRenderer from "../drivers/AppWindowFrame/ChildrenWindowsControllerRenderer";
+import ChildrenWindowsRenderer from "../drivers/ChildrenWindowsRenderer";
+
 const config = generateConfig({
     top: {
         renderer: []
@@ -18,12 +21,45 @@ export default function DemoAppWindowFrame(props){
         windowId,
         message
     } = props;
-
     return (
-        <AppWindowFrame windowId={windowId} config={config}>
-            <div>
-                props.message: {message}
-            </div>
+        <AppWindowFrame
+            windowId={windowId}
+            config={config}
+        >
+            {/* <div>
+                prop.message: {message}
+            </div> */}
+            <AppWindowFrame.Top>
+                {/* <MenuBar menuItems={menuItems}/> */}
+            </AppWindowFrame.Top>
+            <AppWindowFrame.Mid>
+              <div 
+                style={{
+                  backgroundColor:"white", 
+                  width:"100%", 
+                  height:"100%", 
+                  top: 0, left: 0, 
+                  position:"absolute"
+                }}
+              >
+                {/* {children} */}
+              </div>
+          
+              <ChildrenWindowsRenderer id={windowId}/>
+            </AppWindowFrame.Mid>
+            <AppWindowFrame.Bot>
+                <AppWindowFrame.Bot.Square >
+                    <DemoAppWindowFrame.Icon windowId={windowId} />
+                </AppWindowFrame.Bot.Square>
+                <AppWindowFrame.Bot.Border/>
+                {/* <AppWindowFrame.Bot.FillRect>
+                    <DemoAppWindowFrame.Icon windowId={windowId} />
+                </AppWindowFrame.Bot.FillRect> */}
+                <AppWindowFrame.Bot.FillRect>
+                    {/* <DemoAppWindowFrame.Icon windowId={windowId} /> */}
+                    <ChildrenWindowsControllerRenderer id={windowId} />
+                </AppWindowFrame.Bot.FillRect>
+            </AppWindowFrame.Bot> 
         </AppWindowFrame>
     )
 }

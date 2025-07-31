@@ -2,6 +2,78 @@ import AppWindowFrame from "./AppWindowFrame";
 import { generateConfig } from "./AppWindowFrame";
 import DemoAppWindowFrame from "../demos/DemoAppWindowFrame";
 import { Cpu } from "lucide-react";
+import MenuBar from "./MenuBar";
+import ChildrenWindowsRenderer from "./ChildrenWindowsRenderer";
+import ChildrenWindowsControllerRenderer from "./AppWindowFrame/ChildrenWindowsControllerRenderer";
+
+
+const menuItems = [
+  {
+    label: "File",
+    items: [
+      {
+        label: "New",
+        action: () => alert("New File"),
+      },
+      {
+        label: "Open",
+        items: [
+          {
+            label: "Project",
+            action: () => alert("Open Project"),
+          },
+          {
+            label: "Workspace",
+            action: () => alert("Open Workspace"),
+          },
+        ],
+      },
+      {
+        label: "Exit",
+        action: () => alert("Exiting..."),
+      },
+    ],
+  },
+  {
+    label: "Edit",
+    items: [
+      {
+        label: "Undo",
+        action: () => alert("Undo"),
+      },
+      {
+        label: "Redo",
+        action: () => alert("Redo"),
+      },
+      {
+        label: "Preferences",
+        items: [
+          {
+            label: "Theme",
+            action: () => alert("Change Theme"),
+          },
+          {
+            label: "Shortcuts",
+            action: () => alert("Edit Shortcuts"),
+          },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Help",
+    items: [
+      {
+        label: "Documentation",
+        action: () => window.open("https://example.com/docs", "_blank"),
+      },
+      {
+        label: "About",
+        action: () => alert("This is a sample menu."),
+      },
+    ],
+  },
+];
 const config = (windowId) => generateConfig({
     top: { use: false },
     bot: {
@@ -27,10 +99,40 @@ export default function GUI({windowId, message}){
             windowId={windowId}
             config={config(windowId)}
         >
-            <div>
+            {/* <div>
                 prop.message: {message}
-            </div>
+            </div> */}
+            <AppWindowFrame.Top>
+                <MenuBar menuItems={menuItems}/>
+            </AppWindowFrame.Top>
+            <AppWindowFrame.Mid>
+              <div 
+                style={{
+                  backgroundColor:"white", 
+                  width:"100%", 
+                  height:"100%", 
+                  top: 0, left: 0, 
+                  position:"absolute"
+                }}
+              >
+                {/* {children} */}
+              </div>
+          
+              <ChildrenWindowsRenderer id={windowId}/>
+            </AppWindowFrame.Mid>
+            <AppWindowFrame.Bot>
+                <AppWindowFrame.Bot.Square >
+                     <Cpu />
+                </AppWindowFrame.Bot.Square>
+                <AppWindowFrame.Bot.Border/>
+                <AppWindowFrame.Bot.FillRect>
+                    <DemoAppWindowFrame.Icon windowId={windowId} />
+                </AppWindowFrame.Bot.FillRect>
+                <AppWindowFrame.Bot.FillRect>
+                    {/* <DemoAppWindowFrame.Icon windowId={windowId} /> */}
+                    <ChildrenWindowsControllerRenderer id={windowId} />
+                </AppWindowFrame.Bot.FillRect>
+            </AppWindowFrame.Bot> 
         </AppWindowFrame>
     )
 }
-

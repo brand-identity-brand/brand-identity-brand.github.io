@@ -1,78 +1,8 @@
 import ChildrenWindowsControllerRenderer from "./ChildrenWindowsControllerRenderer";
-import MenuBar from "../MenuBar";
-import ChildrenWindowsRenderer from "../ChildrenWindowsRenderer";
-const menuItems = [
-  {
-    label: "File",
-    items: [
-      {
-        label: "New",
-        action: () => alert("New File"),
-      },
-      {
-        label: "Open",
-        items: [
-          {
-            label: "Project",
-            action: () => alert("Open Project"),
-          },
-          {
-            label: "Workspace",
-            action: () => alert("Open Workspace"),
-          },
-        ],
-      },
-      {
-        label: "Exit",
-        action: () => alert("Exiting..."),
-      },
-    ],
-  },
-  {
-    label: "Edit",
-    items: [
-      {
-        label: "Undo",
-        action: () => alert("Undo"),
-      },
-      {
-        label: "Redo",
-        action: () => alert("Redo"),
-      },
-      {
-        label: "Preferences",
-        items: [
-          {
-            label: "Theme",
-            action: () => alert("Change Theme"),
-          },
-          {
-            label: "Shortcuts",
-            action: () => alert("Edit Shortcuts"),
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Help",
-    items: [
-      {
-        label: "Documentation",
-        action: () => window.open("https://example.com/docs", "_blank"),
-      },
-      {
-        label: "About",
-        action: () => alert("This is a sample menu."),
-      },
-    ],
-  },
-];
-import DemoAppWindowFrame from "../../demos/DemoAppWindowFrame";
-import { Fragment } from "react";
+import { createContext, Fragment, useContext } from "react";
 var Containers = {
-  Square: SquareContainer,
-  FillRect: FillRectContainer
+  Square: AppWindowFrame.Bot?.Square,
+  FillRect: AppWindowFrame.Bot?.FillRect
 }
 var generateDefaultConfig = (windowId) =>( {
   auto: { WindowsController: true },
@@ -136,12 +66,14 @@ export function generateConfig(config){
     }
   }
 }
-const ep  = () =>  ({
-    windowId: "",
-    config: generateConfig(config)
-  }
-)
+// const ep  = () =>  ({
+//     windowId: "",
+//     config: generateConfig(config)
+//   }
+// )
 
+
+const AppWindowFrameContext = createContext(null);
 export default function AppWindowFrame({children, ...props}){
     const {
       windowId,
@@ -153,10 +85,7 @@ export default function AppWindowFrame({children, ...props}){
       : config
     ;
 
-    const topBarHeight = configure.top.use? "22px" : "0px"; 
-    const botBarHieght = configure.bot.use? "40px" : "0px"; 
-
-    return (
+    return (<AppWindowFrameContext.Provider value={{configure}}>
         <div
             style = {{
                 boxSizing: "border-box",
@@ -172,88 +101,113 @@ export default function AppWindowFrame({children, ...props}){
                 // zIndex: 10
             }}
         >
-            <div
-                style={{ 
-                    width: "100%", 
-                    height: topBarHeight
-                }}
-            >
-              
-               <MenuBar menuItems={menuItems} />
-            </div>
-            <div 
-                style={{
-                    // flex: 1, 
-                    zIndex:"1",
-                    position:"relative",
-                    width:"100%",
-                    height:`calc( 100% - ${topBarHeight} - ${botBarHieght} )`,
-                    overflow: "clip", //hidden
-                    // display: 
-                }}
-            >
-                <div 
-                    style={{
-                        backgroundColor:"white", 
-                        width:"100%", 
-                        height:"100%", 
-                        top: 0, left: 0, 
-                        position:"absolute"
-                    }}
-                >
-                    {children}
-                </div>
-            
-                <ChildrenWindowsRenderer id={windowId}/>
-            </div>
-            <div
-              style={{
-                // master behaviours
-                position: "relative",
-                boxSizing: "border-box",
-                // slave behaviours
-                display: "flex",
-                flexDirection:"row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                // values
-                width: '100%', 
-                height: botBarHieght, 
-                // decorations 
-                borderTop: "2px solid black",
-                backgroundColor: "white",
-              }}
-            >
-              {configure.bot.renderers.map((renderer, index )=>{
-                const { 
-                  Component,
-                  border,
-                  children
-                } = renderer;
-
-                return (
-                  <Fragment key={index}>
-                    { border?.left && <Border width="2px" color="grey" /> }
-                    <Component botBarHieght={botBarHieght}>
-                      {children}
-                    </Component>
-                    { border?.right && <Border width="2px" color="grey" /> }
-                  </Fragment>
-                )
-              })}
-
-              {configure.auto.WindowsController &&
-                <FillRectContainer>
-                  {/* //TODO: turn this into spereate hidden and active. hidden list are shown by defult, while active is collapsed to the right side. */}
-                  <ChildrenWindowsControllerRenderer id={windowId}/>
-                </FillRectContainer>
-              }
-            </div>
+          { children }
+            {/* 
+            <AppWindowFrame.Bot>
+              <BotBarItems windowId={windowId} height={botBarHeight} configure={configure}/>
+            </AppWindowFrame.Bot> 
+            */}
         </div>
-    )
+    </AppWindowFrameContext.Provider>)
 }
+AppWindowFrame.Top = function Top({ children}){
+  const { configure } = useContext(AppWindowFrameContext);
+  const height = configure.top.use? "22px" : "0px";
+  return (
+    <div
+      style={{ 
+          width: "100%", 
+          height: height
+      }}
+    >
+      
+      {children}
+    </div>
+  )
+}
+AppWindowFrame.Mid = function Mid({  children}){
+  const { configure } = useContext(AppWindowFrameContext);
+  const topBarHeight = configure.top.use? "22px" : "0px"; 
+  const botBarHeight = configure.bot.use? "40px" : "0px"; 
+  return (
+    <div 
+      style={{
+          // flex: 1, 
+          zIndex:"1",
+          position:"relative",
+          width:"100%",
+          height: `calc( 100% - ${topBarHeight} - ${botBarHeight} )`,
+          overflow: "clip", //hidden
+          // display: 
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+AppWindowFrame.Bot = function Bot({children }){
+  const { configure } = useContext(AppWindowFrameContext);
+  const height = configure.bot.use? "40px" : "0px";
+  return (
+    <div
+      style={{
+        // master behaviours
+        position: "relative",
+        boxSizing: "border-box",
+        // slave behaviours
+        display: "flex",
+        flexDirection:"row",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        // values
+        width: '100%', 
+        height: height,
+        // decorations 
+        borderTop: "2px solid black",
+        backgroundColor: "white",
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+function BotBarItems({windowId}){
+  const { configure } = useContext(AppWindowFrameContext);
+  const height = configure.bot.use? "40px" : "0px";
+  return (<>
+      <RenderWindowButtons renderers={configure.bot.renderers} botBarHeight={height} />
+      {configure.auto.WindowsController &&
+        <FillRectContainer>
+            {/* //TODO: turn this into spereate hidden and active. hidden list are shown by defult, while active is collapsed to the right side. */}
+            <ChildrenWindowsControllerRenderer id={windowId}/>
+        </FillRectContainer>
+      }
+  </>)
+}
+function RenderWindowButtons({renderers, botBarHeight}){
+  return (<>
+    {renderers.map((renderer, index )=>{
+      const { 
+        Component,
+        border,
+        children
+      } = renderer;
 
-function SquareContainer({children, botBarHieght, padding="10px"}){
+      return (
+        <Fragment key={index}>
+          { border?.left && <Border width="2px" color="grey" /> }
+          <Component botBarHeight={botBarHeight}>
+            {children}
+          </Component>
+          { border?.right && <AppWindowFrame.Bot.Border width="2px" color="grey" /> }
+        </Fragment>
+      )
+    })}
+  </>)
+}
+AppWindowFrame.Bot.Square = function SquareContainer({children, padding="10px"}){
+  const { configure } = useContext(AppWindowFrameContext);
+  const height = configure.bot.use? "40px" : "0px";
   return (
     <div
       style={{
@@ -268,8 +222,8 @@ function SquareContainer({children, botBarHieght, padding="10px"}){
         justifyContent: "center",
         alignItems: "center",
         // values 
-        width: botBarHieght, 
-        height: botBarHieght, 
+        width: height,
+        height: height
       }}
     >
       {children}
@@ -277,7 +231,9 @@ function SquareContainer({children, botBarHieght, padding="10px"}){
   )
 }
 
-function FillRectContainer({children, botBarHieght, paddingLR="10px"}){
+AppWindowFrame.Bot.FillRect = function FillRectContainer({children, paddingLR="10px"}){
+  const { configure } = useContext(AppWindowFrameContext);
+  const height = configure.bot.use? "40px" : "0px";
   return (
     <div
       style={{
@@ -296,14 +252,18 @@ function FillRectContainer({children, botBarHieght, paddingLR="10px"}){
         // values 
         // flex: 1,
         // width: "100%", 
-        height: botBarHieght, 
+        height: height,
       }}
     >
       {children}
     </div>
   )
 }
-function Border({width="100%", height="100%", color= "pink"}){
+AppWindowFrame.Bot.Border = function Border({
+  width="2px"/*"100%"*/, 
+  height="100%", 
+  color= "black",//"pink"
+}){
   return <div
     style={{
       // master behaviours
