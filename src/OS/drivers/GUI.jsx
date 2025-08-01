@@ -145,12 +145,14 @@ export default function GUI({windowId, message}){
             {/*
             * //! below  
             */}
-            <TabSystem.Panel id={"Cpu"} style={{position:"relative", height:"40px"}}>
-                <CpuBar windowId={windowId}  tabId={{default:"Cpu", toggleBotBar:"true"}} applicationIds={[]} />
-            </TabSystem.Panel>
-            
-            <TabSystem.Panel  id={"MemoryStick"} style={{position:"relative", height:"40px"}}>
-                <MemoryStickBar windowId={windowId} tabId={{default:"MemoryStick", toggleBotBar:"true"}} applicationIds={["DemoAppWindowFrame"]}/>
+            <TabSystem.Panel id={{toggleBotBar:"false"}} style={{position:"relative", height:"40px"}}>
+                <TabSystem.Panel id={"Cpu"} style={{position:"relative", height:"40px"}}>
+                    <CpuBar windowId={windowId}  tabId={{default:"Cpu", toggleBotBar:"true"}} applicationIds={[]} />
+                </TabSystem.Panel>
+                
+                <TabSystem.Panel  id={"MemoryStick"} style={{position:"relative", height:"40px"}}>
+                    <MemoryStickBar windowId={windowId} tabId={{default:"MemoryStick", toggleBotBar:"true"}} applicationIds={["DemoAppWindowFrame"]}/>
+                </TabSystem.Panel>
             </TabSystem.Panel>
             {/*
             * //! above
