@@ -103,14 +103,15 @@ const config = (windowId) => generateConfig({
             }
         ]
     }
-})
+});
+
 export default function GUI({windowId, message}){
     return (
         <AppWindowFrame
             windowId={windowId}
             config={config(windowId)}
         >
-        <TabSystem initialActiveTabId={"Cpu"}>
+        <TabSystem initialActiveTabId={{default:"Cpu", toggleBotBar:"true"}}>
             <AppWindowFrame.Top>
                 <MenuBar menuItems={menuItems}/>
             </AppWindowFrame.Top>
@@ -126,10 +127,9 @@ export default function GUI({windowId, message}){
                 }}
               >
                 {`{prop.message}: {message}`}
-                <TabSystem.Panel id={"Cpu"}>
+                <TabSystem.Panel id={"Cpu"} style={{position:"relative", width:"100%",height:"50%"}}>
                     <ApplicationManagerRenderer id={"Kernel"} windowId={windowId}/>
                 </TabSystem.Panel>
-                
                 <TabSystem.Panel id={"MemoryStick"}>
                     <ApplicationManagerRenderer id={"MemoryStick"} windowId={windowId}/>
                 </TabSystem.Panel>
@@ -138,11 +138,23 @@ export default function GUI({windowId, message}){
               <ChildrenWindowsRenderer id={windowId}/>
             </AppWindowFrame.Mid>
 
-            <div>
-            {/* <DemoAppWindowFrameBar windowId={windowId} tabId={"MemoryStick"}/> */}
-            <DemoAppWindowFrameBar windowId={windowId} tabId={"MemoryStick"} applicationIds={["DemoAppWindowFrame"]}/>
-            <MasterBar windowId={windowId}  tabId={"Cpu"} applicationIds={[]} />
-            </div>
+            <TabSystem.Panel id={{toggleBotBar:"true"}} style={{position:"relative", height:"80px"}}>
+                <MemoryStickBar windowId={windowId} tabId={{default:"MemoryStick", toggleBotBar:"false"}} applicationIds={["DemoAppWindowFrame"]}/>
+                <CpuBar windowId={windowId}  tabId={{default:"Cpu", toggleBotBar:"false"}} applicationIds={[]} />
+            </TabSystem.Panel>
+            {/*
+            * //! below  
+            */}
+            <TabSystem.Panel id={"Cpu"} style={{position:"relative", height:"40px"}}>
+                <CpuBar windowId={windowId}  tabId={{default:"Cpu", toggleBotBar:"true"}} applicationIds={[]} />
+            </TabSystem.Panel>
+            
+            <TabSystem.Panel  id={"MemoryStick"} style={{position:"relative", height:"40px"}}>
+                <MemoryStickBar windowId={windowId} tabId={{default:"MemoryStick", toggleBotBar:"true"}} applicationIds={["DemoAppWindowFrame"]}/>
+            </TabSystem.Panel>
+            {/*
+            * //! above
+            */}
         </TabSystem>
         </AppWindowFrame>
     )
@@ -151,8 +163,10 @@ export default function GUI({windowId, message}){
 function Start({tabId, children}){
     return (
         <AppWindowFrame.Bot.Square >
-            <TabSystem.Tab id={tabId}>
+            <TabSystem.Tab id={tabId.default}>
+            <TabSystem.Tab id={{toggleBotBar: tabId.toggleBotBar}}>
                 {children}
+            </TabSystem.Tab>
             </TabSystem.Tab>
         </AppWindowFrame.Bot.Square>
     )
@@ -173,22 +187,19 @@ function ChildrenWindowsTogglers({windowId, applicationIds}){
     )
 }
 // * ==usages
-function MasterBar({windowId, tabId, applicationIds}){
+function CpuBar({windowId, tabId, applicationIds}){
     return (
         <AppWindowFrame.Bot>
             <Start tabId={tabId}>
                 <Cpu/>
             </Start>
             <AppWindowFrame.Bot.Border/>
-            {/* <AppTabs>
-                <DemoAppWindowFrame.Icon windowId={windowId} />
-            </AppTabs> */}
             <ChildrenWindowsTogglers windowId={windowId} applicationIds={applicationIds}/>
         </AppWindowFrame.Bot> 
     )
 }
 
-function DemoAppWindowFrameBar({windowId, tabId, applicationIds}){
+function MemoryStickBar({windowId, tabId, applicationIds}){
     return (
         <AppWindowFrame.Bot>
             <Start tabId={tabId}>
@@ -198,6 +209,7 @@ function DemoAppWindowFrameBar({windowId, tabId, applicationIds}){
             <AppTabs>
                 <DemoAppWindowFrame.Icon windowId={windowId} />
             </AppTabs>
+            <AppWindowFrame.Bot.Border/>
             <ChildrenWindowsTogglers windowId={windowId} applicationIds={applicationIds}/>
         </AppWindowFrame.Bot> 
     )
