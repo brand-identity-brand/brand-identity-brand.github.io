@@ -1,6 +1,6 @@
 import { Component } from "lucide-react"
 import Demo from "./demos/Demo"
-import DemoAppWindowFrame from "./demos/DemoAppWindowFrame"
+import DemoAppWindowFrame from "./demos/AppWindowFrame"
 
 export const ROOT_APPS = {
     "Kernel":{

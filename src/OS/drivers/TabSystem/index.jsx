@@ -85,7 +85,9 @@ TabSystem.Tab = function Tab({
     }
     return (
         <Component
-            // className={className}
+            className={
+                css.unselectableText
+            }
             style={{
                 ...( isActive(id, activeTabId) ? {
                     // default css - active

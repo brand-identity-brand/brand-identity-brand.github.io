@@ -7,3 +7,11 @@
     height: 100%;
     width: 100%;
 }
+
+.unselectableText {
+  user-select: none;
+  /* For older browser compatibility, include vendor prefixes: */
+  -webkit-user-select: none; /* Safari, Chrome */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer 10+ */
+}
