@@ -1,10 +1,20 @@
+/**
+ * ! This GUI component is meant to show an example of what a barebones "App" should look like.
+ * ! using AppWindowFrame as the root container
+ * ! using appsStore to manage  presistent states. 
+ * ! using useState to manage runtime states. <- used by Tabs internally, // less common
+ * ! this Component is an example of an erty app. the hub app. homepage. desktop
+ * ! create at least one "App" app. 
+ * ! demo save states glabbally and restore glabally.
+ */
 import AppWindowFrame from "./AppWindowFrame";
 import { generateConfig } from "./AppWindowFrame";
 import DemoAppWindowFrame from "../demos/DemoAppWindowFrame";
-import { Cpu } from "lucide-react";
+import { Cpu, MemoryStick } from "lucide-react";
 import MenuBar from "./MenuBar";
 import ChildrenWindowsRenderer from "./ChildrenWindowsRenderer";
 import ChildrenWindowsControllerRenderer from "./AppWindowFrame/ChildrenWindowsControllerRenderer";
+import TabSystem from "./TabSystem";
 
 
 const menuItems = [
@@ -99,12 +109,11 @@ export default function GUI({windowId, message}){
             windowId={windowId}
             config={config(windowId)}
         >
-            {/* <div>
-                prop.message: {message}
-            </div> */}
+        <TabSystem initialActiveTabId={"Cpu"}>
             <AppWindowFrame.Top>
                 <MenuBar menuItems={menuItems}/>
             </AppWindowFrame.Top>
+
             <AppWindowFrame.Mid>
               <div 
                 style={{
@@ -115,24 +124,100 @@ export default function GUI({windowId, message}){
                   position:"absolute"
                 }}
               >
+                prop.message: {message}
                 {/* {children} */}
+                
+                    
+                    <TabSystem.Panel id={"Cpu"}>
+                        "Cpu"
+                        
+                    </TabSystem.Panel>
+                    
+                    <TabSystem.Panel id={"MemoryStick"}>
+                        "MemoryStick"
+                    </TabSystem.Panel>
+                
               </div>
           
               <ChildrenWindowsRenderer id={windowId}/>
             </AppWindowFrame.Mid>
-            <AppWindowFrame.Bot>
-                <AppWindowFrame.Bot.Square >
-                     <Cpu />
-                </AppWindowFrame.Bot.Square>
-                <AppWindowFrame.Bot.Border/>
-                <AppWindowFrame.Bot.FillRect>
-                    <DemoAppWindowFrame.Icon windowId={windowId} />
-                </AppWindowFrame.Bot.FillRect>
-                <AppWindowFrame.Bot.FillRect>
-                    {/* <DemoAppWindowFrame.Icon windowId={windowId} /> */}
-                    <ChildrenWindowsControllerRenderer id={windowId} />
-                </AppWindowFrame.Bot.FillRect>
-            </AppWindowFrame.Bot> 
+
+            <div>
+            {/* <DemoAppWindowFrameBar windowId={windowId} tabId={"MemoryStick"}/> */}
+            <MasterBar windowId={windowId}  tabId={"Cpu"}/>
+            </div>
+        </TabSystem>
         </AppWindowFrame>
     )
 }
+
+function Start({tabId, children}){
+    return (
+        <AppWindowFrame.Bot.Square >
+            <TabSystem.Tab id={tabId}>
+                {children}
+            </TabSystem.Tab>
+        </AppWindowFrame.Bot.Square>
+    )
+}
+function AppTabs({windowId, children}){
+    return (
+        <AppWindowFrame.Bot.FillRect>
+            {/* <DemoAppWindowFrame.Icon windowId={windowId} /> */}
+            {children}
+        </AppWindowFrame.Bot.FillRect>
+    )
+}
+function ChildrenWindowsTogglers({windowId}){
+    return (
+        <AppWindowFrame.Bot.FillRect>
+            <ChildrenWindowsControllerRenderer id={windowId} />
+        </AppWindowFrame.Bot.FillRect>
+    )
+}
+function MasterBar({windowId, tabId="Cpu"}){
+    return (
+        <AppWindowFrame.Bot>
+            <Start tabId={"Cpu"}>
+                <Cpu/>
+            </Start>
+            <AppWindowFrame.Bot.Border/>
+            <AppTabs>
+                <DemoAppWindowFrame.Icon windowId={windowId} />
+            </AppTabs>
+            <ChildrenWindowsTogglers windowId={windowId}/>
+        </AppWindowFrame.Bot> 
+    )
+}
+
+function DemoAppWindowFrameBar({windowId, tabId}){
+    return (
+        <AppWindowFrame.Bot>
+            <Start tabId={"Cpu"}>
+                <MemoryStick />
+            </Start>
+            <AppWindowFrame.Bot.Border/>
+            <AppTabs>
+                <DemoAppWindowFrame.Icon windowId={windowId} />
+            </AppTabs>
+            <ChildrenWindowsTogglers windowId={windowId}/>
+        </AppWindowFrame.Bot> 
+    )
+}
+
+/*
+<AppWindowFrame.Bot>
+    <AppWindowFrame.Bot.Square >
+            <Cpu />
+    </AppWindowFrame.Bot.Square>
+    <AppWindowFrame.Bot.Border/>
+    <AppWindowFrame.Bot.FillRect>
+        <DemoAppWindowFrame.Icon windowId={windowId} />
+    </AppWindowFrame.Bot.FillRect>
+    <AppWindowFrame.Bot.FillRect>
+        // <DemoAppWindowFrame.Icon windowId={windowId} /> 
+        <ChildrenWindowsControllerRenderer id={windowId} />
+    </AppWindowFrame.Bot.FillRect>
+</AppWindowFrame.Bot> 
+
+*/
