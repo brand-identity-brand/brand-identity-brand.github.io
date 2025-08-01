@@ -1,3 +1,5 @@
+import { Component } from "lucide-react"
+import Demo from "./demos/Demo"
 import DemoAppWindowFrame from "./demos/DemoAppWindowFrame"
 
 export const ROOT_APPS = {
@@ -12,6 +14,12 @@ export const ROOT_APPS = {
         props: {
             message:"GUI rendered" ,
         },
+    },
+    "MemoryStick": {
+        Component: "Demo",
+        props: {
+            children: ["MemoryStick Demo div"]
+        }
     },
     "DemoAppWindowFrame": {
         Component: "DemoAppWindowFrame",
@@ -53,6 +61,7 @@ export const ROOT_WINDOWS = {
 //     GUI: 1,
 // }
 export const DEMO_APPS = {
+    "Demo": Demo,
     "DemoAppWindowFrame": DemoAppWindowFrame,
 
 }

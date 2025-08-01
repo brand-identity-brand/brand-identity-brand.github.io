@@ -11,41 +11,70 @@ export default function Kernel({children,applicationId,windowId, applicationRegi
     const apps  = hooks.apps.useApplicationsState();
     
     return (<>
-        <div 
-            style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%"
-            }}
-        >
-            <div>
-                {`props.message: ${message}`}
+        {windowId === "Kernel"
+            ? <>
+            <div 
+                style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%"
+                }}
+            >
+                <div>
+                    {`props.message: ${message}`}
+                    {`rendered by window id: ${windowId}`}
+                </div>
+                <div style={{borderTop:"20px solid black"}}/>
+                <div>
+                    {StorePrinter({state: apps}).map(application => {
+                        return <div key={application.id}>{application.message}</div>
+                    })}
+                </div>
+                <div style={{borderTop:"20px solid black"}}/>
+                <div>
+                    {StorePrinter({state: windows}).map(window => {
+                        return <div key={window.id}>{window.message}</div>
+                    })}
+                </div>
             </div>
-            <div style={{borderTop:"20px solid black"}}/>
-            <div>
-                {StorePrinter({state: apps}).map(application => {
-                    return <div key={application.id}>{application.message}</div>
-                })}
-            </div>
-            <div style={{borderTop:"20px solid black"}}/>
-            <div>
-                {StorePrinter({state: windows}).map(window => {
-                    return <div key={window.id}>{window.message}</div>
-                })}
-            </div>
-        </div>
-        <div
-            style={{
-                position: "fixed",
-                width: "100%",
-                height: "100%"
-            }}
-        >
-            <ChildrenWindowsRenderer id={windowId}  WindowComponent={DefaultWindowComponent}/>
-        </div>
-        
+            <div
+                style={{
+                    position: "fixed",
+                    width: "100%",
+                    height: "100%"
+                }}
+            >
+                    <ChildrenWindowsRenderer id={windowId}  WindowComponent={DefaultWindowComponent}/>
+                </div>
+            </>
+            : <div 
+                style={{
+                    position: "relative",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%"
+                }}
+            >
+                <div>
+                    {`props.message: ${message}`}
+                    {`rendered by window id: ${windowId}`}
+                </div>
+                <div style={{borderTop:"20px solid black"}}/>
+                <div>
+                    {StorePrinter({state: apps}).map(application => {
+                        return <div key={application.id}>{application.message}</div>
+                    })}
+                </div>
+                <div style={{borderTop:"20px solid black"}}/>
+                <div>
+                    {StorePrinter({state: windows}).map(window => {
+                        return <div key={window.id}>{window.message}</div>
+                    })}
+                </div>
+            </div>}
     </>)
 }
 

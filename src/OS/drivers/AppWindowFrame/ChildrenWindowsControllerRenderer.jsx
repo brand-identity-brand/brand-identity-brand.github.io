@@ -1,6 +1,26 @@
 import useKernelContext from "../../kernel/useKernelContext";
 
-export default function ChildrenWindowsControllerRenderer({id, Component=Button}){
+function isJsonParsable(str) {
+  if (typeof str !== 'string') return false;
+  try { JSON.parse(str); return true; } catch { return false; }
+}
+
+function matcher({targetId, applicationIds=[]}){
+    // matchs targetId against [ ...applicationsIds ]
+    const result = applicationIds.filter( applicationId =>{
+        // * case 1:  "appName" - string
+        // * case 2: "[appName]" - JSON.parse( )
+        // * case 2: "[appName, 0]" - JSON.parse( )
+        if ( isJsonParsable(targetId) ){
+            return applicationId === JSON.parse(targetId)[0];
+        } else {
+            return applicationId === targetId;
+        }
+        
+    }).length === 1;
+    return result;
+}
+export default function ChildrenWindowsControllerRenderer({id, applicationIds=undefined, Component=Button}){
     const kernel = useKernelContext();
     const { useWindowContollers, useWindowState } = kernel.hooks.windows
     
@@ -11,10 +31,22 @@ export default function ChildrenWindowsControllerRenderer({id, Component=Button}
         unhideChildWindow
     } = useWindowContollers({id});
 
+    const _hidden = applicationIds === undefined
+        ? hidden
+        : hidden.filter((childId)=>{
+            const targetId = windows[childId].applicationId;
+            return matcher({targetId, applicationIds})
+        });
+    const _active = applicationIds === undefined
+        ? active
+        : active.filter((childId)=>{
+            const targetId = windows[childId].applicationId;
+            return matcher({targetId, applicationIds})
+        });
     return (
         <>
             {/* //Todo: AA get click to work. needs to mutatable windwo.children.actives */}
-            {hidden.map( childId => {
+            {_hidden.map( childId => {
                 const style = {
                     backgroundColor: "white"
                 };
@@ -31,7 +63,7 @@ export default function ChildrenWindowsControllerRenderer({id, Component=Button}
                     </Component>
                 )
             })}
-            {active.map( childId => {
+            {_active.map( childId => {
                 const isWindowHidden = hidden.includes(childId);
                 if ( isWindowHidden ) return;
                 const style = {

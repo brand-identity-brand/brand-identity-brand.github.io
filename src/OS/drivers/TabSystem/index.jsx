@@ -41,6 +41,7 @@ TabSystem.Tab = function Tab({
                     // color: "black",
                     fontFamily:"sans-serif"
                 }),
+                // overflow:"clip",
                 ...style
             }}
             onClick={()=>{ 
@@ -58,7 +59,10 @@ TabSystem.Panel = function Panel({id, children, className="", style}){
     return (
         <div 
             className={`${css.Panel} ${activeTabId === id? "" : css.hidden} ${className}`}
-            style={style}
+            style={{
+                // overflow:"clip",
+                ...style
+            }}
         >
             {children}
         </div>

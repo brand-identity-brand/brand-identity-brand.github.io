@@ -15,8 +15,8 @@ import MenuBar from "./MenuBar";
 import ChildrenWindowsRenderer from "./ChildrenWindowsRenderer";
 import ChildrenWindowsControllerRenderer from "./AppWindowFrame/ChildrenWindowsControllerRenderer";
 import TabSystem from "./TabSystem";
+import Kernel from "./Kernel";
 import ApplicationManagerRenderer from "./ApplicationManagerRenderer";
-
 
 const menuItems = [
   {
@@ -125,19 +125,14 @@ export default function GUI({windowId, message}){
                   position:"absolute"
                 }}
               >
-                prop.message: {message}
-                {/* {children} */}
+                {`{prop.message}: {message}`}
+                <TabSystem.Panel id={"Cpu"}>
+                    <ApplicationManagerRenderer id={"Kernel"} windowId={windowId}/>
+                </TabSystem.Panel>
                 
-                    
-                    <TabSystem.Panel id={"Cpu"}>
-                        "Cpu"
-                        {/* <ApplicationManagerRenderer id={} windowId={}/> */}
-                    </TabSystem.Panel>
-                    
-                    <TabSystem.Panel id={"MemoryStick"}>
-                        "MemoryStick"
-                    </TabSystem.Panel>
-                
+                <TabSystem.Panel id={"MemoryStick"}>
+                    <ApplicationManagerRenderer id={"MemoryStick"} windowId={windowId}/>
+                </TabSystem.Panel>
               </div>
           
               <ChildrenWindowsRenderer id={windowId}/>
@@ -145,7 +140,8 @@ export default function GUI({windowId, message}){
 
             <div>
             {/* <DemoAppWindowFrameBar windowId={windowId} tabId={"MemoryStick"}/> */}
-            <MasterBar windowId={windowId}  tabId={"Cpu"}/>
+            <DemoAppWindowFrameBar windowId={windowId} tabId={"MemoryStick"} applicationIds={["DemoAppWindowFrame"]}/>
+            <MasterBar windowId={windowId}  tabId={"Cpu"} applicationIds={[]} />
             </div>
         </TabSystem>
         </AppWindowFrame>
@@ -169,56 +165,40 @@ function AppTabs({windowId, children}){
         </AppWindowFrame.Bot.FillRect>
     )
 }
-function ChildrenWindowsTogglers({windowId}){
+function ChildrenWindowsTogglers({windowId, applicationIds}){
     return (
         <AppWindowFrame.Bot.FillRect>
-            <ChildrenWindowsControllerRenderer id={windowId} />
+            <ChildrenWindowsControllerRenderer id={windowId}  applicationIds={applicationIds}/>
         </AppWindowFrame.Bot.FillRect>
     )
 }
-function MasterBar({windowId, tabId="Cpu"}){
+// * ==usages
+function MasterBar({windowId, tabId, applicationIds}){
     return (
         <AppWindowFrame.Bot>
-            <Start tabId={"Cpu"}>
+            <Start tabId={tabId}>
                 <Cpu/>
             </Start>
             <AppWindowFrame.Bot.Border/>
-            <AppTabs>
+            {/* <AppTabs>
                 <DemoAppWindowFrame.Icon windowId={windowId} />
-            </AppTabs>
-            <ChildrenWindowsTogglers windowId={windowId}/>
+            </AppTabs> */}
+            <ChildrenWindowsTogglers windowId={windowId} applicationIds={applicationIds}/>
         </AppWindowFrame.Bot> 
     )
 }
 
-function DemoAppWindowFrameBar({windowId, tabId}){
+function DemoAppWindowFrameBar({windowId, tabId, applicationIds}){
     return (
         <AppWindowFrame.Bot>
-            <Start tabId={"Cpu"}>
+            <Start tabId={tabId}>
                 <MemoryStick />
             </Start>
             <AppWindowFrame.Bot.Border/>
             <AppTabs>
                 <DemoAppWindowFrame.Icon windowId={windowId} />
             </AppTabs>
-            <ChildrenWindowsTogglers windowId={windowId}/>
+            <ChildrenWindowsTogglers windowId={windowId} applicationIds={applicationIds}/>
         </AppWindowFrame.Bot> 
     )
 }
-
-/*
-<AppWindowFrame.Bot>
-    <AppWindowFrame.Bot.Square >
-            <Cpu />
-    </AppWindowFrame.Bot.Square>
-    <AppWindowFrame.Bot.Border/>
-    <AppWindowFrame.Bot.FillRect>
-        <DemoAppWindowFrame.Icon windowId={windowId} />
-    </AppWindowFrame.Bot.FillRect>
-    <AppWindowFrame.Bot.FillRect>
-        // <DemoAppWindowFrame.Icon windowId={windowId} /> 
-        <ChildrenWindowsControllerRenderer id={windowId} />
-    </AppWindowFrame.Bot.FillRect>
-</AppWindowFrame.Bot> 
-
-*/
