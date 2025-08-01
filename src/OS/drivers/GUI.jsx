@@ -126,9 +126,11 @@ export default function GUI({windowId, message}){
                   position:"absolute"
                 }}
               >
-                {`{prop.message}: {message}`}
                 <TabSystem.Panel id={"Cpu"}>
-                    <TabSystem.Panel id={{appName:"Kernel"}}>
+                    <TabSystem.Panel id={{appName:"Kernel"}} >
+                        {/*
+                         * // ! the id must exist in applicationsStore for this Panel to render
+                         */}
                         <ApplicationManagerRenderer id={"Kernel"} windowId={windowId}/>
                     </TabSystem.Panel>
                     <TabSystem.Panel id={{appName:"Demo"}}>
@@ -136,6 +138,9 @@ export default function GUI({windowId, message}){
                     </TabSystem.Panel>
                 </TabSystem.Panel>
                 <TabSystem.Panel id={"MemoryStick"}>
+                    {/*
+                    * // ! the id must exist in applicationsStore for this Panel to render
+                    */}
                     <ApplicationManagerRenderer id={"MemoryStick"} windowId={windowId}/>
                 </TabSystem.Panel>
               </div>
@@ -161,12 +166,12 @@ export default function GUI({windowId, message}){
                     ]}
                 >
                     <AppWindowFrame.Bot.Square >
-                        <TabSystem.Tab id={{appName:"Kernel"}}>
+                        <TabSystem.Tab selectActiveIds={["appName"]}  id={{default: "Cpu", appName:"Kernel"}}>
                             K
                         </TabSystem.Tab>
                     </AppWindowFrame.Bot.Square>
                     <AppWindowFrame.Bot.Square >
-                        <TabSystem.Tab id={{appName:"Demo"}}>
+                        <TabSystem.Tab selectActiveIds={["appName"]} id={{default: "Cpu",appName:"Demo"}}>
                             D
                         </TabSystem.Tab>
                     </AppWindowFrame.Bot.Square>
@@ -182,7 +187,7 @@ export default function GUI({windowId, message}){
                     <DesktopBar windowId={windowId} tabId={{default:"MemoryStick", toggleBotBar:"true"}} 
                         StartComponent={[<MemoryStick key={0}/>]}
                         applicationIds={[
-
+                            "DemoAppWindowFrame"
                         ]}
                     >
                         
@@ -192,19 +197,19 @@ export default function GUI({windowId, message}){
                     <DesktopBar windowId={windowId}  tabId={{default:"Cpu", toggleBotBar:"true"}} 
                         StartComponent={[<Cpu key={0}/>]} 
                         applicationIds={[
-                            "DemoAppWindowFrame"
+                            
                         ]}
                     >
                         <AppWindowFrame.Bot.Square >
-                        <TabSystem.Tab id={{appName:"Kernel"}}>
-                            K
-                        </TabSystem.Tab>
-                    </AppWindowFrame.Bot.Square>
-                    <AppWindowFrame.Bot.Square >
-                        <TabSystem.Tab id={{appName:"Demo"}}>
-                            D
-                        </TabSystem.Tab>
-                    </AppWindowFrame.Bot.Square>
+                            <TabSystem.Tab selectActiveIds={["appName"]} id={{appName:"Kernel"}}>
+                                K
+                            </TabSystem.Tab>
+                        </AppWindowFrame.Bot.Square>
+                        <AppWindowFrame.Bot.Square >
+                            <TabSystem.Tab selectActiveIds={["appName"]} id={{appName:"Demo"}}>
+                                D
+                            </TabSystem.Tab>
+                        </AppWindowFrame.Bot.Square>
                     </DesktopBar>
                 </TabSystem.Panel>
             </TabSystem.Panel>
@@ -233,11 +238,12 @@ function Start({tabId, children}){
         </AppWindowFrame.Bot.Square>
     )
 }
-function AppTabs({windowId, children}){
+function AppTabs({children, tabId}){
     return (
         <AppWindowFrame.Bot.FillRect>
-            {/* <DemoAppWindowFrame.Icon windowId={windowId} /> */}
+            {/* <TabSystem.Tab id={{toggleBotBar: tabId.toggleBotBar}}> */}
             {children}
+            {/* </TabSystem.Tab> */}
         </AppWindowFrame.Bot.FillRect>
     )
 }
@@ -263,16 +269,17 @@ function DesktopBar({
     windowId, 
     tabId, 
     applicationIds,
-
+    //
+    ...props
 }){
     return (
-        <AppWindowFrame.Bot>
+        <AppWindowFrame.Bot {...props}>
             <Start tabId={tabId}>
                 {StartComponent}
                 
             </Start>
             <AppWindowFrame.Bot.Border/>
-            <AppTabs>
+            <AppTabs tabId={tabId}>
                 {children}
             </AppTabs>
             <AppWindowFrame.Bot.Border/>

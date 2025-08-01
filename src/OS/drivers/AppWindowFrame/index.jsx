@@ -145,11 +145,11 @@ AppWindowFrame.Mid = function Mid({  children}){
     </div>
   )
 }
-AppWindowFrame.Bot = function Bot({children }){
+AppWindowFrame.Bot = function Bot({children, ...props }){
   const { configure } = useContext(AppWindowFrameContext);
   const height = configure.bot.use? "40px" : "0px";
   return (
-    <div
+    <div {...props}
       style={{
         // master behaviours
         position: "relative",

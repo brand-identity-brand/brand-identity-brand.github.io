@@ -50,6 +50,7 @@ function isActive(id, activeTabId){
 // ? Should I let the globalStore keep tabStates?
 TabSystem.Tab = function Tab({
     id, // title, className="",
+    selectActiveIds,// = [],
     children,
     style,
     Component = (props)=><div {...props}>{props.children}</div>
@@ -83,15 +84,24 @@ TabSystem.Tab = function Tab({
         }
         
     }
+    const _id = selectActiveIds === undefined
+        ? id
+        : selectActiveIds.reduce((accum, selectedId)=>{
+            return {
+                ...accum,
+                [selectedId]: id[selectedId]
+            }
+        },{});
+
     return (
         <Component
             className={
                 css.unselectableText
             }
             style={{
-                ...( isActive(id, activeTabId) ? {
+                ...( isActive(_id, activeTabId) ? {
                     // default css - active
-                    backgroundColor: "black",
+                    backgroundColor: "blue",
                     color: "white",
                     fontFamily:"serif"
                 }:{

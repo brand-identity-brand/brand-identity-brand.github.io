@@ -11,73 +11,94 @@ export default function Kernel({children,applicationId,windowId, applicationRegi
     const apps  = hooks.apps.useApplicationsState();
     
     return (<>
-        {windowId === "Kernel"
-            ? <>
+        <div 
+            style={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                overflow: "scroll"
+            }}
+        >
+        <TabSystem initialActiveTabId={"applications"}>
+
+            
+            <div>
+                {/* {`props.message: ${message ? "" : message}`} */}
+                <span style={{color:"green"}}> { "[App Rendered by window id]: " } </span>
+                <span style={{color:"black"}}> { windowId } </span>
+            </div>
+
             <div 
                 style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
                     width: "100%",
-                    height: "100%"
+                    height: "20px",
+                    display: "flex"
+
                 }}
             >
-                <div>
-                    {`props.message: ${message}`}
-                    {`rendered by window id: ${windowId}`}
-                </div>
-                <div style={{borderTop:"20px solid black"}}/>
-                <div>
-                    {StorePrinter({state: apps}).map(application => {
-                        return <div key={application.id}>{application.message}</div>
-                    })}
-                </div>
-                <div style={{borderTop:"20px solid black"}}/>
-                <div>
-                    {StorePrinter({state: windows}).map(window => {
-                        return <div key={window.id}>{window.message}</div>
-                    })}
-                </div>
+                <TabSystem.Tab id={"windows"}>
+                    windows
+                </TabSystem.Tab>
+                <TabSystem.Tab id={"applications"}>
+                    applications
+                </TabSystem.Tab>
             </div>
-            <div
+
+            <TabSystem.Panel id={"applications"}>
+                <ShowApplicationsState applications={apps}/>
+            </TabSystem.Panel>
+
+            <TabSystem.Panel id={"windows"}>
+                <PrintWindowsState windows={windows}/>
+            </TabSystem.Panel>
+            
+            
+
+            {/* <div style={{borderTop:"20px solid black"}}/> */}
+
+        </TabSystem>   
+        </div>
+
+        { windowId === "Kernel" 
+            && <div
                 style={{
                     position: "fixed",
                     width: "100%",
                     height: "100%"
                 }}
             >
-                    <ChildrenWindowsRenderer id={windowId}  WindowComponent={DefaultWindowComponent}/>
-                </div>
-            </>
-            : <div 
-                style={{
-                    position: "relative",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%"
-                }}
-            >
-                <div>
-                    {`props.message: ${message}`}
-                    {`rendered by window id: ${windowId}`}
-                </div>
-                <div style={{borderTop:"20px solid black"}}/>
-                <div>
-                    {StorePrinter({state: apps}).map(application => {
-                        return <div key={application.id}>{application.message}</div>
-                    })}
-                </div>
-                <div style={{borderTop:"20px solid black"}}/>
-                <div>
-                    {StorePrinter({state: windows}).map(window => {
-                        return <div key={window.id}>{window.message}</div>
-                    })}
-                </div>
-            </div>}
+                <ChildrenWindowsRenderer id={windowId}  WindowComponent={DefaultWindowComponent}/>
+            </div>
+        }
     </>)
+};
+
+import ReactJsonView from '@microlink/react-json-view';
+import TabSystem from "./TabSystem";
+
+function ShowApplicationsState({applications}){
+    
+    return (
+        <ReactJsonView 
+            showComma
+            src={applications}
+        />
+        // <div>
+        //     {StorePrinter({state: applications}).map(application => {
+        //         return <div key={application.id}>{application.message}</div>
+        //     })}
+        // </div>
+    )
 }
 
+function PrintWindowsState({windows}){
+    return (
+        <ReactJsonView 
+            showComma
+            src={windows}
+        />  
+    )
+}
 
 function StorePrinter({state, message=(key, state)=>`${key} ${ JSON.stringify(state[key]) }` }){
     const keys = Object.keys(state);

@@ -18,6 +18,7 @@ export const ROOT_APPS = {
     "MemoryStick": {
         Component: "Demo",
         props: {
+            message: "id: MemoryStick, App: Demp",
             children: ["MemoryStick Demo div"]
         }
     },
