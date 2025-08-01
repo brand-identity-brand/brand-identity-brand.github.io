@@ -15,6 +15,7 @@ import MenuBar from "./MenuBar";
 import ChildrenWindowsRenderer from "./ChildrenWindowsRenderer";
 import ChildrenWindowsControllerRenderer from "./AppWindowFrame/ChildrenWindowsControllerRenderer";
 import TabSystem from "./TabSystem";
+import ApplicationManagerRenderer from "./ApplicationManagerRenderer";
 
 
 const menuItems = [
@@ -130,7 +131,7 @@ export default function GUI({windowId, message}){
                     
                     <TabSystem.Panel id={"Cpu"}>
                         "Cpu"
-                        
+                        {/* <ApplicationManagerRenderer id={} windowId={}/> */}
                     </TabSystem.Panel>
                     
                     <TabSystem.Panel id={"MemoryStick"}>
