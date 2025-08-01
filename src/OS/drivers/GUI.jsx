@@ -195,12 +195,16 @@ export default function GUI({windowId, message}){
                             "DemoAppWindowFrame"
                         ]}
                     >
+                        <AppWindowFrame.Bot.Square >
                         <TabSystem.Tab id={{appName:"Kernel"}}>
                             K
                         </TabSystem.Tab>
+                    </AppWindowFrame.Bot.Square>
+                    <AppWindowFrame.Bot.Square >
                         <TabSystem.Tab id={{appName:"Demo"}}>
                             D
                         </TabSystem.Tab>
+                    </AppWindowFrame.Bot.Square>
                     </DesktopBar>
                 </TabSystem.Panel>
             </TabSystem.Panel>
