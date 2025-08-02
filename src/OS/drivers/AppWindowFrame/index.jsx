@@ -240,7 +240,9 @@ AppWindowFrame.Bot.FillRect = function FillRectContainer({children, paddingLR="1
         // master behaviours
         position: "relative",
         boxSizing: "border-box",
-        overflow: "scroll",//"clip", //hidden
+        // overflow: "scroll",//"clip", //hidden
+        overflowY: "auto",
+        overflowX: "clip",
         paddingLeft: paddingLR,
         paddingRight: paddingLR,
         // slave behaviours
