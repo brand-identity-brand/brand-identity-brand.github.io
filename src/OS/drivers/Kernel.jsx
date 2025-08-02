@@ -18,23 +18,23 @@ export default function Kernel({children,applicationId,windowId, applicationRegi
                 position: "absolute",
                 width: "100%",
                 height: "100%",
-                overflow: "scroll"
+                overflow: "hidden"
             }}
         >
         <TabSystem initialActiveTabId={"applications"}>
 
             
-            <div>
+            {/* <div>
                 <span style={{color:"green"}}> { "[App Rendered by window id]: " } </span>
                 <span style={{color:"black"}}> { windowId } </span>
-            </div>
+            </div> */}
 
             <div 
                 style={{
                     width: "100%",
                     height: "30px",
                     display: "flex",
-                    borderBottom: " 1px dotted black",
+                    // borderBottom: " 1px dotted black",
                 }}
             >
                 <TabSystem.Tab id={"windows"} style={{ fontSize: "20px", padding: "0px 20px 0px 20px",
@@ -74,13 +74,29 @@ export default function Kernel({children,applicationId,windowId, applicationRegi
                 </TabSystem.Tab>
             </div>
 
-            <TabSystem.Panel id={"applications"}>
-                <ShowApplicationsState applications={apps}/>
-            </TabSystem.Panel>
+            <div 
+                style={{
+                    width: "100%",
+                    height: "calc( 100% - 30px )",
+                    // display: "flex",
+                    // borderTop: " 1px dotted black",
+                  
+                }}
+            >
+                {/**
+                 * // ! scroll
+                 */}
+                <TabSystem.Panel id={"applications"} style={{overflow:"scroll"}}>
+                    <ShowApplicationsState applications={apps}/>
+                </TabSystem.Panel>
 
-            <TabSystem.Panel id={"windows"}>
-                <PrintWindowsState windows={windows}/>
-            </TabSystem.Panel>
+                <TabSystem.Panel id={"windows"}  style={{overflow:"scroll"}}>
+                    <PrintWindowsState windows={windows}/>
+                </TabSystem.Panel>
+
+
+            </div>
+            
             
             
 

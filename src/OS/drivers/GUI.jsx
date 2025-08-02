@@ -86,7 +86,7 @@ const menuItems = [
   },
 ];
 const config = (windowId) => generateConfig({
-    top: { use: false },
+    top: { use: true },
     bot: {
         renderers: [
             {
