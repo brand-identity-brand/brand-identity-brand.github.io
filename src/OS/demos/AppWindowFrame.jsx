@@ -42,7 +42,7 @@ export default function DemoAppWindowFrame(props){
                   position:"absolute"
                 }}
               >
-                {/* {children} */}
+          
               </div>
           
               <ChildrenWindowsRenderer id={windowId}/>

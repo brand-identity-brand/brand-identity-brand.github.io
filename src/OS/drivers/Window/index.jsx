@@ -314,31 +314,32 @@ export default function Window({
     !isMaximized && !isCollapsed && !disableResize ? (
       <>
         <div
-          style={{ position: "absolute", top: 0, left: 0, right: 0, height: "0.25rem", cursor: "ns-resize" }}
+          style={{ zIndex: "1", position: "absolute", top: 0, left: 0, right: 0, height: "0.25rem", cursor: "ns-resize" }}
           onMouseDown={handleResizeStart("n")}
         />
         <div
-          style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "0.25rem", cursor: "ns-resize" }}
+          style={{ zIndex: "1", position: "absolute", bottom: 0, left: 0, right: 0, height: "0.25rem", cursor: "ns-resize" }}
           onMouseDown={handleResizeStart("s")}
         />
         <div
-          style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "0.25rem", cursor: "ew-resize" }}
+          style={{ zIndex: "1", position: "absolute", top: 0, bottom: 0, left: 0, width: "0.25rem", cursor: "ew-resize" }}
           onMouseDown={handleResizeStart("w")}
         />
         <div
-          style={{ position: "absolute", top: 0, bottom: 0, right: 0, width: "0.25rem", cursor: "ew-resize" }}
+          style={{ zIndex: "1", position: "absolute", top: 0, bottom: 0, right: 0, width: "0.25rem", cursor: "ew-resize" }}
           onMouseDown={handleResizeStart("e")}
         />
         <div
-          style={{ position: "absolute", top: 0, left: 0, width: "0.75rem", height: "0.75rem", cursor: "nwse-resize" }}
+          style={{ zIndex: "1", position: "absolute", top: 0, left: 0, width: "0.75rem", height: "0.75rem", cursor: "nwse-resize" }}
           onMouseDown={handleResizeStart("nw")}
         />
         <div
-          style={{ position: "absolute", top: 0, right: 0, width: "0.75rem", height: "0.75rem", cursor: "nesw-resize" }}
+          style={{ zIndex: "1", position: "absolute", top: 0, right: 0, width: "0.75rem", height: "0.75rem", cursor: "nesw-resize" }}
           onMouseDown={handleResizeStart("ne")}
         />
         <div
           style={{
+            zIndex: "1", 
             position: "absolute",
             bottom: 0,
             left: 0,
@@ -350,6 +351,7 @@ export default function Window({
         />
         <div
           style={{
+            zIndex: "1", 
             position: "absolute",
             bottom: 0,
             right: 0,

@@ -102,11 +102,7 @@ export default function AppWindowFrame({children, ...props}){
             }}
         >
           { children }
-            {/* 
-            <AppWindowFrame.Bot>
-              <BotBarItems windowId={windowId} height={botBarHeight} configure={configure}/>
-            </AppWindowFrame.Bot> 
-            */}
+
         </div>
     </AppWindowFrameContext.Provider>)
 }
@@ -135,7 +131,7 @@ AppWindowFrame.Mid = function Mid({  children}){
           // flex: 1, 
           zIndex:"1",
           position:"relative",
-          width:"100%",
+          // width:"100%",
           height: `calc( 100% - ${topBarHeight} - ${botBarHeight} )`,
           overflow: "clip", //hidden
           // display: 
