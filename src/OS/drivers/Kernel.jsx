@@ -1,5 +1,7 @@
 import useKernelContext from "../kernel/useKernelContext";
 import  ChildrenWindowsRenderer from "./ChildrenWindowsRenderer";
+
+
 export default function Kernel({children,applicationId,windowId, applicationRegistry,...props}){
     const {
         // passed via windowsStore
@@ -23,7 +25,6 @@ export default function Kernel({children,applicationId,windowId, applicationRegi
 
             
             <div>
-                {/* {`props.message: ${message ? "" : message}`} */}
                 <span style={{color:"green"}}> { "[App Rendered by window id]: " } </span>
                 <span style={{color:"black"}}> { windowId } </span>
             </div>
@@ -31,15 +32,44 @@ export default function Kernel({children,applicationId,windowId, applicationRegi
             <div 
                 style={{
                     width: "100%",
-                    height: "20px",
-                    display: "flex"
-
+                    height: "30px",
+                    display: "flex",
+                    borderBottom: " 1px dotted black",
                 }}
             >
-                <TabSystem.Tab id={"windows"}>
+                <TabSystem.Tab id={"windows"} style={{ fontSize: "20px", padding: "0px 20px 0px 20px",
+                    active: {
+                        boxSizing:"border-box",
+                        borderTop: " 2px solid black",
+                        borderLeft: " 2px solid black",
+                        borderRight: " 2px solid black",
+                        color: "black",
+                        backgroundColor: "white"
+                    },
+                    inactive: {
+                        borderBottom: " 2px solid black",
+                        color: "black",
+                        backgroundColor: "white"
+                    }
+                }}>
                     windows
                 </TabSystem.Tab>
-                <TabSystem.Tab id={"applications"}>
+                <TabSystem.Tab id={"applications"} style={{ fontSize: "20px", padding: "0px 20px 0px 20px",
+                    active: {
+                        boxSizing:"border-box",
+                        borderTop: " 2px solid black",
+                        borderLeft: " 2px solid black",
+                        borderRight: " 2px solid black",
+                        color: "black",
+                        backgroundColor: "white"
+                    },
+                    inactive: {
+                        borderBottom: " 2px solid black",
+                        color: "black",
+                        backgroundColor: "white"
+                    }
+
+                }}>
                     applications
                 </TabSystem.Tab>
             </div>
@@ -123,5 +153,13 @@ function DefaultWindowComponent({children, zIndex, style, ...props}){
         >
             {children}
         </div>
+    )
+}
+
+// MemoryStick as icon
+import { MemoryStick } from "lucide-react";
+Kernel.Tab = function (){
+    return (
+        <MemoryStick />
     )
 }

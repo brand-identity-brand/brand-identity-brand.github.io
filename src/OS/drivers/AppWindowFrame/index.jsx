@@ -164,26 +164,26 @@ AppWindowFrame.Bot = function Bot({children, ...props }){
         height: height,
         // decorations 
         borderTop: "2px solid black",
-        backgroundColor: "white",
+        // backgroundColor: "white",
       }}
     >
       {children}
     </div>
   )
 }
-function BotBarItems({windowId}){
-  const { configure } = useContext(AppWindowFrameContext);
-  const height = configure.bot.use? "40px" : "0px";
-  return (<>
-      <RenderWindowButtons renderers={configure.bot.renderers} botBarHeight={height} />
-      {configure.auto.WindowsController &&
-        <FillRectContainer>
-            {/* //TODO: turn this into spereate hidden and active. hidden list are shown by defult, while active is collapsed to the right side. */}
-            <ChildrenWindowsControllerRenderer id={windowId}/>
-        </FillRectContainer>
-      }
-  </>)
-}
+// function BotBarItems({windowId}){
+//   const { configure } = useContext(AppWindowFrameContext);
+//   const height = configure.bot.use? "40px" : "0px";
+//   return (<>
+//       <RenderWindowButtons renderers={configure.bot.renderers} botBarHeight={height} />
+//       {configure.auto.WindowsController &&
+//         <FillRectContainer>
+//             {/* //TODO: turn this into spereate hidden and active. hidden list are shown by defult, while active is collapsed to the right side. */}
+//             <ChildrenWindowsControllerRenderer id={windowId}/>
+//         </FillRectContainer>
+//       }
+//   </>)
+// }
 function RenderWindowButtons({renderers, botBarHeight}){
   return (<>
     {renderers.map((renderer, index )=>{
@@ -248,7 +248,7 @@ AppWindowFrame.Bot.FillRect = function FillRectContainer({children, paddingLR="1
         flexDirection:"row",
         justifyContent: "flex-start",
         alignItems: "center",
-        gap: "5px",
+        // gap: "5px",
         // values 
         // flex: 1,
         // width: "100%", 

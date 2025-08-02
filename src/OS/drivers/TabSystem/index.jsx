@@ -1,5 +1,6 @@
 import { useContext, useState, createContext, Fragment } from "react";
 import css from "./index.module.css"
+// import { Backpack } from "lucide-react";
 
 
 const TabContext = createContext({
@@ -93,6 +94,8 @@ TabSystem.Tab = function Tab({
             }
         },{});
 
+    const { active, inactive, ..._style } = style?? {};
+
     return (
         <Component
             className={
@@ -100,18 +103,26 @@ TabSystem.Tab = function Tab({
             }
             style={{
                 ...( isActive(_id, activeTabId) ? {
-                    // default css - active
-                    backgroundColor: "blue",
+                    // * default css - active
+                    backgroundColor: "rgba(0, 72, 255, 0.47)", /* Your desired blue color */
+                    // background:"transparent",
                     color: "white",
-                    fontFamily:"serif"
+                    width:"100%",
+                    height:"100%",
+                    fontFamily:"serif",
+                    ...active || {}
                 }:{
-                    // default css - inactive
+                    // * default css - inactive
+                    background:"transparent",
                     // backgroundColor: "white",
                     // color: "black",
-                    fontFamily:"sans-serif"
+                    width:"100%",
+                    height:"100%",
+                    fontFamily:"sans-serif",
+                    ...inactive ?? {}
                 }),
                 // overflow:"clip",
-                ...style
+                ..._style
             }}
             onClick={onClickHandler}
         >
@@ -129,6 +140,7 @@ TabSystem.Panel = function Panel({id, children, className="", style}){
             className={`${css.Panel} ${isActive(id, activeTabId)  ? "" : css.hidden} ${className}`}
             style={{
                 // overflow:"clip",
+                background:"transparent",
                 ...style
             }}
         >

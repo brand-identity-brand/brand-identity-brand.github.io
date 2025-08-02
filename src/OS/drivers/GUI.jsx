@@ -17,7 +17,7 @@ import ChildrenWindowsControllerRenderer from "./AppWindowFrame/ChildrenWindowsC
 import TabSystem from "./TabSystem";
 import Kernel from "./Kernel";
 import ApplicationManagerRenderer from "./ApplicationManagerRenderer";
-
+import { DatabaseZap } from "lucide-react";
 const menuItems = [
   {
     label: "File",
@@ -111,7 +111,7 @@ export default function GUI({windowId, message}){
             windowId={windowId}
             config={config(windowId)}
         >
-        <TabSystem initialActiveTabId={{default:"Cpu", toggleBotBar:"true", appName:"Kernel"}}>
+        <TabSystem initialActiveTabId={{default:"Cpu", toggleBotBar:"true", appName:"Demo"}}>
             <AppWindowFrame.Top>
                 <MenuBar menuItems={menuItems}/>
             </AppWindowFrame.Top>
@@ -136,12 +136,11 @@ export default function GUI({windowId, message}){
                     <TabSystem.Panel id={{appName:"Demo"}}>
                         Demo
                     </TabSystem.Panel>
+
                 </TabSystem.Panel>
                 <TabSystem.Panel id={"MemoryStick"}>
-                    {/*
-                    * // ! the id must exist in applicationsStore for this Panel to render
-                    */}
-                    <ApplicationManagerRenderer id={"MemoryStick"} windowId={windowId}/>
+
+                    {/* <ApplicationManagerRenderer id={"MemoryStick"} windowId={windowId}/> */}
                 </TabSystem.Panel>
               </div>
           
@@ -157,7 +156,7 @@ export default function GUI({windowId, message}){
                         "DemoAppWindowFrame"
                     ]}
                 >
-                    {/* <MemoryStick/> */}
+                    
                 </DesktopBar>
                 <DesktopBar windowId={windowId}  tabId={{default:"Cpu", toggleBotBar:"false"}}
                     StartComponent={[<Cpu key={0}/>]} 
@@ -165,13 +164,18 @@ export default function GUI({windowId, message}){
                         
                     ]}
                 >
-                    <AppWindowFrame.Bot.Square >
-                        <TabSystem.Tab selectActiveIds={["appName"]}  id={{default: "Cpu", appName:"Kernel"}}>
-                            K
+                    <AppWindowFrame.Bot.Square padding="0px">
+                        <TabSystem.Tab selectActiveIds={["appName"]}  id={{default: "Cpu", appName:"Kernel"}} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                            {/* 
+                             * // * for OS stores
+                            */}
+                            <Kernel.Tab/>
                         </TabSystem.Tab>
-                    </AppWindowFrame.Bot.Square>
-                    <AppWindowFrame.Bot.Square >
-                        <TabSystem.Tab selectActiveIds={["appName"]} id={{default: "Cpu",appName:"Demo"}}>
+                    </AppWindowFrame.Bot.Square >
+
+                    
+                    <AppWindowFrame.Bot.Square padding="0px">
+                        <TabSystem.Tab selectActiveIds={["appName"]} id={{default: "Cpu",appName:"Demo"}} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
                             D
                         </TabSystem.Tab>
                     </AppWindowFrame.Bot.Square>
@@ -190,7 +194,7 @@ export default function GUI({windowId, message}){
                             "DemoAppWindowFrame"
                         ]}
                     >
-                        
+                       
                     </DesktopBar>
                 </TabSystem.Panel>
                 <TabSystem.Panel id={"Cpu"} style={{position:"relative", height:"40px"}}>
@@ -200,13 +204,16 @@ export default function GUI({windowId, message}){
                             
                         ]}
                     >
-                        <AppWindowFrame.Bot.Square >
-                            <TabSystem.Tab selectActiveIds={["appName"]} id={{appName:"Kernel"}}>
-                                K
+                         <AppWindowFrame.Bot.Square padding="0px">
+                            <TabSystem.Tab selectActiveIds={["appName"]} id={{default: "Cpu",appName:"Kernel"}} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                                {/* 
+                                * // * for OS stores
+                                */}
+                                <Kernel.Tab/>
                             </TabSystem.Tab>
                         </AppWindowFrame.Bot.Square>
-                        <AppWindowFrame.Bot.Square >
-                            <TabSystem.Tab selectActiveIds={["appName"]} id={{appName:"Demo"}}>
+                        <AppWindowFrame.Bot.Square padding="0px">
+                            <TabSystem.Tab selectActiveIds={["appName"]} id={{appName:"Demo"}} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
                                 D
                             </TabSystem.Tab>
                         </AppWindowFrame.Bot.Square>
@@ -229,18 +236,28 @@ export default function GUI({windowId, message}){
 
 function Start({tabId, children}){
     return (
-        <AppWindowFrame.Bot.Square >
-            <TabSystem.Tab id={tabId.default}>
-            <TabSystem.Tab id={{toggleBotBar: tabId.toggleBotBar}}>
+        <AppWindowFrame.Bot.Square padding="0px">
+            {/* <TabSystem.Tab id={tabId.default}> */}
+            <TabSystem.Tab selectActiveIds={["default"]} id={{default: tabId.default, toggleBotBar: tabId.toggleBotBar}} 
+                style={{
+                    display:"flex", justifyContent:"center", alignItems:"center",
+                    active: {
+                        backgroundColor: "black"
+                    },
+                    inactive: {
+                        // color: "white",
+                        // backgroundColor: "black"
+                    }
+                }}>
                 {children}
             </TabSystem.Tab>
-            </TabSystem.Tab>
+            {/* </TabSystem.Tab> */}
         </AppWindowFrame.Bot.Square>
     )
 }
 function AppTabs({children, tabId}){
     return (
-        <AppWindowFrame.Bot.FillRect>
+        <AppWindowFrame.Bot.FillRect paddingLR="0px">
             {/* <TabSystem.Tab id={{toggleBotBar: tabId.toggleBotBar}}> */}
             {children}
             {/* </TabSystem.Tab> */}
@@ -259,7 +276,7 @@ function EmptyBar(){
     return (
         <AppWindowFrame.Bot>
             <AppWindowFrame.Bot.Square/>
-            <AppWindowFrame.Bot.Border/>
+            <AppWindowFrame.Bot.Border width="4px"/>
         </AppWindowFrame.Bot> 
     )
 }
@@ -278,11 +295,13 @@ function DesktopBar({
                 {StartComponent}
                 
             </Start>
-            <AppWindowFrame.Bot.Border/>
-            <AppTabs tabId={tabId}>
-                {children}
-            </AppTabs>
-            <AppWindowFrame.Bot.Border/>
+            <AppWindowFrame.Bot.Border width="4px"/>
+            { children && <>
+                <AppTabs tabId={tabId}>
+                    {children}
+                </AppTabs>
+                <AppWindowFrame.Bot.Border width="4px"/>
+            </>}
             <ChildrenWindowsTogglers windowId={windowId} applicationIds={applicationIds}/>
         </AppWindowFrame.Bot> 
     )
