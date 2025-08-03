@@ -23,7 +23,9 @@ export default function ChildrenWindowsRenderer({id, WindowComponent=Window}){
     }  = useWindowState({id });
 
 
-
+    //TODO: let each window track their own layers.
+    //TODO: always render from active. then when rendering child use local states. 
+    //TODO: on save state that is when local state merges into active, which means rebuilding the new children array according to the current zIndex. like a race, that is their next round start position. the result of the race will be the next start
     return (<>
         {active.map( childId => {
             return (
