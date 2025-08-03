@@ -12,7 +12,7 @@ import OS from './OS';
 function App() {
   return (
     <OS 
-      demo={true}
+      // demo={true}
       INSTALLED_APPLICATIONS={INSTALLED_APPLICATIONS}
       windowsStore={windowsStore}
       appsStore={appsStore}

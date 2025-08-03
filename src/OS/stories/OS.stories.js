@@ -1,0 +1,34 @@
+import { expect, userEvent, within } from 'storybook/test';
+// import { windowsStore, appsStore } from '../../applications/store';
+import OS from '..';
+
+export default {
+  title: 'Example/OS',
+  component: OS,
+  parameters: {
+    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
+    layout: 'fullscreen',
+  },
+  args: {
+    // INSTALLED_APPLICATIONS:INSTALLED_APPLICATIONS,
+    // windowsStore:windowsStore,
+    // appsStore:appsStore
+  }
+};
+
+export const Default = {
+  // parameters: {
+    
+  // },
+  
+};
+
+export const Demo = {
+  // parameters: {
+    
+  // },
+  args: {
+    mode: "demo"
+  }
+  
+};

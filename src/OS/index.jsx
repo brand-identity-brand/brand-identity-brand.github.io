@@ -1,18 +1,25 @@
 // * OS constants
-import { DEMO_APPS } from "./constants";
+import { STORE, APPLICATIONS } from "./constants";
 // * main
 import { KernelProvider } from "./drivers/KernelProvider"
 import ApplicationManagerRenderer from "./drivers/ApplicationManagerRenderer"
 // * internal applications
-import Kernel from "./drivers/Kernel";
-import GUI from "./drivers/GUI";
+// import Kernel from "./drivers/Kernel";
+// import GUI from "./drivers/GUI";
 
-export default function OS({INSTALLED_APPLICATIONS, demo, windowsStore, appsStore}){
+
+
+
+export default function OS({
+    mode = "default", // "demo"
+    INSTALLED_APPLICATIONS = {}, 
+    windowsStore = STORE.WINDOWS.default,
+    appsStore = STORE.APPS.default
+}){
     
     const applicationRegistry = {
-        Kernel,
-        GUI,
-        ...(demo ? DEMO_APPS : {}),
+        ... APPLICATIONS.os,
+        ...(mode === "demo" ? APPLICATIONS.demos : {}),
         ...INSTALLED_APPLICATIONS
     };
     

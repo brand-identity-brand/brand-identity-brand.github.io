@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { ROOT_WINDOWS } from '../constants';
 
 // ! ---------new-----------
-export function createWindowsStore(windows){
+export function createWindowsStore(windows={}){
     return create((set, get)=>({
         windows:{ 
             ...ROOT_WINDOWS,

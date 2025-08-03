@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { ROOT_APPS } from '../constants';
 
-export function createAppsStore(applications){
+export function createAppsStore(applications={}){
     return create((set, get) => ({
         applications: {
             ...ROOT_APPS,

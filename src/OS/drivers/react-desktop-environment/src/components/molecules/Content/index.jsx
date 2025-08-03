@@ -1,5 +1,5 @@
 import css from "./index.module.css";
-import { MenuBar } from "../../MenuBar";
+// import { MenuBar } from "../../MenuBar";
 import Taskbar from "../../atoms/Taskbar";
 import StartButton from "../../atoms/StartButton";
 import StartMenu from "../../atoms/StartMenu";
@@ -84,7 +84,7 @@ export default function Content({ children, ...props }) {
           
         </Taskbar>
       )}
-      {menuItems && <MenuBar menuItems={menuItems} />}
+      {/* {menuItems && <MenuBar menuItems={menuItems} />} */}
     </div>
   );
 }
