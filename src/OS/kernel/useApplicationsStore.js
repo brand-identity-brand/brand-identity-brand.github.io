@@ -1,10 +1,10 @@
 import { create } from 'zustand';
-import { ROOT_APPS } from '../constants';
+// import { ROOT_APPS } from '../constants';
 
 export function createAppsStore(applications={}){
     return create((set, get) => ({
         applications: {
-            ...ROOT_APPS,
+            // ...ROOT_APPS,
             ...applications
         },
     // You can add mutators here

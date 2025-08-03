@@ -18,16 +18,25 @@ export default function OS({
 }){
     
     const applicationRegistry = {
-        ... APPLICATIONS.os,
+        ... APPLICATIONS.default,
         ...(mode === "demo" ? APPLICATIONS.demos : {}),
         ...INSTALLED_APPLICATIONS
     };
     
+    const _windowsStore = mode === "demo"
+        ? STORE.WINDOWS.demo
+        : windowsStore
+    ;
+    const _appsStore = mode === "demo"
+        ? STORE.APPS.demo
+        : appsStore
+    ;
+
     return (
         <KernelProvider
             applicationRegistry={applicationRegistry}
-            windowsStore={windowsStore}
-            appsStore={appsStore}
+            windowsStore={_windowsStore}
+            appsStore={_appsStore}
         >
             <ApplicationManagerRenderer 
                 id={"Kernel"}

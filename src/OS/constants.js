@@ -11,19 +11,21 @@ export const ROOT_APPS = {
             message:"GUI rendered" ,
         },
     },
-    // "MemoryStick": {
-    //     Component: "Demo",
-    //     props: {
-    //         message: "id: MemoryStick, App: Demp",
-    //         children: ["MemoryStick Demo div"]
-    //     }
-    // },
-    // "DemoAppWindowFrame": {
-    //     Component: "DemoAppWindowFrame",
-    //     props: {
-    //         message:"running DemoAppWindowFrame",
-    //     },
-    // },
+}
+const DEMO_APPS = {
+    "MemoryStick": {
+        Component: "Demo",
+        props: {
+            message: "id: MemoryStick, App: Demp",
+            children: ["MemoryStick Demo div"]
+        }
+    },
+    "DemoAppWindowFrame": {
+        Component: "DemoAppWindowFrame",
+        props: {
+            message:"running DemoAppWindowFrame",
+        },
+    },
 }
 export const ROOT_WINDOWS = {
     "Kernel":{
@@ -40,18 +42,27 @@ export const ROOT_WINDOWS = {
         props: {},
         children: {
             active: [],
-            // active: ["WIND1"], // all children window ids
             hidden: [] // must be from active list. these window will be pushed to the back (z-index). this preserves react useState for teh current session
         },
     },
-    // "WIND1": {
-    //     applicationId: "DemoAppWindowFrame",
-    //     props: {title: "DemoAppWindowFrame" ,},
-    //     children: {
-    //         active: [],
-    //         hidden: []
-    //     },
-    // },
+}
+const DEMO_WINDOWS = {
+    "GUI": {
+        applicationId: "GUI",
+        props: {},
+        children: {
+            active: ["WIND1"], // all children window ids
+            hidden: [] // must be from active list. these window will be pushed to the back (z-index). this preserves react useState for teh current session
+        },
+    },
+    "WIND1": {
+        applicationId: "DemoAppWindowFrame",
+        props: {title: "DemoAppWindowFrame" },
+        children: {
+            active: [],
+            hidden: []
+        },
+    },
 }
 import { createWindowsStore } from "./kernel/useWindowsStore";
 import { createAppsStore } from "./kernel/useApplicationsStore";
@@ -60,37 +71,36 @@ export const appsStore = createAppsStore({});
 
 export const STORE = {
     WINDOWS: {
-        default: windowsStore,
-        demo: { /** TDOO */}
+        default: createWindowsStore({
+            ...ROOT_WINDOWS
+        }),
+        demo: createWindowsStore({
+            ...ROOT_WINDOWS,
+            ...DEMO_WINDOWS
+        }),
     },
     APPS: {
-        default: appsStore,
-        demo: { /** TDOO */}
+        default: createAppsStore({
+            ...ROOT_APPS,
+            
+        }),
+        demo: createAppsStore({
+            ...ROOT_APPS,
+            ...DEMO_APPS
+        }),
     }
 }
 
+// * INSTALLED_APPLICATIONS
 import Kernel from "./drivers/Kernel";
 import GUI from "./drivers/GUI";
 import Demo from "./demos/Demo";
 import DemoAppWindowFrame from "./demos/AppWindowFrame";
 
 export const APPLICATIONS = {
-    os: { // ! INSTALLED_APPS {key:value} provided by < OS/>
+    default: { // ! INSTALLED_APPS {key:value} provided by < OS/>
         "Kernel": Kernel,
         "GUI": GUI,
-        // "MemoryStick": {
-        //     Component: "Demo",
-        //     props: {
-        //         message: "id: MemoryStick, App: Demp",
-        //         children: ["MemoryStick Demo div"]
-        //     }
-        // },
-        // "DemoAppWindowFrame": {
-        //     Component: "DemoAppWindowFrame",
-        //     props: {
-        //         message:"running DemoAppWindowFrame",
-        //     },
-        // },
     },
     demos: {
         "Demo": Demo,
