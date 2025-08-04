@@ -8,7 +8,7 @@
  * ! demo save states glabbally and restore glabally.
  */
 import AppWindowFrame from "./AppWindowFrame";
-import { generateConfig } from "./AppWindowFrame";
+
 import DemoAppWindowFrame from "../demos/AppWindowFrame";
 import { Cpu, MemoryStick } from "lucide-react";
 import MenuBar from "./MenuBar";
@@ -85,32 +85,10 @@ const menuItems = [
     ],
   },
 ];
-const config = (windowId) => generateConfig({
-    top: { use: true },
-    bot: {
-        renderers: [
-            {
-                componentName: "Square",
-                border: { right: true },
-                children: <Cpu />
-            },
-            {
-                componentName: "FillRect",
-                border: { right: true },
-                children: <>
-                    <DemoAppWindowFrame.Icon windowId={windowId} />
-                </>
-            }
-        ]
-    }
-});
 
 export default function GUI({windowId, message}){
     return (
-        <AppWindowFrame
-            windowId={windowId}
-            config={config(windowId)}
-        >
+        <AppWindowFrame>
         <TabSystem initialActiveTabId={{default:"Cpu", toggleBotBar:"true", appName:"Demo"}}>
             <AppWindowFrame.Top>
                 <MenuBar menuItems={menuItems}/>

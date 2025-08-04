@@ -1,95 +1,25 @@
 import ChildrenWindowsControllerRenderer from "./ChildrenWindowsControllerRenderer";
 import { createContext, Fragment, useContext } from "react";
-var Containers = {
-  Square: AppWindowFrame.Bot?.Square,
-  FillRect: AppWindowFrame.Bot?.FillRect
-}
-var generateDefaultConfig = (windowId) =>( {
-  auto: { WindowsController: true },
-  top: {
-    use: true,
-    renderer: []
-  },
-  bot: {
-    use: true,
-    renderers: [
-      {
-        Component: Containers["Square"],
-        border: { right: true },
-        children: <DemoAppWindowFrame.Icon /> // should be React Elements, array is an accepted value. using it as zero
-      },
-      {
-        Component: Containers["FillRect"],
-        border: { right: true },
-        children: <>
-          <DemoAppWindowFrame.Icon />
-          <DemoAppWindowFrame.Icon />
-          <DemoAppWindowFrame.Icon />
-        </>
-      },
-      {
-      Component: Containers["FillRect"],
-        children: <>
-          <ChildrenWindowsControllerRenderer id={windowId}/>
-          <ChildrenWindowsControllerRenderer id={windowId}/>
-          <ChildrenWindowsControllerRenderer id={windowId}/>
-          <ChildrenWindowsControllerRenderer id={windowId}/>
-          <ChildrenWindowsControllerRenderer id={windowId}/>
-          <ChildrenWindowsControllerRenderer id={windowId}/>
-          <ChildrenWindowsControllerRenderer id={windowId}/>
-          <ChildrenWindowsControllerRenderer id={windowId}/>
-        </>
-      }
-    ]
-  }
-})
-export function generateConfig(config){
-  return {
-    auto: { WindowsController: true },
-    top: {
-      use: config?.top?.use ?? true,
-      renderers: config?.top?.renderers ?? []
-    },
-    bot: {
-      use: config?.bot?.use ?? true,
-      //TODO: support multiple bars
-      renderers:  config?.bot?.renderers 
-        ? config.bot.renderers.map((item)=>({
-          Component: Containers[item.componentName],
-          border: { 
-            left: item?.border?.left ?? false,
-            right: item?.border?.right ?? false
-          },
-          children: item?.children ?? [],
-        }))
-        : [],      
-    }
-  }
-}
-// const ep  = () =>  ({
-//     windowId: "",
-//     config: generateConfig(config)
-//   }
-// )
-
 
 const AppWindowFrameContext = createContext(null);
 export default function AppWindowFrame({children, ...props}){
     const {
-      windowId,
-      config = "default", 
-
+      config = {
+        top: { use: true },
+        bot: { use: true }
+      }
     } = props;
-    const configure = config === "default"
-      ? generateDefaultConfig(windowId)
-      : config
-    ;
-
-    return (<AppWindowFrameContext.Provider value={{configure}}>
+    const _config = {
+      top: { use: true },
+      bot: { use: true },
+      ...config
+    }
+    return (<AppWindowFrameContext.Provider value={{config:_config}}>
         <div
             style = {{
                 boxSizing: "border-box",
-                position:"relative",
+                // * absolute will look for ----- so it disregarded the no height/width immidiate parent
+                position: "absolute", //"relative",
                 width:"100%",
                 height:"100%",
                 display: "flex",
@@ -107,8 +37,8 @@ export default function AppWindowFrame({children, ...props}){
     </AppWindowFrameContext.Provider>)
 }
 AppWindowFrame.Top = function Top({ children}){
-  const { configure } = useContext(AppWindowFrameContext);
-  const height = configure.top.use? "22px" : "0px";
+  const { config } = useContext(AppWindowFrameContext);
+  const height = config.top.use? "22px" : "0px";
   return (
     <div
       style={{ 
@@ -122,15 +52,15 @@ AppWindowFrame.Top = function Top({ children}){
   )
 }
 AppWindowFrame.Mid = function Mid({  children}){
-  const { configure } = useContext(AppWindowFrameContext);
-  const topBarHeight = configure.top.use? "22px" : "0px"; 
-  const botBarHeight = configure.bot.use? "40px" : "0px"; 
+  const { config } = useContext(AppWindowFrameContext);
+  const topBarHeight = config.top.use? "22px" : "0px"; 
+  const botBarHeight = config.bot.use? "40px" : "0px"; 
   return (
     <div 
       style={{
           // flex: 1, 
           zIndex:"1",
-          position:"relative",
+          position: "relative",
           // width:"100%",
           height: `calc( 100% - ${topBarHeight} - ${botBarHeight} )`,
           overflow: "clip", //hidden
@@ -142,8 +72,8 @@ AppWindowFrame.Mid = function Mid({  children}){
   )
 }
 AppWindowFrame.Bot = function Bot({children, ...props }){
-  const { configure } = useContext(AppWindowFrameContext);
-  const height = configure.bot.use? "40px" : "0px";
+  const { config } = useContext(AppWindowFrameContext);
+  const height = config.bot.use? "40px" : "0px";
   return (
     <div {...props}
       style={{
@@ -167,19 +97,7 @@ AppWindowFrame.Bot = function Bot({children, ...props }){
     </div>
   )
 }
-// function BotBarItems({windowId}){
-//   const { configure } = useContext(AppWindowFrameContext);
-//   const height = configure.bot.use? "40px" : "0px";
-//   return (<>
-//       <RenderWindowButtons renderers={configure.bot.renderers} botBarHeight={height} />
-//       {configure.auto.WindowsController &&
-//         <FillRectContainer>
-//             {/* //TODO: turn this into spereate hidden and active. hidden list are shown by defult, while active is collapsed to the right side. */}
-//             <ChildrenWindowsControllerRenderer id={windowId}/>
-//         </FillRectContainer>
-//       }
-//   </>)
-// }
+
 function RenderWindowButtons({renderers, botBarHeight}){
   return (<>
     {renderers.map((renderer, index )=>{
@@ -202,8 +120,8 @@ function RenderWindowButtons({renderers, botBarHeight}){
   </>)
 }
 AppWindowFrame.Bot.Square = function SquareContainer({children, padding="10px"}){
-  const { configure } = useContext(AppWindowFrameContext);
-  const height = configure.bot.use? "40px" : "0px";
+  const { config } = useContext(AppWindowFrameContext);
+  const height = config.bot.use? "40px" : "0px";
   return (
     <div
       style={{
@@ -228,8 +146,8 @@ AppWindowFrame.Bot.Square = function SquareContainer({children, padding="10px"})
 }
 
 AppWindowFrame.Bot.FillRect = function FillRectContainer({children, paddingLR="10px"}){
-  const { configure } = useContext(AppWindowFrameContext);
-  const height = configure.bot.use? "40px" : "0px";
+  const { config } = useContext(AppWindowFrameContext);
+  const height = config.bot.use? "40px" : "0px";
   return (
     <div
       style={{

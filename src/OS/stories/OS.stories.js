@@ -3,7 +3,7 @@ import { expect, userEvent, within } from 'storybook/test';
 import OS from '..';
 
 export default {
-  title: 'Example/OS',
+  title: 'OS',
   component: OS,
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
@@ -22,13 +22,10 @@ export const Default = {
   // },
   
 };
-
-export const Demo = {
-  // parameters: {
-    
-  // },
+Default.storyName = "{}";
+export const ModeDemo = {
   args: {
     mode: "demo"
   }
-  
 };
+ModeDemo.storyName = "{mode: 'demo'}";

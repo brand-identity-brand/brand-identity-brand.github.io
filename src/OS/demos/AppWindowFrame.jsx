@@ -1,4 +1,4 @@
-import AppWindowFrame, { generateConfig }  from "../drivers/AppWindowFrame";
+import AppWindowFrame from "../drivers/AppWindowFrame";
 import { AppWindow } from "lucide-react";
 import { useAppsHooks } from "../kernel/useApplicationsStore";
 import { useWindowsHooks } from "../kernel/useWindowsStore";
@@ -7,15 +7,6 @@ import initAppIntoWindow, { useInitAppIntoWindowHook } from "../events/initAppIn
 import ChildrenWindowsControllerRenderer from "../drivers/AppWindowFrame/ChildrenWindowsControllerRenderer";
 import ChildrenWindowsRenderer from "../drivers/ChildrenWindowsRenderer";
 
-const config = generateConfig({
-    top: {
-        renderer: []
-    },
-    bot: {
-        renderers: []
-    }
-})
-
 export default function DemoAppWindowFrame(props){
     const {
         windowId,
@@ -23,8 +14,10 @@ export default function DemoAppWindowFrame(props){
     } = props;
     return (
         <AppWindowFrame
-            windowId={windowId}
-            config={config}
+            config={{
+                top: { use: true },
+                bot: { use: true },
+            }}
         >
             {/* <div>
                 prop.message: {message}

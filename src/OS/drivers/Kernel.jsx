@@ -146,17 +146,6 @@ function PrintWindowsState({windows}){
     )
 }
 
-function StorePrinter({state, message=(key, state)=>`${key} ${ JSON.stringify(state[key]) }` }){
-    const keys = Object.keys(state);
-    const res = keys.map((key)=>{
-        return  {
-            id: key,
-            message: message(key, state)
-        }
-    })
-    return res;
-}
-
 function DefaultWindowComponent({children, zIndex, style, ...props}){
     return (
         <div {...props}
