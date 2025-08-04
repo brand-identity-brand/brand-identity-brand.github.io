@@ -2,16 +2,35 @@ import useKernelContext from "../kernel/useKernelContext";
 import  ChildrenWindowsRenderer from "./ChildrenWindowsRenderer";
 
 
-export default function Kernel({children,applicationId,windowId, applicationRegistry,...props}){
+export default function Kernel({children,applicationId,windowId,...props}){
     const {
         // passed via windowsStore
         message,
     } = props;
     
-    const { hooks } = useKernelContext();
+    const { hooks, applicationRegistry } = useKernelContext();
     const windows = hooks.windows.useWindowsState();
     const apps  = hooks.apps.useApplicationsState();
     
+    const cssTabs = {
+        width:"auto",
+        fontSize: "16px", 
+        padding: "0px 20px 0px 20px",
+        // fontFamily:"monospace",
+        // textAlign:"baseline",
+        active: {
+            boxSizing:"border-box",
+            color: "black",
+            backgroundColor: "white",
+            // borderRight: "1px dotted rgba(0, 72, 255, 0.47)",
+        },
+        inactive: {
+            boxSizing:"border-box",
+            color: "white",
+            backgroundColor: "rgba(0, 72, 255, 0.47)",
+            borderRight: " 1px dotted white",
+        }
+    }
     return (<>
         <div 
             style={{
@@ -31,56 +50,33 @@ export default function Kernel({children,applicationId,windowId, applicationRegi
 
             <div 
                 style={{
+                    boxSizing:"border-box",
                     width: "100%",
                     height: "30px",
                     display: "flex",
                     // borderBottom: " 1px dotted black",
+                    // backgroundColor: "rgba(0, 72, 255, 0.47)"
                 }}
             >
-                <TabSystem.Tab id={"windows"} style={{ fontSize: "20px", padding: "0px 20px 0px 20px",
-                    active: {
-                        boxSizing:"border-box",
-                        borderTop: " 2px solid black",
-                        borderLeft: " 2px solid black",
-                        borderRight: " 2px solid black",
-                        color: "black",
-                        backgroundColor: "white"
-                    },
-                    inactive: {
-                        borderBottom: " 2px solid black",
-                        color: "black",
-                        backgroundColor: "white"
-                    }
-                }}>
+                <TabSystem.Tab id={"windows"} style={{ ...cssTabs }}>
                     windows
                 </TabSystem.Tab>
-                <TabSystem.Tab id={"applications"} style={{ fontSize: "20px", padding: "0px 20px 0px 20px",
-                    active: {
-                        boxSizing:"border-box",
-                        borderTop: " 2px solid black",
-                        borderLeft: " 2px solid black",
-                        borderRight: " 2px solid black",
-                        color: "black",
-                        backgroundColor: "white"
-                    },
-                    inactive: {
-                        borderBottom: " 2px solid black",
-                        color: "black",
-                        backgroundColor: "white"
-                    }
-
-                }}>
+                <TabSystem.Tab id={"applications"} style={{ ...cssTabs }}>
                     applications
+                </TabSystem.Tab>
+                <TabSystem.Tab id={"INSTALLED_APPLICATIONS"} style={{ ...cssTabs }}>
+                    INSTALLED_APPLICATIONS
                 </TabSystem.Tab>
             </div>
 
             <div 
                 style={{
+                    boxSizing: "border-box0",
                     width: "100%",
                     height: "calc( 100% - 30px )",
                     // display: "flex",
-                    // borderTop: " 1px dotted black",
-                  
+                    // borderTop: " 2px dashed white",
+                    padding: "20px"
                 }}
             >
                 {/**
@@ -94,7 +90,11 @@ export default function Kernel({children,applicationId,windowId, applicationRegi
                     <PrintWindowsState windows={windows}/>
                 </TabSystem.Panel>
 
-
+                <TabSystem.Panel id={"INSTALLED_APPLICATIONS"}  style={{overflow:"scroll"}}>
+                    {/* <PrintWindowsState windows={windows}/> */}
+                   
+                    <ShowApplicationRegistry applicationRegistry={applicationRegistry}/>
+                </TabSystem.Panel>
             </div>
             
             
@@ -145,7 +145,14 @@ function PrintWindowsState({windows}){
         />  
     )
 }
-
+function ShowApplicationRegistry({applicationRegistry}){
+    return (
+        <ReactJsonView 
+            showComma
+            src={applicationRegistry}
+        />  
+    )
+}
 function DefaultWindowComponent({children, zIndex, style, ...props}){
     return (
         <div {...props}
@@ -162,6 +169,7 @@ function DefaultWindowComponent({children, zIndex, style, ...props}){
 }
 
 // MemoryStick as icon
+// TODO. rename to icon
 import { MemoryStick } from "lucide-react";
 Kernel.Tab = function (){
     return (

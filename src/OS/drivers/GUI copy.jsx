@@ -116,6 +116,10 @@ export default function GUI({windowId, message}){
                     </TabSystem.Panel>
 
                 </TabSystem.Panel>
+                <TabSystem.Panel id={"MemoryStick"}>
+
+                    {/* <ApplicationManagerRenderer id={"MemoryStick"} windowId={windowId}/> */}
+                </TabSystem.Panel>
               </div>
           
               <ChildrenWindowsRenderer id={windowId}/>
@@ -123,11 +127,19 @@ export default function GUI({windowId, message}){
             {/*
             * //! below  
             */}
-            <TabSystem.Panel id={{toggleBotBar:"true"}} style={{position:"relative", height:"40px"}}>
+            <TabSystem.Panel id={{toggleBotBar:"true"}} style={{position:"relative", height:"80px"}}>
+                <DesktopBar windowId={windowId} tabId={{default:"MemoryStick", toggleBotBar:"false"}}
+                    StartComponent={[<MemoryStick key={0}/>]} 
+                    applicationIds={[
+                        "DemoAppWindowFrame"
+                    ]}
+                >
+                    
+                </DesktopBar>
                 <DesktopBar windowId={windowId}  tabId={{default:"Cpu", toggleBotBar:"false"}}
                     StartComponent={[<Cpu key={0}/>]} 
                     applicationIds={[
-                        "DemoAppWindowFrame"
+                        
                     ]}
                 >
                     <AppWindowFrame.Bot.Square padding="0px">
@@ -137,13 +149,32 @@ export default function GUI({windowId, message}){
                             */}
                             <Kernel.Tab/>
                         </TabSystem.Tab>
-                    </AppWindowFrame.Bot.Square >                 
+                    </AppWindowFrame.Bot.Square >
+
+                    
+                    <AppWindowFrame.Bot.Square padding="0px">
+                        <TabSystem.Tab selectActiveIds={["appName"]} id={{default: "Cpu",appName:"Demo"}} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                            D
+                        </TabSystem.Tab>
+                    </AppWindowFrame.Bot.Square>
+                    
+                    
                 </DesktopBar>
             </TabSystem.Panel>
             {/*
             * //! below  
             */}
             <TabSystem.Panel id={{toggleBotBar:"false"}} style={{position:"relative", height:"40px"}}>
+                <TabSystem.Panel  id={"MemoryStick"} style={{position:"relative", height:"40px"}}>
+                    <DesktopBar windowId={windowId} tabId={{default:"MemoryStick", toggleBotBar:"true"}} 
+                        StartComponent={[<MemoryStick key={0}/>]}
+                        applicationIds={[
+                            "DemoAppWindowFrame"
+                        ]}
+                    >
+                       
+                    </DesktopBar>
+                </TabSystem.Panel>
                 <TabSystem.Panel id={"Cpu"} style={{position:"relative", height:"40px"}}>
                     <DesktopBar windowId={windowId}  tabId={{default:"Cpu", toggleBotBar:"true"}} 
                         StartComponent={[<Cpu key={0}/>]} 
@@ -157,6 +188,11 @@ export default function GUI({windowId, message}){
                                 * // * for OS stores
                                 */}
                                 <Kernel.Tab/>
+                            </TabSystem.Tab>
+                        </AppWindowFrame.Bot.Square>
+                        <AppWindowFrame.Bot.Square padding="0px">
+                            <TabSystem.Tab selectActiveIds={["appName"]} id={{appName:"Demo"}} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                                D
                             </TabSystem.Tab>
                         </AppWindowFrame.Bot.Square>
                     </DesktopBar>
