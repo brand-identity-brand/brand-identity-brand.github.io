@@ -10,3 +10,11 @@ Currently, two official plugins are available:
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+! ROTATE the token in npmrc for github to install @brand-identity-brand/os
+``` javascript 
+import { OS } from "@brand-identity-brand/os";
+// * in vite.config.js -> optimizeDeps: { include: ['@brand-identity-brand/os/os.css'] }
+// * this allows vite to resolve this import path. 
+import "@brand-identity-brand/os/os.css";
+```
