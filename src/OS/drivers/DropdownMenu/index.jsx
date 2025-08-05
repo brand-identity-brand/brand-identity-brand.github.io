@@ -10,15 +10,15 @@ import css from "./index.module.css";
  */
 
 /**
- * @typedef {Object} MenuBarArrayProps
+ * @typedef {Object} DropdownMenuArrayProps
  * @property {MenuItem[]} menuItems - Array of menu items to display
  */
 
 /**
- * MenuBarArray component that renders a menu bar with support for nested submenus
- * @param {MenuBarArrayProps} props
+ * DropdownMenuArray component that renders a menu bar with support for nested submenus
+ * @param {DropdownMenuArrayProps} props
  */
-export default function MenuBar({ menuItems = [] }) {
+export default function DropdownMenu({ menuItems = [] }) {
   const [activeMenu, setActiveMenu] = useState(null);
   const [activeSubmenus, setActiveSubmenus] = useState([]);
   const menuRef = useRef(null);
@@ -121,7 +121,7 @@ export default function MenuBar({ menuItems = [] }) {
   };
 
   return (
-    <div className={css.menuBar} ref={menuRef} role="menubar" aria-label="Main Menu">
+    <div className={css.DropdownMenu} ref={menuRef} role="DropdownMenu" aria-label="Main Menu">
       {renderMenuItems(menuItems)}
     </div>
   );

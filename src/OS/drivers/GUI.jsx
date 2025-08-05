@@ -11,7 +11,7 @@ import AppWindowFrame from "./AppWindowFrame";
 
 import DemoAppWindowFrame from "../demos/AppWindowFrame";
 import { Cpu, MemoryStick } from "lucide-react";
-import MenuBar from "./MenuBar";
+import DropdownMenu from "./DropdownMenu";
 import ChildrenWindowsRenderer from "./ChildrenWindowsRenderer";
 import ChildrenWindowsControllerRenderer from "./AppWindowFrame/ChildrenWindowsControllerRenderer";
 import TabSystem from "./TabSystem";
@@ -91,7 +91,7 @@ export default function GUI({windowId, message}){
         <AppWindowFrame>
         <TabSystem initialActiveTabId={{default:"Cpu", toggleBotBar:"true", appName:"Demo"}}>
             <AppWindowFrame.Top>
-                <MenuBar menuItems={menuItems}/>
+                <DropdownMenu menuItems={menuItems}/>
             </AppWindowFrame.Top>
 
             <AppWindowFrame.Mid>

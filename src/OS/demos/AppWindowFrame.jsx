@@ -23,7 +23,7 @@ export default function DemoAppWindowFrame(props){
                 prop.message: {message}
             </div> */}
             <AppWindowFrame.Top>
-                {/* <MenuBar menuItems={menuItems}/> */}
+                {/* <DropdownMenu menuItems={menuItems}/> */}
             </AppWindowFrame.Top>
             <AppWindowFrame.Mid>
               <div 

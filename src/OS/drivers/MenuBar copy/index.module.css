@@ -1,0 +1,85 @@
+.DropdownMenu {
+  box-sizing: border-box;
+  display: flex;
+  background-color: #c0c0c0;
+  border-bottom: 0px solid black;
+  /* position: absolute; */
+  position: "relative";
+  top: 0;
+  width: 100%;
+  /* z-index: 10; */
+  height: 22px;
+  box-sizing: border-box;
+
+  font-family: sans-serif;
+}
+
+.menuButton {
+  padding: 2px 8px;
+  font-size: 14px;
+  position: relative;
+  line-height: 17px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.menuButton:hover {
+  background-color: #000080;
+  color: white;
+}
+
+.menuItem {
+  width: 100%;
+  text-align: left;
+  padding: 4px 16px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  color: black;
+  /* background: none; */
+  background-color: #c0c0c0;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.menuItem:hover {
+  background-color: #000080;
+  color: white;
+}
+
+.dropdown {
+  position: absolute;
+  left: 0;
+  top: 100%;
+
+  /* width: 192px; */
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.submenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  /* z-index: 51; */
+  /* width: 192px; */
+  background-color: #c0c0c0;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Add focus styles for keyboard navigation */
+.menuButton:focus,
+.menuItem:focus {
+  /*outline: 1px dotted black;*/
+  background-color: #000080;
+  color: white;
+}

@@ -1,5 +1,5 @@
 import css from "./index.module.css";
-// import { MenuBar } from "../../MenuBar";
+// import { DropdownMenu } from "../../DropdownMenu";
 import Taskbar from "../../atoms/Taskbar";
 import StartButton from "../../atoms/StartButton";
 import StartMenu from "../../atoms/StartMenu";
@@ -12,7 +12,7 @@ import { useState, useRef, useEffect } from "react";
  */
 export default function Content({ children, ...props }) {
   const {
-    MenuBar:{
+    DropdownMenu:{
       menuItems
     },
     StartButton:{
@@ -26,9 +26,9 @@ export default function Content({ children, ...props }) {
     renderTheRestOfTaskbar
   } = props;
 
-  const hasMenuBar = menuItems!==undefined && menuItems.length !== 0 
+  const hasDropdownMenu = menuItems!==undefined && menuItems.length !== 0 
 
-  const menuBarHeight = hasMenuBar ? "22px" : 0;
+  const DropdownMenuHeight = hasDropdownMenu ? "22px" : 0;
   const taskbarHeight = hasTaskbar ? "calc( 2rem + 2px )" : 0;
  
   const [ showStartMenu , setShowStartMenu] = useState(false); //css.startButtonActive
@@ -52,7 +52,7 @@ export default function Content({ children, ...props }) {
       <div
         className={css.Body}
         style={{
-          top: hasMenuBar ? menuBarHeight: 0,
+          top: hasDropdownMenu ? DropdownMenuHeight: 0,
           bottom: hasTaskbar? taskbarHeight : 0,
           left: 0,
           right: 0
@@ -84,7 +84,7 @@ export default function Content({ children, ...props }) {
           
         </Taskbar>
       )}
-      {/* {menuItems && <MenuBar menuItems={menuItems} />} */}
+      {/* {menuItems && <DropdownMenu menuItems={menuItems} />} */}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import AppWindowFrame from ".";
 import TabSystem from "../TabSystem";
-function Top( {children}){
+function DropdownMenu( {children}){
     return (
         <AppWindowFrame.Top>
             {children}
@@ -40,7 +40,7 @@ function Mid( {children, ...props}){
         </AppWindowFrame.Mid>
     )
 }
-function Bot({
+function TaskBar({ // ! Bot
     // * 0 left most
     StartComponent=[],
     // * 1 second from the left
