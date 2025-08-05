@@ -1,13 +1,15 @@
 import AppWindowFrame from ".";
-import TabSystem from "../TabSystem";
-function DropdownMenu( {children}){
+import ChildrenWindowsRenderer from "../ChildrenWindowsRenderer";
+import ChildrenWindowsControllerRenderer from "./ChildrenWindowsControllerRenderer";
+
+export function AppMenu( {children}){
     return (
         <AppWindowFrame.Top>
             {children}
         </AppWindowFrame.Top>
     )
 }
-function Mid( {children, ...props}){
+export function ContentArea( {children, ...props}){
     const {
         windowId
     } = props;
@@ -40,31 +42,29 @@ function Mid( {children, ...props}){
         </AppWindowFrame.Mid>
     )
 }
-function TaskBar({ // ! Bot
-    // * 0 left most
-    StartComponent=[],
-    // * 1 second from the left
-    // applets
-    // children, 
-    // * 2 third from the left - give windowId and filter with applicationIds to render childrenId
-    windowId, 
-    applicationIds,
-    //
-    tabId, 
-    //
-    ...props
-}){
+export function TaskBar({children,...props}){// ! Bot
+    const { 
+        // * 0 left most
+        StartIconJSX = <div>?</div>,
+        // * 1 second from the left
+        // applets buuttons in 
+        // children, 
+        // * 2 third from the left - give windowId and filter with applicationIds to render childrenId
+        windowId, 
+        applicationIds,//! white list applicationIds
+        ...otherProps
+    } = props;
     return (
-        <AppWindowFrame.Bot {...props}>
+        <AppWindowFrame.Bot {...otherProps}>
 
-            <Start tabId={tabId}>
-                {StartComponent}
+            <Start>
+                {StartIconJSX}
             </Start>
 
             <AppWindowFrame.Bot.Border width="4px"/>
 
             { children && <>
-                <AppTabs tabId={tabId}>
+                <AppTabs> 
                     {children}
                 </AppTabs>
                 <AppWindowFrame.Bot.Border width="4px"/>
@@ -96,7 +96,7 @@ function ChildrenWindowsTogglers({windowId, applicationIds}){
     )
 }
 // * ==usages
-function EmptyBar(){
+TaskBar.Empty = function EmptyTaskBar(){
     return (
         <AppWindowFrame.Bot>
             <AppWindowFrame.Bot.Square/>

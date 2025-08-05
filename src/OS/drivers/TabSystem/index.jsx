@@ -1,7 +1,8 @@
-import { useContext, useState, createContext, Fragment } from "react";
+import { useContext, useState, createContext  } from "react";
 import css from "./index.module.css"
 // import { Backpack } from "lucide-react";
 
+// this thign supports multi dimentional tabs 
 
 const TabContext = createContext({
     useTabState: ()=>[ "state", "setState" ]
@@ -34,7 +35,9 @@ export default function TabSystem({children, ...props}){
     )
 }
 function isActive(id, activeTabId){
-    
+    // ! only checks the first value
+    // ! this makes the order of this object matter
+    // TODO: make this an array
     switch ( typeof id ) {
         case "string": {
             return activeTabId.default === id;

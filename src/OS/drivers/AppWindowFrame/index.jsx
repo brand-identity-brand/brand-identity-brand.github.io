@@ -169,3 +169,10 @@ AppWindowFrame.Bot.Border = function Border({
     }}
   />
 }
+
+// * AppFrame consumes above components and then exports them.
+// * AppFrame is proxied from AppWindowFrameContext as it got a seperate file for readability. functional-wise they should be in the same file.
+import { AppMenu, ContentArea, TaskBar } from "./AppFrame";
+AppWindowFrame.AppMenu = AppMenu;
+AppWindowFrame.ContentArea = ContentArea;
+AppWindowFrame.TaskBar = TaskBar;
