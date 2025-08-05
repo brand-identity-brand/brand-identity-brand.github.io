@@ -56,7 +56,7 @@ export default function DemoAppWindowFrame(props){
         </AppWindowFrame>
     )
 }
-
+DemoAppWindowFrame.displayName = "DemoAppWindowFrame";
 DemoAppWindowFrame.Icon = ({windowId}) => {
     const ctx = useInitAppIntoWindowHook();
 

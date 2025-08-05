@@ -118,6 +118,7 @@ export default function Kernel({children,applicationId,windowId,...props}){
         }
     </>)
 };
+Kernel.displayName="Kernel";
 
 import ReactJsonView from '@microlink/react-json-view';
 import TabSystem from "./TabSystem";

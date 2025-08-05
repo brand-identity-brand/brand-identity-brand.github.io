@@ -175,7 +175,7 @@ export default function GUI({windowId, message}){
         </AppWindowFrame>
     )
 }
-
+GUI.displayName="GUI";
 function Start({tabId, children}){
     return (
         <AppWindowFrame.Bot.Square padding="0px">

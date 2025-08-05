@@ -18,7 +18,7 @@ export default function OS({
 }){
     
     const applicationRegistry = {
-        ... APPLICATIONS.default,
+        ...APPLICATIONS.default,
         ...(mode === "demo" ? APPLICATIONS.demos : {}),
         ...INSTALLED_APPLICATIONS
     };

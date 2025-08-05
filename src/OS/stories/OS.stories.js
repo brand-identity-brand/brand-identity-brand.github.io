@@ -23,9 +23,23 @@ export const Default = {
   
 };
 Default.storyName = "{}";
+
 export const ModeDemo = {
   args: {
     mode: "demo"
   }
 };
 ModeDemo.storyName = "{mode: 'demo'}";
+
+import { createAppsStore } from '../kernel/useApplicationsStore';
+import { createWindowsStore } from '../kernel/useWindowsStore';
+
+const appsStore = createAppsStore({})
+const windowsStore = createWindowsStore({})
+export const withStores = {
+  args: {
+    appsStore: appsStore,
+    windowsStore: windowsStore 
+  }
+};
+Default.storyName = "{ appsStore, windowsStore }";

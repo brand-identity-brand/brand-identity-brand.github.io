@@ -6,3 +6,4 @@ export default function Demo({children,props}){
         </div>
     )
 }
+Demo.displayName = "Demo";

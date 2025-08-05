@@ -47,8 +47,13 @@ export default defineConfig(({mode})=>{
         }
       }]
     },
+    //isLibMode 
+    esbuild: {
+      keepNames: true // ⬅️ preserves function/class names
+    },
     build: isLibMode 
     ? {
+      minify: false, // <-- IMPORTANT
       lib: {
         entry: path.resolve(__dirname, 'index.jsx'),
         name: 'os',
