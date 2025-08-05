@@ -97,28 +97,6 @@ AppWindowFrame.Bot = function Bot({children, ...props }){
     </div>
   )
 }
-
-function RenderWindowButtons({renderers, botBarHeight}){
-  return (<>
-    {renderers.map((renderer, index )=>{
-      const { 
-        Component,
-        border,
-        children
-      } = renderer;
-
-      return (
-        <Fragment key={index}>
-          { border?.left && <Border width="2px" color="grey" /> }
-          <Component botBarHeight={botBarHeight}>
-            {children}
-          </Component>
-          { border?.right && <AppWindowFrame.Bot.Border width="2px" color="grey" /> }
-        </Fragment>
-      )
-    })}
-  </>)
-}
 AppWindowFrame.Bot.Square = function SquareContainer({children, padding="10px"}){
   const { config } = useContext(AppWindowFrameContext);
   const height = config.bot.use? "40px" : "0px";
@@ -144,7 +122,6 @@ AppWindowFrame.Bot.Square = function SquareContainer({children, padding="10px"})
     </div>
   )
 }
-
 AppWindowFrame.Bot.FillRect = function FillRectContainer({children, paddingLR="10px"}){
   const { config } = useContext(AppWindowFrameContext);
   const height = config.bot.use? "40px" : "0px";
