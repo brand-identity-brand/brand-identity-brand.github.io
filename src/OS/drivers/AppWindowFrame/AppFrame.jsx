@@ -9,12 +9,12 @@ export function AppMenu( {children}){
         </AppWindowFrame.Top>
     )
 }
-export function ContentArea( {children, ...props}){
+export function ContentArea( {children, style, ...props}){
     const {
         windowId
     } = props;
     return (
-        <AppWindowFrame.Mid>
+        <AppWindowFrame.Mid style={style}>
             <div 
                 style={{
                     backgroundColor:"white", 

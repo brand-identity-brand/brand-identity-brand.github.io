@@ -51,7 +51,7 @@ AppWindowFrame.Top = function Top({ children}){
     </div>
   )
 }
-AppWindowFrame.Mid = function Mid({  children}){
+AppWindowFrame.Mid = function Mid({style, children}){
   const { config } = useContext(AppWindowFrameContext);
   const topBarHeight = config.top.use? "22px" : "0px"; 
   const botBarHeight = config.bot.use? "40px" : "0px"; 
@@ -61,10 +61,12 @@ AppWindowFrame.Mid = function Mid({  children}){
           // flex: 1, 
           zIndex:"1",
           position: "relative",
-          // width:"100%",
-          height: `calc( 100% - ${topBarHeight} - ${botBarHeight} )`,
+          width:"100%",
+          height: `calc( 100% - ${topBarHeight} - ${botBarHeight} )`, // needed if position: absolute
+          // height: "100%",
           overflow: "clip", //hidden
-          // display: 
+          // 
+          ...style
       }}
     >
       {children}

@@ -18,3 +18,7 @@ import { OS } from "@brand-identity-brand/os";
 // * this allows vite to resolve this import path. 
 import "@brand-identity-brand/os/os.css";
 ```
+
+
+all Components can be rendered with ApplicationRenderer.
+if thats the casem the component will gain the ability to share its states globally. hydrating states via props, then the internal of the apps can decide if the state should be synced

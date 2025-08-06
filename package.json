@@ -5,7 +5,7 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "private": false,
-  "version": "0.0.3-k",
+  "version": "0.0.3-m",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
