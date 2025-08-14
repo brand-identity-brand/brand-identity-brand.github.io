@@ -1,3 +1,4 @@
+import "./index.css";
 // * OS constants
 import { STORE, APPLICATIONS } from "./constants";
 // * main

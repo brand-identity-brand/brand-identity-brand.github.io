@@ -18,7 +18,7 @@ import css from "./index.module.css";
  * DropdownMenuArray component that renders a menu bar with support for nested submenus
  * @param {DropdownMenuArrayProps} props
  */
-export default function DropdownMenu({ menuItems = [] }) {
+export default function DropdownMenu({ style={}, menuItems = [] }) {
   const [activeMenu, setActiveMenu] = useState(null);
   const [activeSubmenus, setActiveSubmenus] = useState([]);
   const menuRef = useRef(null);
@@ -89,6 +89,7 @@ export default function DropdownMenu({ menuItems = [] }) {
 
       return (
         <div
+          style={style}
           key={index}
           className={level === 0 ? css.menuButton : css.menuItem}
           onClick={handleItemClick}

@@ -177,3 +177,7 @@ Kernel.Tab = function (){
         <MemoryStick />
     )
 }
+
+// TODO:
+// ! instead of storing states directly inside store, components cant user their own localStore. but then it wont be portable with the OS. 
+// ! this means it should have a) value mode, b) resolver mode. the resolver returns useStateHook

@@ -12,3 +12,7 @@ export { default as Window } from "./src/OS/drivers/Window";
 export { default as ChildrenWindowsControllerRenderer } from "./src/OS/drivers/AppWindowFrame/ChildrenWindowsControllerRenderer";
 export { default as ChildrenWindowsRenderer } from "./src/OS/drivers/ChildrenWindowsRenderer";
 export { default as ApplicationManagerRenderer } from "./src/OS/drivers/ApplicationManagerRenderer";
+
+
+// export { default as initAppIntoWindow, useInitAppIntoWindowHook } from "./src/OS/events/initAppIntoWindow";
+export { default as useKernelContext }  from "./src/OS/kernel/useKernelContext";

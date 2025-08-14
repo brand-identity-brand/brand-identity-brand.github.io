@@ -38,7 +38,14 @@ export function ContentArea( {children, style, ...props}){
             {/* </TabSystem.Panel> */}
             </div>
                 {children}
-            <ChildrenWindowsRenderer id={windowId}/>
+{/* 
+// ! ONLY the most outder base window need this
+// ! other piggy backing onlt needs to render children tabs in taskbar.
+// ! windows should hover over everything execpt for their bouding element. (desktop )
+// ! only window can contain window, unless it is an inactive window
+*/}
+{/* delete */}
+<ChildrenWindowsRenderer id={windowId}/>
         </AppWindowFrame.Mid>
     )
 }
@@ -70,6 +77,10 @@ export function TaskBar({children,...props}){// ! Bot
                 <AppWindowFrame.Bot.Border width="4px"/>
             </>}
 
+// ! WindowTogglers should select for birthMotherId to track an app id's init-trigger
+// ! this also helps with managing only windows it triggered to open. saving ShowApplicationRegistry
+// ! just add a callback arg. callback( all children windows). then it will filter for the selected active window of the target parentId ( stepParentId )
+// ! also the rendering of children windows is bugged. as each desktop is getting tis own render whwich is bad
             <ChildrenWindowsTogglers windowId={windowId} applicationIds={applicationIds}/>
         </AppWindowFrame.Bot> 
     )

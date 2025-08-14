@@ -1,12 +1,14 @@
 import useKernelContext from "../kernel/useKernelContext";
 //! maybe this should be inside KernelContext
 export function useInitAppIntoWindowHook(){
+    //
     const { hooks: { windows, apps } } = useKernelContext();    
     const { useApplicationsContoller,  useApplicationsState } = apps; 
     const { useWindowsContollers } = windows;
+    //
     const { registerApplication } = useApplicationsContoller();
+    const appsStates = useApplicationsState(); //?
     const { registerWindow, registerChildWindow} = useWindowsContollers();
-    const appsStates = useApplicationsState()
     return {
         registerApplication,
         registerWindow, registerChildWindow,
@@ -18,13 +20,13 @@ export default function initAppIntoWindow({ctx, mode,appName, windowId, applicat
         const {
             registerApplication,
             registerWindow, registerChildWindow,
-            appsStates
+            applications
         } = ctx;
         // *
 
-        const appsStatesArr =  Object.entries(appsStates); // * [id, { ...application }]
+        const applicationsArr =  Object.entries(applications); // * [id, { ...application }]
         // *
-        const findDuplicateAppName = appsStatesArr.filter( app => app[1].Component === appName) 
+        const findDuplicateAppName = applicationsArr.filter( app => app[1].Component === appName) 
         
         switch( mode ){
             case "unique": {
@@ -33,6 +35,7 @@ export default function initAppIntoWindow({ctx, mode,appName, windowId, applicat
                     console.log("!: ", "generateAppId found 2 identical keys. impossible!")
                 } else if ( findDuplicateAppName.length === 1 ) {
                     // * app already rendered. 
+                    console.log("app already rendered. do nothing")
 
                 } else {
    
