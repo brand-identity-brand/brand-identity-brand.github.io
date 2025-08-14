@@ -76,11 +76,12 @@ export function TaskBar({children,...props}){// ! Bot
                 </AppTabs>
                 <AppWindowFrame.Bot.Border width="4px"/>
             </>}
-
+{/* 
 // ! WindowTogglers should select for birthMotherId to track an app id's init-trigger
 // ! this also helps with managing only windows it triggered to open. saving ShowApplicationRegistry
 // ! just add a callback arg. callback( all children windows). then it will filter for the selected active window of the target parentId ( stepParentId )
-// ! also the rendering of children windows is bugged. as each desktop is getting tis own render whwich is bad
+// ! also the rendering of children windows is bugged. as each desktop is getting tis own render whwich is bad 
+*/}
             <ChildrenWindowsTogglers windowId={windowId} applicationIds={applicationIds}/>
         </AppWindowFrame.Bot> 
     )
