@@ -45,7 +45,7 @@ export function ContentArea( {children, style, ...props}){
 // ! only window can contain window, unless it is an inactive window
 */}
 {/* delete */}
-<ChildrenWindowsRenderer id={windowId}/>
+{/* <ChildrenWindowsRenderer id={windowId}/> */}
         </AppWindowFrame.Mid>
     )
 }
