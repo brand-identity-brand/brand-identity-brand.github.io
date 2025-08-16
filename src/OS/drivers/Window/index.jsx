@@ -27,6 +27,7 @@ import { X } from "lucide-react";
  * @property {boolean} [disableMove=false] - Whether to disable window movement
  * @property {boolean} [isActive=true] - Whether window is active
  * @property {boolean} [isMinimized=false] - Whether window is minimized
+ * @property {{css}} [style]
  */
 
 /**
@@ -47,10 +48,12 @@ export default function Window({
   disableMaximize = false,
   disableMinimize = false,
   disableResize = false,
+  initialIsMaximized = false,
   disableMove = false,
   isActive = true,
   isMinimized = false,
   parentId = null,
+  style={},
 }) {
   const [position, setPosition] = useState(initialPosition);
   const [size, setSize] = useState(initialSize);
@@ -58,7 +61,7 @@ export default function Window({
   const [isResizing, setIsResizing] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
-  const [isMaximized, setIsMaximized] = useState(false);
+  const [isMaximized, setIsMaximized] = useState(initialIsMaximized);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [preMaximizeState, setPreMaximizeState] = useState({
     position: initialPosition,
@@ -379,6 +382,7 @@ export default function Window({
       : isCollapsed && windowStyle === "collapsible"
       ? "auto"
       : size.height,
+    ...style
   };
 
   return (
