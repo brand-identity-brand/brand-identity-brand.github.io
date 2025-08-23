@@ -8,3 +8,24 @@ it will consume applications from appliationStore
     - this means users can toggle to see all child windows. 
     - the child windows will minimise to their corresponding BotBar
     - the child windows will render together in the same layer
+
+
+useKernellState Stores the latest state and returns the last state.
+this means users will manually consume saved states from application_id.states.state
+and on state change they need to call this state setter. it acts like useRef. the value updtes but it doesnt impact rendering directly. This enables users to use any state management for their app while letting kernel keep track of all latest state only for restoring on refresh or load ( localStorage vs databse fetch).
+
+actually I need the renderer to track the states to allow me render a same app_id in differetn locations.
+
+keep useKernelState as useState replacement.
+
+the saveState be useKernelRef
+
+const { kernelRef, setKernelRef } = useKernelRef({id:"application_id"});
+const {
+    data,
+} = kernelRef.current;
+const {
+    setDataRef,
+} = setKernelRef.current;
+[appState, setAppState] = useState(data) 
+and whenever setAppState(value) do setDataRef(value)

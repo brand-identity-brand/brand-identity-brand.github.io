@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { ROOT_APPS } from '../constants';
+import { useEffect } from 'react';
 
 export function createAppsStore(applications={}){
     return create((set, get) => ({
@@ -41,21 +42,31 @@ export function createAppsStore(applications={}){
             //TODO: some window might be headless.
             return id
         },
-        setApplicationState: function setState({id, state}){
+        setApplicationState: function setApplicationState({ id, state }) {
             const { key, value } = state;
-            set((state) => {
-                const application = state.applications[id];
-                const { states }= application;
-                const res = {
-                    ...states,
-                    [id]: {
-                        ...states[id],
-                        [key]: value
-                    }
+
+            set((s) => {
+                const prevApp = s.applications[id] || {
+                    Component: null,
+                    props: {},
+                    states: {},
                 };
-                return res;
+
+                return {
+                    applications: {
+                        ...s.applications,
+                        [id]: {
+                            ...prevApp,
+                            states: {
+                                ...prevApp.states,
+                                [key]: value,
+                            },
+                        },
+                    },
+                };
             });
         },
+
     }));
 }
 // const window = useWindowsStore((state) => state.windows[id]);
@@ -87,24 +98,52 @@ export function useAppsHooks(appsStore){
         // meaning the component should be sharing a same API with these 2.
         // useState will have to be refactored so it takes the extra data from KernelState implementations
         // instead of value it gets { id, state: { keu, value } }
-        useKernellState: function useState({id, state}){
-            const { key, value } = state;
-            const states = useApplicationsStore((s)=>s.applications[id].states);
-            const setApplicationState = useApplicationsStore((s)=>s.applications.setApplicationState);
+        //! 
+useKernelState({ id, state }) {
+  const { key, value: initialValue } = state;
 
-            setApplicationState({ id, state });
-            // Set initial value on first mount
-            useEffect(() => {
-                if (states?.[key] === undefined) {
-                setApplicationState({ id, state });
-                }
-            }, []);
+  const states = useApplicationsStore((s) => s.applications[id]?.states || {});
+  const setApplicationState = useApplicationsStore((s) => s.setApplicationState);
 
-            return [
-               states[key],
-               (state)=>setApplicationState({id, state})
-            ]
-        },
+  // Ensure default value is set on mount
+  useEffect(() => {
+    if (states[key] === undefined && initialValue !== undefined) {
+      setApplicationState({ id, state: { key, value: initialValue } });
+    }
+  }, [id, key, initialValue, states, setApplicationState]);
+
+  const currentValue = states[key] !== undefined ? states[key] : initialValue;
+
+  const setValue = (next) => {
+    setApplicationState({
+      id,
+      state: {
+        key,
+        value: typeof next === "function" ? next(states[key]) : next,
+      },
+    });
+  };
+
+  return [currentValue, setValue];
+},
+        // ! --- NEW HOOK ---
+        // useKernelMemory: function useKernelMemory({id}){
+        //     // const memoryRef = useRef(null);
+        //     const applications = useApplicationsStore((s)=>s.applications);
+        //     if (!applications[id]) throw new Error(`App ${id} not found`);
+            
+        //     if (!applications[id].kernelMemory) {
+        //         // Initialize kernelMemory object
+        //         applications[id].kernelMemory = {};
+        //     }
+            
+        //     // Setter that only updates the memory object
+        //     const setKernelMemory = (key, value) => {
+        //         applications[id].kernelMemory[key] = value;
+        //     };
+
+        //     return [applications[id].kernelMemory, setKernelMemory];
+        // },
         // * this returns the target id window contollers
         useApplicationsContoller: function useApplicationsContoller(){
             const registerApplication = useApplicationsStore(s => s.registerApplication);

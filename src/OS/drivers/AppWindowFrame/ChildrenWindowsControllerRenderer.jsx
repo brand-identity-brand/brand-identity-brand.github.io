@@ -48,7 +48,8 @@ export default function ChildrenWindowsControllerRenderer({id, applicationIds=un
             {/* //Todo: AA get click to work. needs to mutatable windwo.children.actives */}
             {_hidden.map( childId => {
                 const style = {
-                    backgroundColor: "white"
+                    backgroundColor: "white",
+                    borderColor:"black"
                 };
                 return (
                     <Component key={childId}
@@ -67,7 +68,9 @@ export default function ChildrenWindowsControllerRenderer({id, applicationIds=un
                 const isWindowHidden = hidden.includes(childId);
                 if ( isWindowHidden ) return;
                 const style = {
-                    backgroundColor: "green"
+                    backgroundColor: "black",
+                    borderColor:"rgb(135, 169, 255)",
+                    color:"white"
                 };
                 return (
                     <Component key={childId}

@@ -66,21 +66,22 @@ export default function initAppIntoWindow({ctx, mode,appName, windowId, applicat
             }
             case "multi": {
                 const nextSqeuence = () => {
-                    const a = findDuplicateAppName.map( app =>{
+                    if ( findDuplicateAppName.length === 0 ) return 0;
+                    const sequences = findDuplicateAppName.map( app =>{
                         // TODO: add a shape shifter in store hooks to automatically transform "IdString" into JSON.stringify(["IdString"])
                         if ( app[0] === appName ) {
                             // return [appName, 0]
                             return 0;
-                        } else if ( app[0] ===  `[${appName}]` ) {
-                            // return [appName, 0]
-                            return 0;
+                        // } else if ( app[0] ===  `[${appName}]` ) {
+                        //     // return [appName, 0]
+                        //     return 0;
                         } else {
                             
                             // return JSON.parse( app[0] )
                             return JSON.parse( app[0] )[1];
                         }
                     } );
-                    return a.sort((a, b) => b - a)[0] + 1;
+                    return Math.max(...sequences) + 1;
                 }
                 const id = JSON.stringify([ appName, nextSqeuence() ]);
                 registerApplication({
