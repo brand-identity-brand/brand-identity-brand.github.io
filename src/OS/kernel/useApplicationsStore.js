@@ -102,17 +102,17 @@ export function useAppsHooks(appsStore){
 useKernelState({ id, state }) {
   const { key, value: initialValue } = state;
 
-  const states = useApplicationsStore((s) => s.applications[id]?.states || {});
+  const states = useApplicationsStore((s) => s.applications[id]?.states);
   const setApplicationState = useApplicationsStore((s) => s.setApplicationState);
 
   // Ensure default value is set on mount
   useEffect(() => {
-    if (states[key] === undefined && initialValue !== undefined) {
+    if (states?.[key] === undefined && initialValue !== undefined) {
       setApplicationState({ id, state: { key, value: initialValue } });
     }
   }, [id, key, initialValue, states, setApplicationState]);
 
-  const currentValue = states[key] !== undefined ? states[key] : initialValue;
+  const currentValue = states?.[key] !== undefined ? states[key] : initialValue;
 
   const setValue = (next) => {
     setApplicationState({
