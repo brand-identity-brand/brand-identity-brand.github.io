@@ -119,7 +119,7 @@ useKernelState({ id, state }) {
       id,
       state: {
         key,
-        value: typeof next === "function" ? next(states[key]) : next,
+        value: typeof next === "function" ? next(currentValue) : next,
       },
     });
   };
