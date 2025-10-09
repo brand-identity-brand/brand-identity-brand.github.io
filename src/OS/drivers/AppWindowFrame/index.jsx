@@ -4,6 +4,7 @@ import { createContext, Fragment, useContext } from "react";
 const AppWindowFrameContext = createContext(null);
 export default function AppWindowFrame({children, ...props}){
     const {
+      style = {},
       config = {
         top: { use: true },
         bot: { use: true }
@@ -26,9 +27,10 @@ export default function AppWindowFrame({children, ...props}){
                 flexDirection:"column",
                 justifyContent: "flex-start", // <- updated from "flex-end"
 
-                backgroundColor: "rgba(255, 255, 255, 0.95)",
-                // backgroundColor: "white"
-                // zIndex: 10
+                // backgroundColor: "rgba(255, 255, 255, 0.95)",
+                backgroundColor: "white",
+                // zIndex: 10,
+                ...style
             }}
         >
           { children }
