@@ -138,9 +138,11 @@ TabSystem.Panel = function Panel({id, children, className="", style}){
     const [ activeTabId, setActiveTabId ] = useTabState();
     //? initially css.Panel is at the end
 
-    return (
+
+    if (isActive(id, activeTabId) ) return (
         <div 
-            className={`${css.Panel} ${isActive(id, activeTabId)  ? "" : css.hidden} ${className}`}
+        // className={`${css.Panel} ${isActive(id, activeTabId)  ? "" : css.hidden} ${className}`}
+            className={`${css.Panel} ${className}`}
             style={{
                 // overflow:"clip",
                 background:"transparent",
@@ -150,6 +152,7 @@ TabSystem.Panel = function Panel({id, children, className="", style}){
             {children}
         </div>
     )
+    return null
 }
 
 // TabSystem.Effects = function SideEffects(){
