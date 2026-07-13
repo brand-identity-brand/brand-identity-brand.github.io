@@ -1,6 +1,6 @@
 # Personal OS Configuration
 
-This package will configure `projects/react-desktop-environment` for the
+This workspace package will configure `projects/react-desktop-environment` for the
 personal site. It will own the installed-application registry, project
 adapters, site-specific stores, launch metadata, and presentation choices.
 

@@ -4,13 +4,14 @@ This repository composes the personal site from independently maintained
 projects.
 
 - `apps/personal-site` is the deployable website.
-- `os` configures the personal site's applications, runtime, and presentation.
+- `packages/os` configures the personal site's applications, runtime, and
+  presentation.
 - `projects` contains independently versioned repositories as Git submodules.
 - `docs/archived` preserves the architecture documents that led to this
   workspace structure.
 
 The reusable OS/runtime will live in
-`projects/react-desktop-environment`. The top-level `os` directory is only the
+`projects/react-desktop-environment`. The `packages/os` workspace is only the
 personal-site configuration layer; it is not another runtime implementation.
 
 The former repository state is preserved on the `retired-20260713` branch.
