@@ -1,4 +1,21 @@
-# React + Vite
+# @brand-identity-brand/os
+
+> A portable React application runtime that separates application ownership from presentation.
+
+Applications own their internal state. Shells and window managers decide where and how
+application views appear. A desktop environment and window manager are means of presenting
+the runtime, not the mission itself.
+
+The package provides an application registry, window topology and lifecycle, React renderers,
+and composable shell primitives so applications can be projected through desktop, mobile, or
+embedded interfaces.
+
+The architectural direction and preproduction scaffold are documented in
+[The Next Move](./the-next-move.md).
+
+## Development
+
+### React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -12,13 +29,11 @@ Currently, two official plugins are available:
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 
 ! ROTATE the token in npmrc for github to install @brand-identity-brand/os
-``` javascript 
+```javascript
 import { OS } from "@brand-identity-brand/os";
-// * in vite.config.js -> optimizeDeps: { include: ['@brand-identity-brand/os/os.css'] }
-// * this allows vite to resolve this import path. 
-import "@brand-identity-brand/os/os.css";
+import "@brand-identity-brand/os/css";
 ```
 
-
-all Components can be rendered with ApplicationRenderer.
-if thats the casem the component will gain the ability to share its states globally. hydrating states via props, then the internal of the apps can decide if the state should be synced
+Applications can be hosted through `ApplicationManagerRenderer`. The runtime tracks application
+identity and window placement; each application remains responsible for its internal state and
+may opt into its own sharing, persistence, or hydration mechanism.
