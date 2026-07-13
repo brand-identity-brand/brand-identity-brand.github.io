@@ -1,5 +1,10 @@
 {
   "name": "@brand-identity-brand/personal-site-workspace",
   "version": "0.0.0",
-  "private": true
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "os",
+    "projects/*"
+  ]
 }
