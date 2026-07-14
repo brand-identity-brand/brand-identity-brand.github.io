@@ -1,0 +1,19 @@
+git submodule add \
+  https://github.com/brand-identity-brand/react-desktop-environment.git \
+  projects/react-desktop-environment
+
+git submodule add \
+  https://github.com/brand-identity-brand/Legacy-boardgame.git \
+  projects/Legacy-boardgame
+
+git submodule add \
+  https://github.com/brand-identity-brand/Worldex.git \
+  projects/Worldex
+
+git submodule add \
+  https://github.com/brand-identity-brand/blrow.world.git \
+  projects/blrow.world
+
+git submodule add \
+    https://github.com/brand-identity-brand/unawarehouse-bnp.git \
+  projects/unawarehouse-bnp
