@@ -1,0 +1,15 @@
+[submodule "projects/react-desktop-environment"]
+	path = projects/react-desktop-environment
+	url = https://github.com/brand-identity-brand/react-desktop-environment.git
+[submodule "projects/Legacy-boardgame"]
+	path = projects/Legacy-boardgame
+	url = https://github.com/brand-identity-brand/Legacy-boardgame.git
+[submodule "projects/Worldex"]
+	path = projects/Worldex
+	url = https://github.com/brand-identity-brand/Worldex.git
+[submodule "projects/blrow.world"]
+	path = projects/blrow.world
+	url = https://github.com/brand-identity-brand/blrow.world.git
+[submodule "projects/unawarehouse-bnp"]
+	path = projects/unawarehouse-bnp
+	url = https://github.com/brand-identity-brand/unawarehouse-bnp.git
