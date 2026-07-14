@@ -2,6 +2,11 @@
   "name": "@brand-identity-brand/personal-site-workspace",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "dev": "npm run dev --workspace=brand-identity-brand.github.io",
+    "build": "npm run build --workspace=brand-identity-brand.github.io",
+    "preview": "npm run preview --workspace=brand-identity-brand.github.io"
+  },
   "workspaces": [
     "apps/*",
     "packages/*",
