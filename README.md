@@ -4,6 +4,7 @@ This repository composes the personal site from independently maintained
 projects.
 
 - `apps/brand-identity-brand.github.io` is the deployable website.
+- `apps/electron` is the native desktop edition of the portfolio.
 - `packages/os` configures the personal site's applications, runtime, and
   presentation.
 - `projects` contains independently versioned repositories as Git submodules.

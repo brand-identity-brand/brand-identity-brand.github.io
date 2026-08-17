@@ -17,3 +17,7 @@ git submodule add \
 git submodule add \
     https://github.com/brand-identity-brand/unawarehouse-bnp.git \
   projects/unawarehouse-bnp
+`
+git submodule add \
+    https://github.com/brand-identity-brand/unaware.house.git \ 
+  projects/unaware.house

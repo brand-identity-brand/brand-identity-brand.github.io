@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "npm run dev --workspace=brand-identity-brand.github.io",
+    "dev:electron": "npm run dev --workspace=@brand-identity-brand/electron",
     "build": "npm run build --workspace=brand-identity-brand.github.io",
+    "build:electron": "npm run build --workspace=@brand-identity-brand/electron",
     "preview": "npm run preview --workspace=brand-identity-brand.github.io"
   },
   "workspaces": [

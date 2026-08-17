@@ -16,3 +16,4 @@
 [submodule "projects/unaware.house"]
 	path = projects/unaware.house
 	url = https://github.com/brand-identity-brand/unaware.house.git
+	branch = master
