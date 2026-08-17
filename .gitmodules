@@ -13,3 +13,6 @@
 [submodule "projects/unawarehouse-bnp"]
 	path = projects/unawarehouse-bnp
 	url = https://github.com/brand-identity-brand/unawarehouse-bnp.git
+[submodule "projects/unaware.house"]
+	path = projects/unaware.house
+	url = https://github.com/brand-identity-brand/unaware.house.git
